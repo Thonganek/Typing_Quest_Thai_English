@@ -1,28 +1,2458 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>AR Hero Typing Quest — Thai / English</title>
-<link rel="canonical" href="AR_Hero_Typing_Quest_Thai_English_v2.html">
-<meta http-equiv="refresh" content="0; url=AR_Hero_Typing_Quest_Thai_English_v2.html">
 <style>
-  :root { color-scheme: light dark; }
-  body {
-    margin: 0; min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    font-family: "Segoe UI", Tahoma, system-ui, sans-serif;
-    background: #0f1420; color: #e8ecf5;
+  :root{
+    --bg:#07111d;
+    --panel:rgba(6,15,28,.72);
+    --line:rgba(255,255,255,.12);
+    --text:#eef7ff;
+    --muted:#9cb6cf;
+    --cyan:#41e8ff;
+    --blue:#5b80ff;
+    --purple:#bd75ff;
+    --pink:#ff5bc8;
+    --green:#55f0a8;
+    --yellow:#ffd75f;
+    --orange:#ff9b47;
+    --danger:#ff667e;
+    --shadow:0 20px 80px rgba(0,0,0,.42);
   }
-  .box { text-align: center; padding: 24px; }
-  a { color: #7fd1ff; }
+  *{box-sizing:border-box}
+  html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:"Noto Sans Thai","Leelawadee UI","Tahoma",system-ui,sans-serif;color:var(--text)}
+  button,select,input{font:inherit}
+  button{cursor:pointer}
+  #app{position:relative;width:100vw;height:100dvh;overflow:hidden;background:
+      radial-gradient(circle at 18% 18%,rgba(65,232,255,.18),transparent 24%),
+      radial-gradient(circle at 82% 22%,rgba(189,117,255,.18),transparent 26%),
+      radial-gradient(circle at 52% 85%,rgba(255,91,200,.08),transparent 30%),
+      linear-gradient(145deg,#061425,#070d18 58%,#130d1d)}
+  #camera,#spaceBg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  #camera{transform:scaleX(-1);filter:saturate(1.1) contrast(1.04) brightness(.84)}
+  #spaceBg{display:none;background:
+      radial-gradient(circle at 20% 20%,rgba(65,232,255,.14),transparent 24%),
+      radial-gradient(circle at 75% 60%,rgba(255,91,200,.12),transparent 20%),
+      linear-gradient(140deg,#08192f,#08111d 55%,#180e2f);}
+  .stars,.scan,.vignette,.energyFog{position:absolute;inset:0;pointer-events:none}
+  .stars{
+      background-image:
+        radial-gradient(circle,rgba(255,255,255,.92) 1px,transparent 1.5px),
+        radial-gradient(circle,rgba(70,232,255,.7) 1px,transparent 1.5px),
+        radial-gradient(circle,rgba(255,217,95,.7) 1px,transparent 1.5px);
+      background-size:180px 180px,240px 240px,300px 300px;
+      background-position:0 0,80px 110px,140px 40px;
+      opacity:.18;
+      animation:drift 30s linear infinite;
+  }
+  @keyframes drift{from{transform:translateY(0)}to{transform:translateY(40px)}}
+  .scan{
+      opacity:.12;
+      background:repeating-linear-gradient(to bottom,rgba(255,255,255,.035) 0,rgba(255,255,255,.035) 1px,transparent 1px,transparent 4px);
+      mix-blend-mode:screen
+  }
+  .vignette{background:radial-gradient(circle,transparent 42%,rgba(1,6,15,.7) 100%)}
+  .energyFog{
+      background:
+       radial-gradient(circle at 25% 45%,rgba(65,232,255,.08),transparent 28%),
+       radial-gradient(circle at 75% 65%,rgba(189,117,255,.08),transparent 26%),
+       radial-gradient(circle at 50% 18%,rgba(255,91,200,.05),transparent 22%);
+      filter:blur(20px);
+      animation:fog 9s ease-in-out infinite alternate;
+  }
+  @keyframes fog{from{transform:scale(1) translateY(0)}to{transform:scale(1.05) translateY(-8px)}}
+
+  .glass{background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+  .hud{position:absolute;left:14px;right:14px;top:max(12px,env(safe-area-inset-top));display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:start;z-index:20}
+  .hudL,.hudR{display:flex;gap:8px;flex-wrap:wrap}
+  .hudR{justify-content:flex-end}
+  .pill{padding:8px 11px;border-radius:18px;min-width:92px}
+  .label{font-size:11px;color:var(--muted)}
+  .value{font-weight:1000;font-size:18px;line-height:1.15}
+  .brand{padding:9px 16px;border-radius:22px;min-width:250px;text-align:center}
+  .brand strong{display:block;letter-spacing:.7px}
+  .brand small{color:#add1ea}
+
+  #arena{position:absolute;inset:92px 0 170px 0;z-index:8;overflow:hidden}
+  .target{
+    position:absolute;transform:translate(-50%,-50%);
+    min-width:165px;max-width:min(72vw,560px);
+    padding:18px 24px;border-radius:999px;
+    background:linear-gradient(140deg,rgba(12,35,58,.94),rgba(38,18,70,.92));
+    border:1px solid rgba(72,237,255,.58);
+    box-shadow:0 0 0 2px rgba(72,237,255,.08),0 0 40px rgba(72,237,255,.26), inset 0 0 24px rgba(255,255,255,.04);
+    animation:floaty 2.6s ease-in-out infinite;
+  }
+  .target::before,.target::after{content:"";position:absolute;border-radius:999px;inset:-10px;border:1px solid rgba(189,117,255,.16)}
+  .target::after{inset:-18px;border-color:rgba(65,232,255,.08)}
+  .target-word{font-size:clamp(28px,5vw,54px);font-weight:1000;letter-spacing:.4px;text-align:center}
+  .target-sub{margin-top:4px;font-size:11px;color:#b7d5eb;text-align:center}
+  .typed-ok{color:var(--green)}
+  .next-char{color:var(--yellow);text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:2px}
+  .target.hit{animation:hit .42s ease forwards}
+  .target.miss{animation:miss .5s ease forwards}
+  @keyframes floaty{50%{transform:translate(-50%,-56%) scale(1.03)}}
+  @keyframes hit{to{transform:translate(-50%,-50%) scale(1.7) rotate(4deg);opacity:0;filter:brightness(2.4)}}
+  @keyframes miss{20%{transform:translate(-46%,-50%)}40%{transform:translate(-54%,-50%)}60%{transform:translate(-48%,-50%)}80%{transform:translate(-53%,-50%)}to{opacity:0}}
+  .drone{
+      position:absolute;font-size:34px;opacity:.85;pointer-events:none;filter:drop-shadow(0 0 18px rgba(255,255,255,.24));
+      animation:droneMove linear forwards;
+      z-index:4;
+  }
+  @keyframes droneMove{
+      from{transform:translateX(-10vw) translateY(0) scale(.7)}
+      to{transform:translateX(115vw) translateY(-40px) scale(1.1)}
+  }
+
+  .laser{position:absolute;height:2px;transform-origin:0 50%;background:linear-gradient(90deg,#fff,var(--cyan),transparent);box-shadow:0 0 16px var(--cyan);z-index:16;pointer-events:none;animation:laser .34s ease-out forwards}
+  @keyframes laser{to{opacity:0;filter:blur(4px)}}
+  .spark{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--yellow);box-shadow:0 0 18px var(--yellow);z-index:16;animation:spark .72s ease-out forwards}
+  @keyframes spark{to{transform:translate(var(--dx),var(--dy)) scale(.1);opacity:0}}
+
+  #faceLayer{position:absolute;inset:0;pointer-events:none;z-index:7;display:flex;align-items:center;justify-content:center}
+  .faceRig{position:relative;width:min(55vw,360px);height:min(72vw,460px);transform:translateY(2vh)}
+  .faceGuide{
+      position:absolute;inset:12% 18%;
+      border:1px dashed rgba(255,255,255,.12);border-radius:44% 44% 48% 48%/38% 38% 54% 54%;
+      box-shadow:0 0 50px rgba(65,232,255,.08) inset;
+  }
+  .heroPart{position:absolute;left:50%;transform:translateX(-50%);opacity:.92}
+  .maskBase{top:18%;width:64%;height:34%;border-radius:40% 40% 48% 48%/38% 38% 52% 52%;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.12);box-shadow:0 0 40px rgba(65,232,255,.08)}
+  .eyes{top:29%;width:46%;height:8%}
+  .eyes::before,.eyes::after{content:"";position:absolute;top:0;width:35%;height:100%;background:rgba(255,255,255,.9);box-shadow:0 0 18px rgba(255,255,255,.75)}
+  .eyes::before{left:7%;clip-path:polygon(0 50%,20% 0,100% 5%,90% 100%,15% 100%)}
+  .eyes::after{right:7%;clip-path:polygon(80% 0,100% 50%,85% 100%,10% 100%,0 5%)}
+  .earL,.earR,.chinPlate,.crown,.cheekL,.cheekR,.webLines,.halo,.hornL,.hornR,.visor,.mouthGrid,.sideArcs,.sparkAura{
+    position:absolute;opacity:.9
+  }
+  .sparkAura{inset:8% 8%;border-radius:50%;filter:blur(10px);animation:pulse 2.2s ease-in-out infinite alternate}
+  @keyframes pulse{from{opacity:.45;transform:scale(1)}to{opacity:.95;transform:scale(1.05)}}
+
+  /* Armor */
+  .theme-armor .maskBase{background:linear-gradient(180deg,#d0292c,#8e0f12);border-color:#ffbd5a;box-shadow:0 0 30px rgba(255,189,90,.18)}
+  .theme-armor .eyes::before,.theme-armor .eyes::after{background:#dffaff;box-shadow:0 0 20px #9bf7ff}
+  .theme-armor .crown{top:13%;width:30%;height:8%;background:#ffbd5a;clip-path:polygon(0 100%,15% 10%,38% 35%,50% 0,62% 35%,85% 10%,100% 100%)}
+  .theme-armor .chinPlate{top:45%;width:28%;height:10%;background:#ffbd5a;clip-path:polygon(18% 0,82% 0,100% 100%,0 100%)}
+  .theme-armor .earL,.theme-armor .earR{top:29%;width:9%;height:14%;background:#ffbd5a}
+  .theme-armor .earL{left:14%;clip-path:polygon(100% 0,0 18%,0 82%,100% 100%)}
+  .theme-armor .earR{right:14%;clip-path:polygon(0 0,100% 18%,100% 82%,0 100%)}
+  .theme-armor .sparkAura{background:radial-gradient(circle,#ffc74f55,transparent 65%)}
+
+  /* Web Hero */
+  .theme-web .maskBase{background:linear-gradient(180deg,#da1634,#9a0c23);border-color:#e8f8ff}
+  .theme-web .eyes::before,.theme-web .eyes::after{background:#fff;box-shadow:none}
+  .theme-web .webLines{left:50%;transform:translateX(-50%);top:20%;width:62%;height:31%;background:
+      linear-gradient(90deg,transparent 48%,rgba(0,0,0,.55) 49%,rgba(0,0,0,.55) 51%,transparent 52%),
+      repeating-radial-gradient(circle at 50% 110%,transparent 0 15px,rgba(0,0,0,.45) 16px 18px);
+      border-radius:42% 42% 48% 48%/40% 40% 52% 52%;
+      mix-blend-mode:multiply;opacity:.6}
+  .theme-web .sparkAura{background:radial-gradient(circle,#88e8ff33,transparent 65%)}
+
+  /* Thunder */
+  .theme-thunder .maskBase{background:linear-gradient(180deg,#2340ff,#101a93);border-color:#92c8ff}
+  .theme-thunder .visor{top:28%;width:54%;height:11%;background:linear-gradient(90deg,#93efff,#ffffff,#93efff);clip-path:polygon(0 65%,12% 10%,88% 10%,100% 65%,84% 100%,16% 100%);box-shadow:0 0 25px #98eeff}
+  .theme-thunder .hornL,.theme-thunder .hornR{top:17%;width:14%;height:12%;background:#98eeff}
+  .theme-thunder .hornL{left:24%;clip-path:polygon(55% 0,100% 100%,0 60%)}
+  .theme-thunder .hornR{right:24%;clip-path:polygon(45% 0,0 100%,100% 60%)}
+  .theme-thunder .mouthGrid{top:45%;left:50%;transform:translateX(-50%);width:26%;height:9%;background:repeating-linear-gradient(90deg,#9cf2ff 0 6px,transparent 6px 10px),linear-gradient(#9cf2ff,#9cf2ff);opacity:.65}
+  .theme-thunder .sparkAura{background:radial-gradient(circle,#69ebff66,transparent 65%)}
+
+  /* Cosmic */
+  .theme-cosmic .maskBase{background:linear-gradient(180deg,#611bf8,#2a0d78);border-color:#ffb5ff}
+  .theme-cosmic .halo{top:11%;left:50%;transform:translateX(-50%);width:74%;height:46%;border:3px solid rgba(255,170,255,.62);border-radius:50%;box-shadow:0 0 28px rgba(255,170,255,.5)}
+  .theme-cosmic .eyes::before,.theme-cosmic .eyes::after{background:linear-gradient(180deg,#fff,#f8d4ff)}
+  .theme-cosmic .cheekL,.theme-cosmic .cheekR{top:35%;width:8%;height:18%;background:linear-gradient(180deg,#ffb2ff,#82eaff);filter:blur(1px)}
+  .theme-cosmic .cheekL{left:22%;clip-path:polygon(100% 0,20% 50%,100% 100%)}
+  .theme-cosmic .cheekR{right:22%;clip-path:polygon(0 0,80% 50%,0 100%)}
+  .theme-cosmic .sparkAura{background:radial-gradient(circle,#ef97ff55,transparent 65%)}
+
+  /* Robot */
+  .theme-robot .maskBase{background:linear-gradient(180deg,#2b3c56,#162132);border-color:#8cd8ff}
+  .theme-robot .visor{top:27%;width:58%;height:12%;background:linear-gradient(90deg,#2af4ff,#87f7ff,#2af4ff);clip-path:polygon(5% 10%,95% 10%,100% 60%,85% 100%,15% 100%,0 60%);box-shadow:0 0 25px rgba(42,244,255,.75)}
+  .theme-robot .sideArcs{top:29%;left:50%;transform:translateX(-50%);width:82%;height:16%}
+  .theme-robot .sideArcs::before,.theme-robot .sideArcs::after{content:"";position:absolute;top:0;width:16%;height:100%;border:3px solid #84ebff;border-radius:50%}
+  .theme-robot .sideArcs::before{left:0;border-right:none}
+  .theme-robot .sideArcs::after{right:0;border-left:none}
+  .theme-robot .mouthGrid{top:45%;left:50%;transform:translateX(-50%);width:31%;height:8%;background:
+    repeating-linear-gradient(90deg,#8cecff 0 6px,transparent 6px 9px),
+    repeating-linear-gradient(180deg,#8cecff 0 2px,transparent 2px 5px);opacity:.75}
+  .theme-robot .sparkAura{background:radial-gradient(circle,#8cecff44,transparent 65%)}
+
+  #translationCard{
+      position:absolute;left:50%;top:19%;transform:translate(-50%,-50%) scale(.95);
+      z-index:22;min-width:min(90vw,500px);max-width:min(92vw,620px);
+      padding:14px 18px;border-radius:24px;background:rgba(9,18,34,.86);
+      border:1px solid rgba(255,255,255,.14);box-shadow:var(--shadow);text-align:center;opacity:0;pointer-events:none
+  }
+  #translationCard.show{animation:pop 1.7s ease forwards}
+  #trTitle{font-size:12px;color:#9dc0da;letter-spacing:.3px}
+  #trMain{font-size:clamp(22px,4vw,38px);font-weight:1000;margin-top:5px}
+  #trSub{font-size:16px;color:#d3e6f8;margin-top:2px}
+  #trReading{display:none}
+  @keyframes pop{
+    10%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+    80%{opacity:1}
+    100%{opacity:0;transform:translate(-50%,-62%) scale(1.05)}
+  }
+
+  .toast{
+      position:absolute;left:50%;top:27%;transform:translate(-50%,-50%) scale(.94);
+      z-index:24;padding:10px 18px;border-radius:999px;background:rgba(8,18,36,.92);
+      border:1px solid rgba(255,255,255,.12);font-weight:900;opacity:0;pointer-events:none
+  }
+  .toast.show{animation:toast 1s ease}
+  @keyframes toast{
+      20%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+      80%{opacity:1}
+      100%{opacity:0;transform:translate(-50%,-64%) scale(1.06)}
+  }
+
+  .bossBadge{
+      display:none;position:absolute;top:98px;left:50%;transform:translateX(-50%);
+      z-index:21;padding:9px 16px;border-radius:999px;background:linear-gradient(90deg,#ff5d88,#ffbc5a);
+      color:#22060c;font-weight:1000;box-shadow:0 0 30px rgba(255,92,136,.35)
+  }
+  .progress{height:5px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden;margin-top:7px}
+  #bossBar{height:100%;width:100%;background:linear-gradient(90deg,#ff5c88,#ffd75f);transition:width .2s}
+
+  .bottom{position:absolute;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(980px,calc(100% - 22px));z-index:25}
+  .typebox{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;padding:12px 12px;border-radius:24px}
+  #typingInput{width:100%;padding:13px 16px;border-radius:16px;border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.055);color:#fff;font-size:22px;font-weight:900;outline:none}
+  #typingInput:focus{border-color:rgba(65,232,255,.8);box-shadow:0 0 0 3px rgba(65,232,255,.11)}
+  .miniBtn,.iconBtn{border:1px solid var(--line);background:rgba(255,255,255,.07);color:white;border-radius:14px;padding:11px 12px}
+  .miniBtn:hover,.iconBtn:hover{background:rgba(255,255,255,.12)}
+  #keyboard{margin-top:8px;padding:8px;border-radius:20px;display:flex;flex-direction:column;gap:5px}
+  .keyrow{display:flex;justify-content:center;gap:4px}
+  .key{min-width:30px;height:31px;padding:0 7px;border-radius:8px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.055);display:grid;place-items:center;font-size:12px;color:#bdd0e3;transition:.16s}
+  .key.hot{background:linear-gradient(135deg,var(--yellow),var(--orange));color:#251500;font-weight:1000;box-shadow:0 0 20px rgba(255,217,90,.5);transform:translateY(-3px) scale(1.08)}
+
+  #menu,#help,#result,#library{
+    position:absolute;inset:0;z-index:40;display:grid;place-items:center;padding:16px;
+    background:rgba(1,9,18,.58);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision
+  }
+  #help,#result,#library{display:none}
+  .modal{
+      width:min(930px,96vw);max-height:92vh;overflow:auto;border-radius:30px;padding:24px;
+      background:linear-gradient(160deg,rgba(10,25,48,.96),rgba(23,14,46,.96));
+      border:1px solid rgba(255,255,255,.12);box-shadow:0 28px 120px rgba(0,0,0,.55)
+  }
+  .heroTitle{font-size:clamp(28px,5.4vw,56px);line-height:1;font-weight:1000;margin:0;background:linear-gradient(90deg,#fff,var(--cyan),#d9b1ff);-webkit-background-clip:text;color:transparent}
+  .heroSub{color:#b9cee1;line-height:1.65;margin:8px 0 18px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+  .chip{padding:6px 10px;border-radius:999px;font-size:11px;background:rgba(65,232,255,.09);border:1px solid rgba(65,232,255,.16);color:#c5f3fb}
+  .config{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .field{padding:12px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+  .field label{display:block;font-size:12px;color:#a8bfd6;margin-bottom:7px}
+  .field select{width:100%;border:0;outline:none;background:#12243c;color:white;border-radius:11px;padding:10px}
+  .wide{grid-column:1/-1}
+  .startBtn{width:100%;border:0;border-radius:18px;padding:15px 18px;color:#08141e;font-size:18px;font-weight:1000;background:linear-gradient(90deg,var(--cyan),#83ffae);box-shadow:0 12px 34px rgba(65,232,255,.22)}
+  .subBtns{display:flex;gap:10px;margin-top:10px}
+  .subBtns button{flex:1}
+  .tip{margin-top:14px;font-size:12px;color:#8fa9c1}
+  .themePreview{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .themeCard{padding:10px;border-radius:14px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);text-align:center;font-size:12px;color:#d6e7f7}
+  .themeCard span{display:block;font-size:28px;margin-bottom:4px}
+  .helpText{line-height:1.75;color:#c7d6e5}
+  .statgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px}
+  .statcard{padding:14px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);text-align:center}
+  .statcard b{display:block;font-size:26px}
+  .statcard span{font-size:11px;color:#99b3c9}
+  .bigScore{font-size:62px;font-weight:1000;color:var(--yellow);text-align:center;text-shadow:0 0 40px rgba(255,217,95,.3)}
+  .grade{text-align:center;color:#d8e7f6}
+  @media(max-width:760px){
+    .hud{grid-template-columns:1fr auto}.brand{display:none}.hudR{grid-column:1/-1;justify-content:flex-start}
+    #arena{inset:128px 0 170px 0}
+    .config,.themePreview,.statgrid{grid-template-columns:1fr 1fr}
+    .typebox{grid-template-columns:1fr auto auto}
+    .typebox .modeIcon{display:none}
+  }
+
+  /* Holographic visual upgrade */
+  #spaceBg{
+    background-image:linear-gradient(180deg,rgba(2,10,20,.12),rgba(2,9,18,.38)),url("assets/hero-command-center.png");
+    background-size:cover;background-position:center;filter:saturate(1.05) contrast(1.05)
+  }
+  #camera{filter:saturate(1.08) contrast(1.08) brightness(.7)}
+  #energyCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:13;pointer-events:none;mix-blend-mode:screen}
+  .scan{background-size:100% 5px;opacity:.09}
+  .glass{background:linear-gradient(145deg,rgba(7,23,39,.78),rgba(4,13,25,.6));border-color:rgba(128,229,255,.18);box-shadow:0 18px 65px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.05)}
+
+  .hud{z-index:25}
+  .pill{position:relative;overflow:hidden;border-radius:12px;border-left:2px solid rgba(72,226,255,.55)}
+  .pill::after{content:"";position:absolute;right:-18px;bottom:-28px;width:54px;height:54px;border:1px solid rgba(72,226,255,.12);border-radius:50%}
+  .label{font-size:9px;letter-spacing:.09em;text-transform:uppercase}
+  .value{color:#f6fdff;text-shadow:0 0 15px rgba(85,226,255,.35)}
+  .brand{border-radius:12px;clip-path:polygon(16px 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,16px 100%,0 50%)}
+  .brand strong{color:#dffcff;text-shadow:0 0 15px rgba(65,232,255,.55);font-size:13px;letter-spacing:.14em}
+  .brand small{font-size:9px;letter-spacing:.08em}
+
+  .gameNav{position:absolute;top:88px;left:14px;right:14px;z-index:28;display:flex;align-items:center;gap:8px;pointer-events:none}
+  .navBtn,.handStatus{min-height:38px;border:1px solid rgba(117,226,255,.2);border-radius:11px;background:linear-gradient(145deg,rgba(4,20,35,.9),rgba(5,12,24,.76));color:#dff9ff;box-shadow:0 12px 40px rgba(0,0,0,.25);backdrop-filter:blur(14px)}
+  .navBtn{pointer-events:auto;display:flex;align-items:center;gap:8px;padding:7px 11px;font-size:11px;font-weight:850;letter-spacing:.04em;transition:.2s ease}
+  .navBtn:hover,.navBtn:focus-visible{border-color:rgba(91,238,255,.72);background:rgba(28,77,96,.75);transform:translateY(-2px);outline:none}
+  .navIcon{display:grid;place-items:center;width:23px;height:23px;border:1px solid rgba(115,235,255,.3);border-radius:7px;color:#8cf5ff;font-size:15px;box-shadow:inset 0 0 12px rgba(65,232,255,.12)}
+  .soundBtn{margin-left:auto}
+  .soundBtn[aria-pressed="false"]{opacity:.58}
+  .handStatus{display:flex;align-items:center;gap:8px;padding:7px 11px;color:#97b4c5;font-size:10px;letter-spacing:.04em}
+  .handStatus i{width:7px;height:7px;border-radius:50%;background:#637782}
+  .handStatus[data-state="scan"] i{background:#ffd76a;box-shadow:0 0 12px #ffd76a;animation:statusPulse 1.2s ease-in-out infinite}
+  .handStatus[data-state="live"]{color:#bdfff3;border-color:rgba(91,255,197,.35)}
+  .handStatus[data-state="live"] i{background:#65ffc5;box-shadow:0 0 14px #65ffc5}
+  .handStatus[data-state="fallback"] i{background:#c795ff;box-shadow:0 0 12px #c795ff}
+  .liveVisualSwitch{pointer-events:auto;display:flex;align-items:center;padding:3px;border:1px solid rgba(117,226,255,.2);border-radius:11px;background:linear-gradient(145deg,rgba(4,20,35,.9),rgba(5,12,24,.76));box-shadow:0 12px 40px rgba(0,0,0,.25);backdrop-filter:blur(14px)}
+  .liveVisualBtn{display:flex;align-items:center;gap:6px;min-height:30px;padding:5px 9px;border:0;border-radius:8px;background:transparent;color:#7898a7;font-size:9px;font-weight:900;white-space:nowrap;transition:.2s ease}.liveVisualBtn span{color:#62eaff;font-size:13px}.liveVisualBtn:hover,.liveVisualBtn:focus-visible{color:#fff;background:rgba(80,222,248,.09);outline:none}.liveVisualBtn.active{color:#efffff;background:linear-gradient(135deg,rgba(55,216,246,.22),rgba(86,255,191,.1));box-shadow:inset 0 0 14px rgba(65,228,255,.08)}.liveVisualBtn:disabled{opacity:.45;cursor:wait}
+  @keyframes statusPulse{50%{opacity:.35;transform:scale(.65)}}
+
+  .faceRig::after{content:"";position:absolute;z-index:5;left:50%;top:9%;width:72%;height:61%;transform:translateX(-50%);background-image:url("assets/hero-helmet-themes.png");background-repeat:no-repeat;background-size:500% 100%;background-position:0 50%;mix-blend-mode:screen;filter:saturate(1.15) contrast(1.08) drop-shadow(0 0 18px rgba(70,225,255,.35));-webkit-mask-image:radial-gradient(ellipse 63% 62% at 50% 48%,#000 60%,transparent 98%);mask-image:radial-gradient(ellipse 63% 62% at 50% 48%,#000 60%,transparent 98%)}
+  .faceRig.theme-web::after{background-position:25% 50%}
+  .faceRig.theme-thunder::after{background-position:50% 50%}
+  .faceRig.theme-cosmic::after{background-position:75% 50%}
+  .faceRig.theme-robot::after{background-position:100% 50%}
+  .faceRig .heroPart,.faceRig .crown,.faceRig .earL,.faceRig .earR,.faceRig .chinPlate,.faceRig .webLines,.faceRig .halo,.faceRig .hornL,.faceRig .hornR,.faceRig .visor,.faceRig .mouthGrid,.faceRig .cheekL,.faceRig .cheekR,.faceRig .sideArcs{opacity:.1}
+  .faceRig .sparkAura{z-index:1}
+
+  /* Camera mode: keep the face clear and surround the player with energy */
+  #app{--hero-energy:73,229,255;--hero-core:218,253,255}
+  #app[data-hero-theme="armor"]{--hero-energy:255,177,66;--hero-core:255,244,190}
+  #app[data-hero-theme="web"]{--hero-energy:255,61,104;--hero-core:255,230,239}
+  #app[data-hero-theme="thunder"]{--hero-energy:52,196,255;--hero-core:224,252,255}
+  #app[data-hero-theme="cosmic"]{--hero-energy:185,91,255;--hero-core:255,228,255}
+  #app[data-hero-theme="robot"]{--hero-energy:54,232,255;--hero-core:211,255,247}
+  #app.visual-camera #faceLayer{justify-content:flex-end;padding-right:clamp(18px,3.7vw,74px)}
+  #app.visual-camera .faceRig{width:min(28vw,258px);height:min(40vw,355px);transform:translateY(1vh);opacity:.86;filter:drop-shadow(0 18px 32px rgba(0,0,0,.55));animation:sideHeroFloat 3.8s ease-in-out infinite}
+  #app.visual-camera .faceRig::after{top:11%;width:78%;height:64%;filter:saturate(1.2) contrast(1.12) drop-shadow(0 0 20px rgba(var(--hero-energy),.52))}
+  #app.visual-camera .faceGuide{inset:8% 10%;border-color:rgba(var(--hero-energy),.24);box-shadow:0 0 34px rgba(var(--hero-energy),.12) inset}
+  #app.visual-camera .sparkAura{inset:2%;background:radial-gradient(circle,rgba(var(--hero-energy),.3),transparent 66%);filter:blur(15px)}
+  .sideHeroBadge{display:none}
+  #app.visual-camera .sideHeroBadge{position:absolute;z-index:12;right:1%;bottom:8%;display:grid;gap:3px;width:max-content;padding:7px 9px;border-left:2px solid rgba(var(--hero-energy),.78);background:linear-gradient(90deg,rgba(2,18,29,.88),rgba(3,14,25,.2));color:rgba(var(--hero-core),.96);font:800 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.13em;text-align:right;box-shadow:-10px 0 24px rgba(var(--hero-energy),.08)}
+  #app.visual-camera .sideHeroBadge span{color:rgba(var(--hero-energy),.95)}#app.visual-camera .sideHeroBadge b{font-size:6px;color:#7e9eab}
+  @keyframes sideHeroFloat{50%{transform:translateY(calc(1vh - 7px));filter:drop-shadow(0 24px 38px rgba(0,0,0,.58)) drop-shadow(0 0 16px rgba(var(--hero-energy),.18))}}
+
+  .cameraAura{position:absolute;inset:0;z-index:6;display:none;pointer-events:none;overflow:hidden;mix-blend-mode:screen}
+  #app.visual-camera .cameraAura{display:block}
+  .auraHead{position:absolute;left:50%;top:28%;width:clamp(150px,15vw,245px);aspect-ratio:.86;transform:translate(-50%,-50%);border:1px solid rgba(var(--hero-energy),.28);border-radius:48% 48% 46% 46%/42% 42% 56% 56%;box-shadow:0 0 24px rgba(var(--hero-energy),.12),inset 0 0 28px rgba(var(--hero-energy),.07);animation:auraBreathe 2.4s ease-in-out infinite alternate}
+  .auraHead::before,.auraHead::after{content:"";position:absolute;border-radius:inherit;pointer-events:none}.auraHead::before{inset:-13px;background:conic-gradient(from 20deg,transparent 0 13%,rgba(var(--hero-core),.7) 14% 15%,transparent 16% 38%,rgba(var(--hero-energy),.62) 39% 40%,transparent 41% 73%,rgba(var(--hero-core),.58) 74% 75%,transparent 76%);-webkit-mask:radial-gradient(transparent 65%,#000 67%);mask:radial-gradient(transparent 65%,#000 67%);filter:drop-shadow(0 0 7px rgba(var(--hero-energy),.48));animation:auraSpin 8s linear infinite}.auraHead::after{inset:-26px;border:1px dashed rgba(var(--hero-energy),.18);animation:auraSpin 15s linear infinite reverse}
+  .auraBody{position:absolute;left:50%;top:62%;width:clamp(300px,39vw,670px);height:clamp(300px,56vh,560px);transform:translate(-50%,-50%);border:1px solid rgba(var(--hero-energy),.17);border-top-color:rgba(var(--hero-core),.38);border-radius:48% 48% 34% 34%/28% 28% 62% 62%;background:radial-gradient(ellipse at 50% 38%,transparent 46%,rgba(var(--hero-energy),.035) 70%,transparent 73%);box-shadow:0 0 45px rgba(var(--hero-energy),.08),inset 0 0 42px rgba(var(--hero-energy),.035);animation:bodyAuraPulse 2.7s ease-in-out infinite alternate}
+  .auraBody::before,.auraBody::after{content:"";position:absolute;top:18%;bottom:15%;width:2px;background:linear-gradient(transparent,rgba(var(--hero-core),.55),rgba(var(--hero-energy),.12),transparent);box-shadow:0 0 13px rgba(var(--hero-energy),.52);animation:energyRise 1.8s ease-in-out infinite}.auraBody::before{left:-4px}.auraBody::after{right:-4px;animation-delay:-.85s}
+  .auraOrbit{position:absolute;left:50%;top:46%;width:clamp(250px,31vw,520px);height:clamp(76px,11vw,160px);border:1px solid rgba(var(--hero-energy),.22);border-radius:50%;transform:translate(-50%,-50%) rotate(-7deg);box-shadow:0 0 18px rgba(var(--hero-energy),.08);animation:auraOrbitSpin 7s linear infinite}.auraOrbitTwo{top:62%;width:clamp(320px,43vw,720px);height:clamp(90px,14vw,190px);border-style:dashed;opacity:.62;animation-duration:11s;animation-direction:reverse}
+  .auraBolt{position:absolute;top:31%;width:18px;height:28%;background:linear-gradient(180deg,rgba(var(--hero-core),.88),rgba(var(--hero-energy),.18));clip-path:polygon(60% 0,28% 39%,57% 39%,12% 100%,43% 54%,22% 54%);filter:drop-shadow(0 0 8px rgba(var(--hero-energy),.78));opacity:.55;animation:boltFlicker 1.1s steps(2,end) infinite}.boltOne{left:calc(50% - min(24vw,390px));transform:rotate(-7deg)}.boltTwo{right:calc(50% - min(24vw,390px));transform:scaleX(-1) rotate(-7deg);animation-delay:-.52s}
+  .auraParticle{position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(var(--hero-core),.95);box-shadow:0 0 13px 3px rgba(var(--hero-energy),.66);animation:auraParticle 3.4s ease-in-out infinite}.particleOne{left:31%;top:38%}.particleTwo{left:68%;top:31%;animation-delay:-.6s}.particleThree{left:24%;top:61%;animation-delay:-1.2s}.particleFour{left:74%;top:68%;animation-delay:-1.8s}.particleFive{left:40%;top:78%;animation-delay:-2.4s}.particleSix{left:61%;top:48%;animation-delay:-3s}
+  @keyframes auraSpin{to{transform:rotate(360deg)}}@keyframes auraBreathe{to{opacity:.62;transform:translate(-50%,-50%) scale(1.07)}}@keyframes bodyAuraPulse{to{opacity:.58;transform:translate(-50%,-50%) scale(1.025)}}@keyframes auraOrbitSpin{to{transform:translate(-50%,-50%) rotate(353deg)}}@keyframes energyRise{50%{transform:translateY(-18px);opacity:.35}}@keyframes boltFlicker{0%,18%,24%,78%,100%{opacity:.16}20%,25%,75%{opacity:.74}}@keyframes auraParticle{0%,100%{opacity:.18;transform:translateY(18px) scale(.6)}50%{opacity:1;transform:translateY(-28px) scale(1.35)}}
+
+  @media(max-width:720px){#app.visual-camera #faceLayer{align-items:flex-start;padding:175px 9px 0 0}#app.visual-camera .faceRig{width:132px;height:190px;transform:none;opacity:.68}#app.visual-camera .sideHeroBadge{display:none}.auraHead{top:31%;width:135px}.auraBody{top:59%;width:82vw;height:48vh}.auraOrbit{top:45%;width:66vw}.auraOrbitTwo{top:61%;width:90vw}.auraBolt{display:none}}
+
+  #translationCard{top:47%;z-index:32;width:min(760px,92vw);min-width:0;padding:28px 32px 24px;overflow:hidden;border-radius:26px;background:linear-gradient(145deg,rgba(3,21,38,.96),rgba(19,12,39,.94));border:1px solid rgba(101,238,255,.5);box-shadow:0 0 0 1px rgba(101,238,255,.08),0 24px 90px rgba(0,0,0,.52),inset 0 0 46px rgba(63,205,255,.08)}
+  #translationCard::before,#translationCard::after{content:"";position:absolute;width:66px;height:20px;border-color:rgba(103,239,255,.72);pointer-events:none}
+  #translationCard::before{left:12px;top:12px;border-left:2px solid;border-top:2px solid}
+  #translationCard::after{right:12px;bottom:12px;border-right:2px solid;border-bottom:2px solid}
+  .translationHalo{position:absolute;left:50%;top:50%;width:72%;height:140%;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(77,223,255,.15),transparent 63%);animation:haloBreathe 1.2s ease-in-out infinite alternate}
+  #trTitle{position:relative;color:#78eaff;font:800 11px/1.2 ui-monospace,Consolas,monospace;letter-spacing:.22em;text-transform:uppercase}
+  #trMain{position:relative;margin:8px 0 4px;font-size:clamp(48px,8.5vw,96px);line-height:1.06;font-weight:1000;color:#fff;text-shadow:0 0 12px rgba(255,255,255,.28),0 0 42px rgba(70,225,255,.45);overflow-wrap:anywhere}
+  #trSub{position:relative;color:#b5cbd9;font-size:clamp(14px,2.3vw,21px)}
+  #trReading{position:relative;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:7px 11px;margin:13px auto 0;padding:9px 12px;width:fit-content;max-width:100%;border:1px solid rgba(105,232,255,.2);border-radius:12px;background:rgba(73,216,255,.055);color:#b9d4df}
+  #trReading[hidden]{display:none}#trReading span{color:#69e8ff;font:800 9px/1 ui-monospace,Consolas,monospace;letter-spacing:.1em}#trPhonetic{font-size:clamp(16px,2.2vw,24px);font-weight:800;color:#fff;overflow-wrap:anywhere}
+  #englishSpeakBtn{pointer-events:auto;padding:6px 9px;border:1px solid rgba(103,240,191,.3);border-radius:8px;background:rgba(82,240,187,.08);color:#9cffd6;font-size:10px;font-weight:900;cursor:pointer}#englishSpeakBtn:hover,#englishSpeakBtn:focus-visible{background:rgba(82,240,187,.18);border-color:#72ffc3;outline:none}
+  .speakingLine{position:relative;display:flex;justify-content:center;align-items:center;gap:8px;margin-top:12px;color:#82f4c2;font-size:10px;letter-spacing:.08em}
+  .speakingLine i,.speakingLine i::before,.speakingLine i::after{display:block;width:2px;height:9px;border-radius:2px;background:#82f4c2;animation:voiceBar .52s ease-in-out infinite alternate}
+  .speakingLine i{position:relative;margin-right:8px}.speakingLine i::before,.speakingLine i::after{content:"";position:absolute;bottom:0}.speakingLine i::before{left:-5px;animation-delay:-.18s}.speakingLine i::after{left:5px;animation-delay:-.34s}
+  #translationCard.show{pointer-events:auto;animation:translationReveal 4.2s cubic-bezier(.2,.75,.2,1) forwards}#translationCard.show:hover{animation-play-state:paused}
+  @keyframes translationReveal{0%{opacity:0;transform:translate(-50%,-50%) scale(.82);filter:blur(8px)}7%,84%{opacity:1;transform:translate(-50%,-50%) scale(1);filter:blur(0)}100%{opacity:0;transform:translate(-50%,-60%) scale(1.04);filter:blur(2px)}}
+  @keyframes haloBreathe{to{opacity:.55;transform:translate(-50%,-50%) scale(1.12)}}
+  @keyframes voiceBar{to{height:3px}}
+
+  #menu{isolation:isolate;padding:18px;background:#030b13;overflow:hidden}
+  #menu::before{content:"";position:absolute;inset:-2%;z-index:-2;background:linear-gradient(90deg,rgba(2,8,16,.12),rgba(2,9,18,.48)),url("assets/hero-command-center.png") center/cover no-repeat;filter:saturate(1.12) contrast(1.08);animation:menuDrift 16s ease-in-out infinite alternate}
+  #menu::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 25% 46%,rgba(45,211,255,.11),transparent 25%),linear-gradient(180deg,rgba(1,8,16,.05),rgba(1,7,14,.76));box-shadow:inset 0 0 130px rgba(0,0,0,.72);pointer-events:none}
+  @keyframes menuDrift{to{transform:scale(1.025)}}
+  .modal.menuModal{display:grid;grid-template-columns:minmax(340px,.9fr) minmax(500px,1.1fr);width:min(1180px,96vw);height:min(760px,94vh);max-height:94vh;padding:0;overflow:hidden;border-radius:24px;background:linear-gradient(120deg,rgba(3,15,27,.82),rgba(5,13,25,.94));border:1px solid rgba(109,225,255,.25);box-shadow:0 36px 130px rgba(0,0,0,.68),inset 0 1px rgba(255,255,255,.06)}
+  .menuModal::before,.menuModal::after{content:"";position:absolute;pointer-events:none}
+  .menuModal::before{inset:8px;border:1px solid rgba(111,234,255,.07);clip-path:polygon(0 0,80px 0,80px 1px,calc(100% - 80px) 1px,calc(100% - 80px) 0,100% 0,100% 100%,calc(100% - 80px) 100%,calc(100% - 80px) calc(100% - 1px),80px calc(100% - 1px),80px 100%,0 100%)}
+  .menuHero{position:relative;display:flex;flex-direction:column;min-width:0;padding:34px 30px 25px;overflow:hidden;border-right:1px solid rgba(111,229,255,.15);background:linear-gradient(150deg,rgba(8,38,58,.58),rgba(3,14,26,.18))}
+  .systemBadge{display:flex;align-items:center;gap:8px;align-self:flex-start;padding:6px 10px;border:1px solid rgba(103,255,196,.26);border-radius:99px;color:#aaffd9;background:rgba(61,255,183,.06);font:800 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.12em}
+  .systemBadge i,.readyLight i{width:6px;height:6px;border-radius:50%;background:#70ffc5;box-shadow:0 0 10px #70ffc5;animation:statusPulse 1.4s ease-in-out infinite}
+  .eyebrow{margin:27px 0 7px;color:#6feaff;font:800 10px/1.2 ui-monospace,Consolas,monospace;letter-spacing:.22em}
+  .menuModal .heroTitle{position:relative;z-index:2;font-size:clamp(38px,4.2vw,64px);line-height:.89;letter-spacing:-.035em;text-shadow:0 8px 30px rgba(0,0,0,.35)}
+  .menuModal .heroTitle span{font-size:.73em;letter-spacing:.05em;color:#93f5ff;-webkit-text-fill-color:#93f5ff}
+  .menuModal .heroSub{position:relative;z-index:2;max-width:520px;margin:14px 0 0;color:#b8d2df;font-size:13px;line-height:1.7}
+  .heroVisual{position:relative;flex:1;min-height:220px;margin-top:5px}
+  .selectedHelmet{position:absolute;z-index:3;left:50%;bottom:4px;width:min(270px,68%);aspect-ratio:.66;transform:translateX(-50%);background-image:url("assets/hero-helmet-themes.png");background-repeat:no-repeat;background-size:500% 100%;background-position:0 50%;mix-blend-mode:screen;filter:saturate(1.14) contrast(1.08) drop-shadow(0 12px 28px rgba(0,0,0,.55));-webkit-mask-image:radial-gradient(ellipse 67% 55% at 50% 45%,#000 54%,rgba(0,0,0,.78) 72%,transparent 100%);mask-image:radial-gradient(ellipse 67% 55% at 50% 45%,#000 54%,rgba(0,0,0,.78) 72%,transparent 100%);transition:background-position .45s ease,filter .35s ease}
+  .selectedHelmet.theme-web{background-position:25% 50%}.selectedHelmet.theme-thunder{background-position:50% 50%}.selectedHelmet.theme-cosmic{background-position:75% 50%}.selectedHelmet.theme-robot{background-position:100% 50%}
+  .holoOrbit{position:absolute;left:50%;top:54%;border:1px solid rgba(80,231,255,.3);border-radius:50%;transform:translate(-50%,-50%) rotateX(70deg);box-shadow:0 0 22px rgba(64,220,255,.12);animation:orbitSpin 9s linear infinite}
+  .orbitOne{width:86%;height:62%}.orbitTwo{width:62%;height:44%;animation-direction:reverse;animation-duration:6s;border-style:dashed}
+  @keyframes orbitSpin{to{transform:translate(-50%,-50%) rotateX(70deg) rotateZ(360deg)}}
+  .holoFloor{position:absolute;left:50%;bottom:3px;width:76%;height:18px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(55,226,255,.45),rgba(55,226,255,.06) 48%,transparent 70%);filter:blur(3px)}
+  .scanLabel{position:absolute;top:48%;padding:4px 7px;border-top:1px solid rgba(117,233,255,.3);color:#70aebd;font:700 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.12em}.scanLabel.left{left:0}.scanLabel.right{right:0}
+  .featureRail{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:4px}
+  .featureRail span{padding:8px 5px;border-top:1px solid rgba(107,224,255,.2);color:#7e9da9;font:700 8px/1.3 ui-monospace,Consolas,monospace;letter-spacing:.06em}.featureRail b{color:#61e9ff;margin-right:3px}
+
+  .menuControls{position:relative;min-width:0;padding:30px;overflow-x:hidden;overflow-y:auto;background:linear-gradient(180deg,rgba(3,13,24,.73),rgba(3,11,21,.94));scrollbar-width:thin;scrollbar-color:rgba(94,225,255,.35) transparent}
+  .controlHead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:14px}.controlHead small{color:#64e9ff;font:800 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.18em}.controlHead h2{margin:5px 0 0;font-size:23px}.readyLight{display:flex;align-items:center;gap:7px;padding:6px 9px;border-radius:8px;border:1px solid rgba(98,255,194,.2);color:#9be8c8;background:rgba(98,255,194,.05);font-size:9px}
+  .menuModal .chips{margin:0 0 12px}.menuModal .chip{padding:5px 8px;border-radius:5px;color:#9cbecc;background:rgba(80,220,255,.035);border-color:rgba(93,225,255,.13);font:700 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.1em}
+  .menuModal .config{gap:7px}.menuModal .wide{min-width:0}.menuModal .field{position:relative;padding:10px 11px;border-radius:12px;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018));border-color:rgba(111,221,255,.13);transition:.2s ease}.menuModal .field:focus-within{border-color:rgba(79,231,255,.55);box-shadow:inset 0 0 20px rgba(60,217,255,.06)}
+  .menuModal .field label{margin-bottom:8px;color:#c1d8e2;font-size:12px;font-weight:800;letter-spacing:.02em}.menuModal .field label span{margin-right:6px;color:#59e6ff;font:900 8px/1 ui-monospace,Consolas,monospace}
+  .settingValue{display:none!important}
+  .choiceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.choiceGrid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.choiceGrid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+  #tenseField[hidden]{display:none!important}.tenseGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.tenseGrid .choiceBtn{justify-content:flex-start;min-height:50px}.tenseGrid .choiceBtn b{font-size:10px}.tenseGrid .choiceBtn small{font-size:6.5px;letter-spacing:0;white-space:normal;line-height:1.2}
+  .choiceBtn{position:relative;display:flex;align-items:center;justify-content:center;gap:7px;min-width:0;min-height:44px;padding:7px 8px;border:1px solid rgba(112,218,243,.13);border-radius:9px;background:rgba(4,18,30,.76);color:#87a5b3;text-align:left;cursor:pointer;transform-origin:50% 100%;transition:transform .22s cubic-bezier(.2,.8,.2,1),opacity .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease}
+  .choiceBtn:hover,.choiceBtn:focus-visible{border-color:rgba(89,230,255,.52);color:#e9fbff;transform:translateY(-1px);outline:none}.choiceBtn.active{border-color:#5ce9ff;color:#fff;background:linear-gradient(145deg,rgba(36,196,229,.22),rgba(93,255,191,.07));box-shadow:inset 0 0 18px rgba(50,221,255,.08),0 5px 18px rgba(11,196,226,.09)}
+  .choiceBtn .choiceIcon{flex:0 0 auto;color:#66eaff;font-size:17px;filter:drop-shadow(0 0 6px rgba(78,230,255,.42))}.choiceBtn b,.choiceBtn small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.choiceBtn b{font-size:12px;line-height:1.2}.choiceBtn small{margin-top:3px;color:#7294a2;font:800 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.04em}.choiceBtn.active small{color:#a8e8f2}
+  .themeSelectField{display:none}
+  .themePreview{gap:6px}
+  .themeCard{position:relative;min-width:0;padding:0 0 8px;overflow:visible;border:1px solid rgba(116,219,245,.12);border-radius:10px;background:#061321;color:#b7ccd6;text-align:left;transform-origin:50% 100%;transition:transform .24s cubic-bezier(.2,.8,.2,1),opacity .18s ease,border-color .18s ease,box-shadow .18s ease}
+  .themeCard:hover,.themeCard:focus-visible{transform:translateY(-3px);border-color:rgba(88,230,255,.55);outline:none}.themeCard.active{border-color:#62ebff;box-shadow:0 0 0 1px rgba(98,235,255,.18),0 8px 28px rgba(25,193,225,.12)}
+  .themeThumb{display:block;width:100%;aspect-ratio:1.08;border-radius:9px 9px 0 0;background-image:linear-gradient(180deg,transparent 62%,#061321 100%),url("assets/hero-helmet-themes.png");background-repeat:no-repeat;background-size:500% 100%;background-position:0 50%;filter:saturate(1.05);transition:.25s ease}.themeCard[data-theme="web"] .themeThumb{background-position:25% 50%}.themeCard[data-theme="thunder"] .themeThumb{background-position:50% 50%}.themeCard[data-theme="cosmic"] .themeThumb{background-position:75% 50%}.themeCard[data-theme="robot"] .themeThumb{background-position:100% 50%}
+  .themeCard b,.themeCard small{display:block;padding:0 7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.themeCard b{margin-top:-2px;color:#eefbff;font-size:11.5px}.themeCard small{margin-top:3px;color:#6d93a3;font:800 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.1em}
+  @media(hover:hover) and (pointer:fine){
+    .menuModal .field:has(.choiceBtn:hover),.menuModal .wide:has(.themeCard:hover){z-index:45}
+    .choiceGrid:hover .choiceBtn:not(:hover){opacity:.62;transform:scale(.94)}
+    .choiceGrid .choiceBtn:has(+ .choiceBtn:hover),.choiceGrid .choiceBtn:hover + .choiceBtn{opacity:.9;transform:translateY(-2px) scale(1.035)}
+    .choiceGrid .choiceBtn:hover,.choiceGrid .choiceBtn:focus-visible{z-index:12;opacity:1;transform:translateY(-7px) scale(1.115);border-color:#6deeff;background:linear-gradient(145deg,rgba(41,205,238,.34),rgba(76,251,191,.12));box-shadow:0 18px 38px rgba(0,0,0,.42),0 0 24px rgba(61,225,255,.18)}
+    .themePreview:hover .themeCard:not(:hover){opacity:.58;transform:scale(.91)}
+    .themePreview .themeCard:has(+ .themeCard:hover),.themePreview .themeCard:hover + .themeCard{opacity:.9;transform:translateY(-3px) scale(.99)}
+    .themePreview .themeCard:hover,.themePreview .themeCard:focus-visible{z-index:14;opacity:1;transform:translateY(-10px) scale(1.13);border-color:#73efff;background:#092033;box-shadow:0 22px 46px rgba(0,0,0,.55),0 0 30px rgba(55,224,255,.24)}
+    .choiceBtn::after,.themeCard::after{content:attr(data-popup);position:absolute;z-index:30;left:50%;bottom:calc(100% + 9px);max-width:210px;padding:7px 10px;border:1px solid rgba(113,235,255,.38);border-radius:9px;background:rgba(2,13,24,.97);box-shadow:0 10px 30px rgba(0,0,0,.52),0 0 20px rgba(60,222,255,.12);color:#f3fcff;font-size:13px;font-weight:900;line-height:1.2;white-space:nowrap;opacity:0;pointer-events:none;transform:translate(-50%,7px) scale(.94);transition:.16s ease}
+    .choiceBtn:hover::after,.choiceBtn:focus-visible::after,.themeCard:hover::after,.themeCard:focus-visible::after{opacity:1;transform:translate(-50%,0) scale(1)}
+    .choiceGrid .choiceBtn:first-child::after,.themePreview .themeCard:first-child::after{left:0;transform:translate(0,7px) scale(.94)}.choiceGrid .choiceBtn:first-child:hover::after,.themePreview .themeCard:first-child:hover::after{transform:translate(0,0) scale(1)}
+    .choiceGrid .choiceBtn:last-child::after,.themePreview .themeCard:last-child::after{left:auto;right:0;transform:translate(0,7px) scale(.94)}.choiceGrid .choiceBtn:last-child:hover::after,.themePreview .themeCard:last-child:hover::after{transform:translate(0,0) scale(1)}
+  }
+  .menuModal .startBtn{position:relative;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:13px;margin-top:2px;padding:13px 16px;border-radius:11px;background:linear-gradient(90deg,#59e9ff,#76ffc0);box-shadow:0 13px 36px rgba(64,226,255,.17);text-align:left;transition:.22s ease}.menuModal .startBtn:hover,.menuModal .startBtn:focus-visible{transform:translateY(-2px);box-shadow:0 17px 46px rgba(64,226,255,.27);outline:none}.menuModal .startBtn span{font-size:15px}.menuModal .startBtn b{font:900 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.18em}.menuModal .startBtn i{font-style:normal;font-size:20px}
+  .menuModal .subBtns{margin-top:8px}.menuModal .miniBtn{padding:9px;border-radius:9px;color:#aec6d1;border-color:rgba(106,220,248,.13);background:rgba(255,255,255,.025);font-size:10px}.menuModal .miniBtn:hover{color:#fff;border-color:rgba(87,229,255,.45)}
+  .menuFoot{display:flex;justify-content:space-between;gap:10px;margin-top:12px;color:#456776;font:700 6.5px/1.3 ui-monospace,Consolas,monospace;letter-spacing:.1em}
+
+  /* Cinematic AI command center */
+  #menu{padding:24px;background:#01060b}
+  #menu::before{inset:-3%;background:linear-gradient(90deg,rgba(0,7,15,.18),rgba(1,9,20,.56)),url("assets/hero-command-center.png") center/cover no-repeat;filter:saturate(1.28) contrast(1.12) brightness(.8);animation:menuDrift 18s ease-in-out infinite alternate}
+  #menu::after{background:radial-gradient(circle at 24% 49%,rgba(43,224,255,.14),transparent 24%),radial-gradient(circle at 82% 15%,rgba(117,91,255,.1),transparent 22%),linear-gradient(180deg,rgba(0,4,10,.28),rgba(0,6,14,.24) 52%,rgba(0,3,9,.88));box-shadow:inset 0 0 180px rgba(0,0,0,.9)}
+  .menuCinematic{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .menuCinematic::before{content:"";position:absolute;left:7%;top:-45%;width:42%;height:160%;background:linear-gradient(105deg,transparent 28%,rgba(79,227,255,.08) 49%,transparent 68%);transform:rotate(-8deg);filter:blur(8px);animation:cinemaBeam 9s ease-in-out infinite alternate}
+  .menuCinematic::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(255,255,255,.018) 0,rgba(255,255,255,.018) 1px,transparent 1px,transparent 5px);opacity:.36;mix-blend-mode:screen}
+  .filmBar{position:absolute;left:0;right:0;height:10px;background:#000;box-shadow:0 0 22px rgba(0,0,0,.9)}.filmBar.top{top:0}.filmBar.bottom{bottom:0}
+  .neuralGrid{position:absolute;left:-12%;right:-12%;bottom:-26%;height:58%;background-image:linear-gradient(rgba(50,222,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(50,222,255,.12) 1px,transparent 1px);background-size:48px 36px;transform:perspective(420px) rotateX(64deg);transform-origin:50% 100%;opacity:.24;mask-image:linear-gradient(transparent,#000 35%);animation:gridFlow 7s linear infinite}
+  .cinemaTelemetry{position:absolute;display:grid;gap:4px;color:#527887;font:700 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.16em}.cinemaTelemetry span{color:#64dff1}.cinemaTelemetry b{font-weight:700}.cinemaTelemetry.topLeft{left:28px;top:25px}.cinemaTelemetry.topRight{right:28px;top:25px;text-align:right}.cinemaTelemetry.bottomLeft{left:28px;bottom:25px}.cinemaTelemetry.bottomRight{right:28px;bottom:25px;text-align:right}
+  @keyframes cinemaBeam{to{transform:translateX(38vw) rotate(-2deg);opacity:.35}}@keyframes gridFlow{to{background-position:0 36px,48px 0}}
+
+  .modal.menuModal{position:relative;z-index:2;grid-template-columns:minmax(390px,.92fr) minmax(540px,1.08fr);width:min(1260px,94vw);height:min(820px,90vh);max-height:90vh;border:1px solid rgba(100,232,255,.38);border-radius:4px;clip-path:polygon(0 20px,20px 0,calc(100% - 20px) 0,100% 20px,100% calc(100% - 20px),calc(100% - 20px) 100%,20px 100%,0 calc(100% - 20px));background:linear-gradient(118deg,rgba(2,18,31,.89),rgba(3,10,21,.96));box-shadow:0 40px 150px rgba(0,0,0,.82),0 0 70px rgba(39,206,255,.09),inset 0 0 80px rgba(25,163,207,.035)}
+  .menuModal::before{inset:8px;border-color:rgba(112,235,255,.11);clip-path:polygon(0 0,110px 0,110px 1px,calc(100% - 110px) 1px,calc(100% - 110px) 0,100% 0,100% 100%,calc(100% - 110px) 100%,calc(100% - 110px) calc(100% - 1px),110px calc(100% - 1px),110px 100%,0 100%)}
+  .menuModal::after{left:20px;right:20px;top:0;height:2px;background:linear-gradient(90deg,transparent,#65eaff 22%,#fff 50%,#65eaff 78%,transparent);opacity:.66;box-shadow:0 0 18px rgba(80,230,255,.8);animation:panelPulse 3.6s ease-in-out infinite alternate}
+  @keyframes panelPulse{to{opacity:.2;filter:blur(.7px)}}
+
+  .menuHero{padding:32px 32px 24px;border-right:1px solid rgba(92,226,255,.25);background:radial-gradient(circle at 50% 64%,rgba(23,191,230,.14),transparent 34%),linear-gradient(150deg,rgba(7,40,59,.72),rgba(2,13,25,.38));isolation:isolate}
+  .menuHero::before{content:"";position:absolute;z-index:-1;inset:0;background-image:linear-gradient(rgba(78,222,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(78,222,255,.035) 1px,transparent 1px);background-size:28px 28px;mask-image:linear-gradient(#000,transparent 78%)}
+  .menuHero::after{content:"";position:absolute;z-index:8;left:0;right:0;height:1px;top:16%;background:linear-gradient(90deg,transparent,rgba(111,242,255,.72),transparent);box-shadow:0 0 13px #52eaff;opacity:.38;animation:heroScan 5.5s linear infinite;pointer-events:none}
+  @keyframes heroScan{from{top:10%}to{top:92%}}
+  .systemBadge{padding:7px 11px;border-radius:3px;border-color:rgba(100,255,205,.38);background:linear-gradient(90deg,rgba(60,255,190,.09),transparent);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));box-shadow:inset 0 0 14px rgba(74,255,198,.05)}
+  .eyebrow{margin-top:24px;color:#70ecff;text-shadow:0 0 15px rgba(74,230,255,.38)}
+  .menuModal .heroTitle{font-size:clamp(42px,4.6vw,70px);line-height:.86;letter-spacing:-.045em;text-transform:uppercase;background:linear-gradient(96deg,#fff 5%,#9bf5ff 48%,#4dddf9 92%);-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 9px 28px rgba(0,0,0,.48))}
+  .menuModal .heroTitle::after{content:"";display:block;width:72px;height:3px;margin-top:18px;background:linear-gradient(90deg,#6af0ff,transparent);box-shadow:0 0 14px #48dcff}
+  .menuModal .heroTitle span{font-size:.68em;letter-spacing:.075em;color:#8cf2ff;-webkit-text-fill-color:#8cf2ff;text-shadow:0 0 28px rgba(78,226,255,.25)}
+  .menuModal .heroSub{position:relative;z-index:12;max-width:490px;margin-top:13px;padding:8px 11px;border-left:2px solid rgba(100,235,255,.58);background:linear-gradient(90deg,rgba(2,18,31,.78),rgba(2,18,31,.24) 78%,transparent);color:#d9edf3;font-size:13px;font-weight:650;line-height:1.72;text-shadow:0 1px 4px rgba(0,0,0,.95)}
+
+  .heroVisual{min-height:385px;margin-top:12px;overflow:hidden;border-top:1px solid rgba(92,226,255,.1);background:radial-gradient(circle at 50% 54%,rgba(51,229,255,.1),transparent 44%)}
+  .selectedHelmet{z-index:6;bottom:2px;width:min(248px,61%);filter:saturate(1.2) contrast(1.12) drop-shadow(0 18px 33px rgba(0,0,0,.72)) drop-shadow(0 0 16px rgba(55,221,255,.15));animation:helmetHover 4s ease-in-out infinite}
+  @keyframes helmetHover{50%{transform:translateX(-50%) translateY(-5px);filter:saturate(1.28) contrast(1.13) drop-shadow(0 23px 38px rgba(0,0,0,.72)) drop-shadow(0 0 24px rgba(55,221,255,.23))}}
+  .aiCoreRing{position:absolute;z-index:2;left:50%;top:52%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}.ringOuter{width:88%;border:1px solid rgba(82,230,255,.2);background:conic-gradient(from 20deg,transparent 0 10%,rgba(80,227,255,.6) 10% 11%,transparent 11% 35%,rgba(126,100,255,.5) 35% 36%,transparent 36% 72%,rgba(77,231,255,.45) 72% 73%,transparent 73%);animation:coreRotate 18s linear infinite}.ringMid{width:65%;border:1px dashed rgba(105,239,255,.36);box-shadow:inset 0 0 35px rgba(55,215,255,.06);animation:coreRotate 11s linear infinite reverse}.ringInner{width:43%;border:1px solid rgba(104,241,255,.28);box-shadow:0 0 26px rgba(48,223,255,.12);animation:coreBreathe 2.8s ease-in-out infinite alternate}
+  @keyframes coreRotate{to{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes coreBreathe{to{transform:translate(-50%,-50%) scale(1.1);opacity:.45}}
+  .aiScanBeam{position:absolute;z-index:7;left:12%;right:12%;top:24%;height:26%;border-top:1px solid rgba(84,235,255,.65);background:linear-gradient(180deg,rgba(62,226,255,.12),transparent);filter:drop-shadow(0 0 8px rgba(60,224,255,.55));animation:avatarScan 3.4s ease-in-out infinite alternate;pointer-events:none}
+  @keyframes avatarScan{to{top:66%;opacity:.25}}
+  .holoOrbit{z-index:3;top:58%;border-color:rgba(82,232,255,.38)}.orbitOne{width:92%;height:68%}.orbitTwo{width:68%;height:48%}.holoFloor{z-index:5;bottom:0;width:84%;background:radial-gradient(ellipse,rgba(70,235,255,.54),rgba(55,221,255,.07) 50%,transparent 72%)}
+  .scanLabel{z-index:9;top:46%;border-top-color:rgba(113,237,255,.55);color:#a8eaf5;font-size:7.5px;text-shadow:0 1px 4px #000}
+  .aiIdentity{position:absolute;z-index:10;right:4px;top:14px;width:142px;padding:9px 10px;border-left:1px solid rgba(91,229,255,.58);background:linear-gradient(90deg,rgba(3,24,39,.92),rgba(3,24,39,.22));color:#a2c2cd;font:750 7px/1.5 ui-monospace,Consolas,monospace;letter-spacing:.08em;text-shadow:0 1px 4px #000}.aiIdentity span,.aiIdentity b,.aiIdentity small{display:block}.aiIdentity span{color:#7aeeff}.aiIdentity b{margin:3px 0;color:#f1fdff;font-size:8px}.aiIdentity small{font-size:6.5px}
+  .neuralMeter{position:absolute;z-index:10;left:3px;top:12px;display:flex;align-items:flex-end;gap:3px;height:25px}.neuralMeter i{display:block;width:2px;height:25%;background:#69eaff;box-shadow:0 0 6px #69eaff;animation:neuralBars .8s ease-in-out infinite alternate}.neuralMeter i:nth-child(2),.neuralMeter i:nth-child(6){height:55%;animation-delay:-.3s}.neuralMeter i:nth-child(3),.neuralMeter i:nth-child(7){height:90%;animation-delay:-.55s}.neuralMeter i:nth-child(4){height:42%;animation-delay:-.15s}.neuralMeter i:nth-child(5),.neuralMeter i:nth-child(8){height:70%;animation-delay:-.7s}@keyframes neuralBars{to{height:18%;opacity:.35}}
+  .featureRail{position:relative;z-index:10;gap:0;margin-top:2px;border-top:1px solid rgba(93,225,255,.25);border-bottom:1px solid rgba(93,225,255,.12)}.featureRail span{padding:10px 7px;border-top:0;border-right:1px solid rgba(93,225,255,.14);background:rgba(2,18,31,.62);color:#b0cbd4;font-size:8.5px;text-shadow:0 1px 4px #000}.featureRail span:last-child{border-right:0}
+
+  .menuControls{padding:27px 29px 24px;background:linear-gradient(180deg,rgba(2,12,23,.82),rgba(2,8,17,.96));isolation:isolate}
+  .menuControls::before{content:"";position:absolute;z-index:-1;inset:0;background-image:linear-gradient(rgba(71,211,238,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(71,211,238,.025) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(#000,transparent 78%)}
+  .controlHead{padding-bottom:12px;margin-bottom:10px;border-bottom:1px solid rgba(87,226,255,.16)}.controlHead small{color:#92f2ff;font-size:8.5px;text-shadow:0 0 10px rgba(78,226,255,.45)}.controlHead h2{font-size:25px;letter-spacing:-.02em;color:#f3fbff;text-shadow:0 2px 10px rgba(0,0,0,.9)}.readyLight{border-radius:3px;border-color:rgba(97,255,195,.42);background:rgba(72,255,191,.085);color:#c4ffe8;font-weight:800;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px))}
+  .menuModal .chips{gap:5px;margin-bottom:9px}.menuModal .chip{border-radius:2px;border-color:rgba(91,225,255,.25);background:rgba(46,207,239,.07);color:#afd4df;font-size:7.5px;text-shadow:0 1px 3px #000}
+  .aiBrief{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;margin:0 0 10px;padding:8px 10px;border:1px solid rgba(93,231,255,.24);clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));background:linear-gradient(90deg,rgba(40,210,241,.12),rgba(83,87,255,.05));box-shadow:inset 3px 0 #56eaff}.aiBrief>div:nth-child(2)>span{display:block;color:#8eefff;font:900 7.5px/1 ui-monospace,Consolas,monospace;letter-spacing:.16em;text-shadow:0 0 8px rgba(72,225,255,.35)}.aiBrief p{margin:4px 0 0;color:#c1d7de;font-size:9.5px;font-weight:600;line-height:1.4;text-shadow:0 1px 3px #000}.aiAvatar{position:relative;width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(102,236,255,.52);border-radius:50%;color:#d0fbff;font:900 9px/1 ui-monospace,Consolas,monospace;box-shadow:inset 0 0 16px rgba(64,219,255,.16),0 0 14px rgba(64,219,255,.1)}.aiAvatar i{position:absolute;inset:4px;border:1px dashed rgba(111,233,255,.42);border-radius:50%;animation:coreRotate 6s linear infinite}.signalBars{display:flex;align-items:flex-end;gap:2px;height:20px}.signalBars i{width:2px;background:#6deaff;box-shadow:0 0 5px #6deaff;animation:neuralBars .65s ease-in-out infinite alternate}.signalBars i:nth-child(1){height:25%}.signalBars i:nth-child(2){height:50%;animation-delay:-.2s}.signalBars i:nth-child(3){height:90%;animation-delay:-.4s}.signalBars i:nth-child(4){height:65%;animation-delay:-.1s}.signalBars i:nth-child(5){height:35%;animation-delay:-.5s}
+  .menuModal .field{padding:8px 10px;border-radius:3px;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));background:linear-gradient(145deg,rgba(9,30,44,.92),rgba(4,16,28,.82));border-color:rgba(98,224,250,.22)}.menuModal .field::before{content:"";position:absolute;left:0;top:0;width:28px;height:1px;background:#63eaff;box-shadow:0 0 8px #63eaff;opacity:.65}.menuModal .field:focus-within{border-color:rgba(84,235,255,.64);box-shadow:inset 0 0 24px rgba(57,222,255,.075),0 0 15px rgba(57,222,255,.045)}.menuModal .field label{margin-bottom:6px;color:#e1f0f4;font-size:12.5px;text-shadow:0 1px 4px #000}
+  .choiceBtn{min-height:40px;border-radius:2px;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px));background:linear-gradient(145deg,rgba(4,21,34,.98),rgba(4,13,24,.96));color:#b8d0d8}.choiceBtn b{color:#eef9fc;text-shadow:0 1px 4px #000}.choiceBtn small{color:#93b4c0}.choiceBtn.active{border-color:#62ecff;color:#fff;background:linear-gradient(135deg,rgba(39,209,238,.28),rgba(83,117,255,.11));box-shadow:inset 3px 0 #64edff,inset 0 0 22px rgba(50,221,255,.09),0 8px 22px rgba(11,196,226,.08)}.choiceBtn.active b{color:#fff}.choiceBtn.active small{color:#c8f6fb}
+  .themeCard{border-radius:2px;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));background:#04111d}.themeCard b{color:#f4fcff;text-shadow:0 1px 4px #000}.themeCard small{color:#94b7c3}.themeThumb{height:78px;aspect-ratio:auto;border-radius:1px 1px 0 0}.themeCard.active{border-color:#68edff;box-shadow:inset 0 -2px #64eaff,0 0 22px rgba(50,221,255,.1)}
+  .menuModal .startBtn{overflow:hidden;min-height:52px;border-radius:2px;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));background:linear-gradient(100deg,#4ce4ff,#6dfbc5 62%,#c9ffe5);box-shadow:0 15px 42px rgba(45,221,255,.22)}.menuModal .startBtn::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.7) 48%,transparent 72%);transform:translateX(-120%);animation:launchSweep 3.2s ease-in-out infinite}.menuModal .startBtn span,.menuModal .startBtn b,.menuModal .startBtn i{position:relative}.menuModal .startBtn b{color:#17404a}.menuModal .startBtn i{width:25px;height:25px;display:grid;place-items:center;border:1px solid rgba(4,34,42,.28);border-radius:50%}@keyframes launchSweep{55%,100%{transform:translateX(120%)}}
+  .menuModal .miniBtn{border-radius:2px;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));background:rgba(6,24,37,.82)}
+  .menuFoot{padding-top:7px;border-top:1px solid rgba(84,218,246,.12);color:#78a7b4;font-size:7px;text-shadow:0 1px 3px #000}
+
+  /* Focused mission settings: compact rail + one large option panel */
+  .menuModal .chips{display:none}
+  .missionConfig{display:grid!important;grid-template-columns:142px minmax(0,1fr);grid-template-rows:auto auto auto;gap:9px 11px;min-height:382px;align-items:stretch}
+  .settingsRail{grid-column:1;grid-row:1/4;display:flex;flex-direction:column;gap:5px;min-width:0;padding:8px;border:1px solid rgba(93,228,255,.16);background:linear-gradient(180deg,rgba(7,31,46,.88),rgba(3,15,27,.9));clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px))}
+  .settingsTab{position:relative;display:grid;grid-template-columns:25px minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:7px;min-height:42px;padding:7px 7px;border:1px solid transparent;background:rgba(255,255,255,.018);color:#8baab6;text-align:left;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,transform .18s ease,box-shadow .18s ease}
+  .settingsTab span{grid-row:1/3;display:grid;place-items:center;width:24px;height:24px;border:1px solid rgba(92,226,255,.15);border-radius:50%;color:#62dff1;font:900 7px/1 ui-monospace,Consolas,monospace}.settingsTab b{min-width:0;color:#c5d8df;font-size:11.5px;line-height:1.1}.settingsTab small{min-width:0;overflow:hidden;color:#698b98;font:800 7px/1.15 ui-monospace,Consolas,monospace;text-overflow:ellipsis;white-space:nowrap}.settingsTab i{grid-column:3;grid-row:1/3;color:#4f8290;font-size:18px;font-style:normal}
+  .settingsTab:hover,.settingsTab:focus-visible,.settingsTab.active{z-index:2;border-color:rgba(92,232,255,.5);background:linear-gradient(100deg,rgba(38,210,241,.2),rgba(79,111,255,.06));color:#fff;outline:none;transform:translateX(4px);box-shadow:inset 3px 0 #63ebff,0 8px 22px rgba(0,0,0,.22)}.settingsTab:hover b,.settingsTab:focus-visible b,.settingsTab.active b{color:#fff}.settingsTab:hover small,.settingsTab:focus-visible small,.settingsTab.active small{color:#bceff6}.settingsTab:hover span,.settingsTab:focus-visible span,.settingsTab.active span{border-color:#6bedff;color:#d4fbff;box-shadow:0 0 13px rgba(67,224,255,.24)}.settingsTab:hover i,.settingsTab:focus-visible i,.settingsTab.active i{color:#7ef0ff}
+  .settingsRailHint{margin-top:auto;padding:8px 4px 2px;color:#688894;font-size:8px;line-height:1.35;text-align:center}.settingsRailHint span{color:#69eaff;font:900 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.12em}
+  .missionConfig>.missionPanel{grid-column:2;grid-row:1;display:none;min-height:258px;margin:0;padding:17px 18px;justify-content:center;border-color:rgba(94,226,252,.22);background:radial-gradient(circle at 50% 42%,rgba(49,218,248,.08),transparent 45%),linear-gradient(145deg,rgba(8,31,46,.92),rgba(3,15,28,.88))}
+  .missionConfig>.missionPanel.is-panel-active:not([hidden]){display:flex;flex-direction:column;animation:missionPanelIn .22s cubic-bezier(.2,.8,.2,1) both}
+  .missionConfig>.missionPanel>label{margin-bottom:15px;font-size:14px}.missionConfig>.missionPanel .choiceBtn{min-height:82px;padding:12px 10px}.missionConfig>.missionPanel .choiceBtn .choiceIcon{font-size:25px}.missionConfig>.missionPanel .choiceBtn b{font-size:15px}.missionConfig>.missionPanel .choiceBtn small{margin-top:5px;font-size:9px}.missionConfig>.missionPanel .choiceGrid{gap:9px}
+  .missionConfig>#settingsPanelContent{min-height:126px}.missionConfig>#settingsPanelContent .choiceBtn{min-height:72px}.missionConfig>#tenseField{grid-row:2;min-height:0;padding-block:12px}.missionConfig>#tenseField .choiceBtn{min-height:52px;padding:8px}.missionConfig>#tenseField .choiceBtn b{font-size:10px}.missionConfig>#tenseField .choiceBtn small{font-size:7px}.missionConfig>.heroThemePanel{padding-inline:14px}.missionConfig>.heroThemePanel .themePreview{gap:8px}.missionConfig>.heroThemePanel .themeThumb{height:112px}.missionConfig>.heroThemePanel .themeCard b{font-size:13px}.missionConfig>.heroThemePanel .themeCard small{font-size:8px}
+  .missionLaunch{grid-column:2;grid-row:3;align-self:end;min-width:0}.missionConfig>.missionLaunch .startBtn{margin-top:0}
+  @keyframes missionPanelIn{from{opacity:0;transform:translateX(14px) scale(.985)}to{opacity:1;transform:translateX(0) scale(1)}}
+  @media(hover:hover) and (pointer:fine){.missionPanel .choiceGrid .choiceBtn:hover,.missionPanel .choiceGrid .choiceBtn:focus-visible{transform:translateY(-4px) scale(1.045)}}
+
+  #help .modal,#result .modal{border-radius:22px;background:linear-gradient(145deg,rgba(5,24,40,.98),rgba(13,10,29,.98));border-color:rgba(103,231,255,.24)}
+  #result .subBtns{flex-wrap:wrap}
+  #result .subBtns button{min-width:160px}
+
+  /* Learning library and spaced-review dashboard */
+  #library{z-index:55;background:rgba(1,8,16,.8)}
+  .libraryModal{width:min(1180px,97vw);height:min(880px,95vh);max-height:95vh;padding:0;overflow:hidden;border-radius:25px;background:linear-gradient(145deg,rgba(4,18,32,.99),rgba(10,9,27,.99));border-color:rgba(93,231,255,.28)}
+  .libraryHead{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding:23px 25px 16px;border-bottom:1px solid rgba(102,226,255,.14);background:radial-gradient(circle at 14% 0,rgba(42,211,255,.12),transparent 37%)}
+  .libraryEyebrow{color:#69eaff;font:900 9px/1 ui-monospace,Consolas,monospace;letter-spacing:.19em}.libraryHead h2{margin:7px 0 4px;font-size:clamp(25px,4vw,39px)}.libraryHead p{margin:0;color:#8faeba;font-size:12px}
+  .libraryClose{flex:0 0 auto}
+  .libraryBody{height:calc(100% - 100px);overflow:auto;padding:17px 24px 23px;scrollbar-width:thin;scrollbar-color:rgba(94,225,255,.35) transparent}
+  .libraryStats{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:13px}.libraryStat{padding:11px 12px;border:1px solid rgba(103,224,255,.12);border-radius:12px;background:rgba(255,255,255,.025)}.libraryStat b{display:block;color:#f3fdff;font-size:21px}.libraryStat span{color:#7896a5;font-size:9px;letter-spacing:.05em}
+  .libraryTools{display:grid;grid-template-columns:minmax(210px,1fr) auto auto;gap:9px;align-items:center}.librarySearch{width:100%;min-height:43px;padding:10px 13px;border:1px solid rgba(99,225,255,.17);border-radius:11px;outline:none;background:#071725;color:#fff;font-size:14px}.librarySearch:focus{border-color:#5de8ff;box-shadow:0 0 0 3px rgba(68,222,255,.08)}
+  .reviewNowBtn{min-height:43px;padding:9px 14px;border:1px solid rgba(92,255,197,.32);border-radius:11px;background:linear-gradient(135deg,rgba(57,220,255,.18),rgba(80,255,176,.16));color:#cffff0;font-weight:900}.reviewNowBtn:disabled{opacity:.38;cursor:not-allowed}
+  .libraryFilters{display:flex;gap:6px;overflow-x:auto;padding:10px 1px 8px;scrollbar-width:thin}.filterBtn{flex:0 0 auto;padding:7px 10px;border:1px solid rgba(105,220,246,.14);border-radius:999px;background:rgba(255,255,255,.025);color:#86a5b4;font-size:10px;font-weight:850}.filterBtn:hover,.filterBtn.active{border-color:#57e5ff;background:rgba(56,214,246,.13);color:#fff}
+  .librarySummary{display:flex;justify-content:space-between;gap:12px;margin:2px 2px 10px;color:#7192a2;font-size:10px}.librarySummary b{color:#ccebf3}
+  .libraryGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.studyCard{position:relative;min-width:0;padding:13px;border:1px solid rgba(104,220,247,.12);border-radius:14px;background:linear-gradient(145deg,rgba(10,30,46,.82),rgba(7,15,29,.84));transition:.2s ease}.studyCard:hover{z-index:2;border-color:rgba(93,232,255,.44);transform:translateY(-3px);box-shadow:0 14px 35px rgba(0,0,0,.3)}.studyCard.is-due{border-color:rgba(255,200,88,.3)}.studyCard.is-mastered{border-color:rgba(92,255,194,.22)}
+  .studyTop{display:flex;align-items:flex-start;gap:8px}.studyType{padding:4px 6px;border-radius:5px;background:rgba(72,222,255,.08);color:#70dff1;font:800 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.08em}.favoriteBtn{margin-left:auto;padding:1px 3px;border:0;background:transparent;color:#587483;font-size:19px;line-height:1}.favoriteBtn.active{color:#ffd86b;filter:drop-shadow(0 0 7px rgba(255,216,91,.4))}.studyEn{margin:10px 0 1px;color:#fff;font-size:clamp(18px,2vw,25px);line-height:1.14;overflow-wrap:anywhere}.studyIpa{min-height:18px;color:#65ddf1;font-size:12px;overflow-wrap:anywhere}.studyTh{margin:6px 0;color:#b9ced8;font-size:13px;line-height:1.35;min-height:18px}.studyTags{display:flex;flex-wrap:wrap;gap:4px;min-height:18px}.examTag{padding:3px 5px;border-radius:4px;background:rgba(161,116,255,.09);color:#c4a9ff;font:800 7px/1 ui-monospace,Consolas,monospace}.studyMeta{display:flex;justify-content:space-between;gap:8px;margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.055);color:#6e909f;font-size:9px}.studyMeta .due{color:#ffd46d}.studyMeta .mastered{color:#70f4bc}.studyActions{display:flex;gap:6px;margin-top:8px}.studyAction{flex:1;padding:7px 8px;border:1px solid rgba(98,223,249,.15);border-radius:8px;background:rgba(255,255,255,.025);color:#a9c8d3;font-size:9px;font-weight:850}.studyAction:hover{border-color:#56e7ff;color:#fff;background:rgba(74,220,255,.1)}
+  .libraryEmpty{grid-column:1/-1;padding:50px 20px;text-align:center;color:#7896a6}.loadMore{display:none;width:100%;margin-top:12px;padding:11px;border:1px solid rgba(98,224,250,.16);border-radius:10px;background:rgba(255,255,255,.025);color:#a9c7d2;font-weight:850}.libraryNote{margin:14px 2px 0;color:#587a89;font-size:9px;line-height:1.5}
+
+  /* Type-first pronunciation challenge */
+  .voiceChallenge{position:absolute;z-index:48;left:0;right:0;bottom:calc(100% + 12px);display:grid;grid-template-columns:auto minmax(150px,1fr) auto auto;align-items:center;gap:10px;margin:0;padding:12px 14px;border:1px solid rgba(101,232,255,.34);border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(4,28,46,.97),rgba(10,14,35,.97));box-shadow:0 24px 70px rgba(0,0,0,.7),0 0 34px rgba(58,221,255,.14),inset 0 1px rgba(255,255,255,.07);animation:voicePopupIn .3s cubic-bezier(.18,.82,.2,1) both}
+  .voiceChallenge[hidden]{display:none}.voiceChallenge::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 8% 50%,rgba(90,238,255,.16),transparent 27%);pointer-events:none}.voiceChallenge::after{content:"";position:absolute;left:14px;right:14px;top:0;height:1px;background:linear-gradient(90deg,transparent,#80f2ff,transparent);box-shadow:0 0 14px #59e8ff;pointer-events:none}@keyframes voicePopupIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}.voiceOrb{position:relative;width:45px;height:45px;display:grid;place-items:center;border:1px solid rgba(91,235,255,.35);border-radius:50%;background:rgba(36,203,237,.08);color:#7ceeff;font-size:21px;box-shadow:inset 0 0 18px rgba(66,226,255,.1),0 0 18px rgba(66,226,255,.08)}.voiceChallenge.listening .voiceOrb{color:#ff719e;border-color:#ff719e;box-shadow:0 0 24px rgba(255,80,137,.35);animation:voiceOrbPulse .7s ease-in-out infinite alternate}.voiceChallenge.listening .voiceOrb::after{content:"";position:absolute;inset:-7px;border:1px solid rgba(255,103,155,.35);border-radius:50%;animation:voiceRing 1s ease-out infinite}
+  .voicePrompt{position:relative;min-width:0}.voicePrompt>span{display:block;color:#66dced;font:800 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em}.voiceExpected{display:block;margin-top:3px;color:#fff;font-size:clamp(16px,2vw,23px);line-height:1.15;white-space:normal;overflow-wrap:anywhere}.voicePrompt small{display:block;margin-top:3px;color:#81a7b5;font-size:10px;line-height:1.25;white-space:normal;overflow-wrap:anywhere}.voiceDetected{margin-top:4px;color:#8baab6;font-size:10px;line-height:1.25;white-space:normal;overflow-wrap:anywhere}.voiceDetected b{color:#d9f8ff}
+  .voiceScoreBox{position:relative;min-width:62px;text-align:center}.voiceScoreBox b{display:block;color:#a4bdc7;font-size:27px;line-height:1}.voiceScoreBox span{color:#668493;font:800 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.1em}.voiceChallenge.score-great .voiceScoreBox b{color:#70ffc0;text-shadow:0 0 18px rgba(88,255,185,.4)}.voiceChallenge.score-good .voiceScoreBox b{color:#ffe06f}.voiceChallenge.score-retry .voiceScoreBox b{color:#ff7898}
+  .voiceActions{position:relative;display:flex;gap:6px}.voiceAction{min-height:37px;padding:7px 9px;border:1px solid rgba(102,226,251,.18);border-radius:9px;background:rgba(255,255,255,.04);color:#b9d3dc;font-size:9px;font-weight:900;white-space:nowrap}.voiceAction:hover,.voiceAction:focus-visible{border-color:#63eaff;color:#fff;outline:none}.voiceMicBtn{border-color:rgba(255,104,154,.3);background:rgba(255,77,135,.09);color:#ffb0c8}.voiceChallenge.listening .voiceMicBtn{background:#ff578a;color:#fff}.voiceSkipBtn{opacity:.7}.voiceAction:disabled{opacity:.38;cursor:not-allowed}#typingInput:disabled{opacity:.48;cursor:not-allowed;border-color:rgba(255,205,92,.3)}
+  @keyframes voiceOrbPulse{to{transform:scale(1.1)}}@keyframes voiceRing{to{opacity:0;transform:scale(1.25)}}
+  .target{border-radius:18px;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px);background:linear-gradient(140deg,rgba(4,29,47,.93),rgba(17,12,42,.9));box-shadow:0 0 0 1px rgba(72,237,255,.08),0 0 46px rgba(72,237,255,.22),inset 0 0 28px rgba(68,221,255,.06)}
+  .target.sentence{width:min(78vw,720px);max-width:720px}.target.sentence .target-word{font-size:clamp(22px,3.2vw,38px);line-height:1.35;overflow-wrap:anywhere}.target-reading{margin:7px auto 1px;color:#83eaff;font-size:clamp(13px,1.7vw,19px);font-weight:800;line-height:1.25;overflow-wrap:anywhere;text-align:center;text-shadow:0 0 15px rgba(84,229,255,.32)}.target-reading span{margin-right:6px;color:#7e9eac;font:800 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.1em}.sentenceTranslation{font-size:clamp(30px,5.4vw,58px)!important;line-height:1.2!important}
+  .target::before,.target::after{border-radius:22px}
+  .bottom{z-index:27}.typebox{border-radius:16px}.iconBtn,.miniBtn{transition:.2s ease}
+
+  @media(max-width:960px){
+    .modal.menuModal{grid-template-columns:1fr;width:min(720px,96vw);height:auto;max-height:95vh;overflow:auto}.menuHero{min-height:250px;padding:25px;border-right:0;border-bottom:1px solid rgba(111,229,255,.15)}.heroVisual{position:absolute;right:10px;bottom:3px;width:42%;height:78%;min-height:0;opacity:.48}.menuModal .heroSub{max-width:57%}.featureRail{width:55%;margin-top:auto}.menuControls{overflow:visible;padding:24px}.menuModal .heroTitle{font-size:42px}
+  }
+  @media(max-width:640px){
+    #menu{padding:8px}.modal.menuModal{width:100%;max-width:100%;max-height:98vh;border-radius:17px}.menuHero{min-height:0;padding:20px}.heroVisual,.featureRail{display:none}.menuModal .heroSub{max-width:none;margin-bottom:2px}.menuControls{min-width:0;padding:19px}.controlHead{margin-bottom:10px}.readyLight{display:none}.themePreview{width:100%;min-width:0;grid-template-columns:repeat(5,72px);overflow-x:auto;overscroll-behavior-x:contain;padding:2px 0 7px;scroll-snap-type:x mandatory}.themeCard{scroll-snap-align:start}.menuModal .config{min-width:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.choiceBtn{padding-inline:5px}.choiceBtn .choiceIcon{display:none}.menuModal .heroTitle{font-size:37px}.systemBadge{font-size:6px}.eyebrow{margin-top:18px}.gameNav{top:122px}.handStatus{display:none}.navBtn span:last-child{display:none}.liveVisualBtn{padding-inline:8px}.liveVisualBtn b{display:none}.soundBtn{margin-left:0}.hud{gap:6px}.hudL,.hudR{gap:5px}.pill{min-width:74px;padding:6px 8px}.value{font-size:15px}.label{font-size:8px}#arena{inset:160px 0 150px}.bottom{bottom:7px;width:calc(100% - 12px)}#keyboard{overflow-x:auto}.key{min-width:25px;height:28px;padding:0 4px}#translationCard{padding:24px 18px}#trMain{font-size:clamp(43px,15vw,72px)}
+  }
+  @media(max-width:900px){.libraryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.libraryStats{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:600px){#library{padding:7px}.libraryModal{width:100%;height:98vh;max-height:98vh;border-radius:16px}.libraryHead{padding:17px 16px 13px}.libraryHead p{display:none}.libraryBody{height:calc(100% - 79px);padding:12px}.libraryStats{grid-template-columns:repeat(2,1fr)}.libraryTools{grid-template-columns:1fr}.libraryGrid{grid-template-columns:1fr}.studyCard:hover{transform:none}.choiceGrid.four,.tenseGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.voiceChallenge{grid-template-columns:auto minmax(0,1fr) auto;padding:10px;gap:7px}.voiceOrb{width:38px;height:38px}.voiceActions{grid-column:1/-1}.voiceAction{flex:1}.voiceScoreBox{min-width:52px}}
+  @media(max-height:720px){.modal.menuModal{max-height:97vh}.menuHero{padding-top:20px}.heroVisual{min-height:155px}.menuControls{padding-top:20px;padding-bottom:18px}#keyboard{display:none}#arena{bottom:92px}.voiceChallenge{padding-block:8px}}
+  @media(max-width:960px){.cinemaTelemetry{display:none}.menuCinematic::before{opacity:.55}.modal.menuModal{overflow-x:hidden;overflow-y:auto;border-radius:3px;clip-path:polygon(0 14px,14px 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px))}.aiIdentity,.neuralMeter{display:none}.menuHero::after{opacity:.18}.aiBrief{margin-top:2px}}
+  @media(max-width:640px){.filmBar{height:6px}.menuCinematic::before{display:none}.modal.menuModal{border-radius:2px}.menuHero{background:linear-gradient(150deg,rgba(7,40,59,.82),rgba(2,13,25,.58))}.menuModal .heroTitle::after{margin-top:11px}.aiBrief{grid-template-columns:auto 1fr;padding:8px}.signalBars{display:none}.aiBrief p{font-size:8.5px}.choiceBtn{min-height:44px}.themeThumb{height:auto;aspect-ratio:1.08}.menuFoot{display:none}}
+  @media(max-width:960px){.missionConfig{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto auto;min-height:0}.settingsRail{grid-column:1;grid-row:1;flex-direction:row;overflow-x:auto;padding:6px;scrollbar-width:thin;scroll-snap-type:x proximity}.settingsTab{flex:0 0 102px;scroll-snap-align:start;grid-template-columns:21px minmax(0,1fr);padding:7px 6px}.settingsTab span{width:20px;height:20px}.settingsTab i,.settingsRailHint{display:none}.settingsTab:hover,.settingsTab:focus-visible,.settingsTab.active{transform:translateY(-2px)}.missionConfig>.missionPanel{grid-column:1;grid-row:2;min-height:220px}.missionConfig>#tenseField{grid-row:3}.missionLaunch{grid-column:1;grid-row:4}}
+  @media(max-width:640px){.settingsRail{margin-inline:-1px}.settingsTab{flex-basis:88px;min-height:39px}.settingsTab b{font-size:10.5px}.settingsTab small{font-size:6.5px}.missionConfig>.missionPanel{min-height:0;padding:13px 12px}.missionConfig>.missionPanel>label{margin-bottom:11px;font-size:13px}.missionConfig>.missionPanel .choiceBtn{min-height:62px}.missionConfig>#settingsPanelContent .choiceBtn{min-height:58px}.missionConfig>.heroThemePanel .themeThumb{height:auto}.missionConfig{gap:7px}}
+  @media(min-width:961px) and (min-height:721px) and (max-height:850px){.menuModal .heroSub{padding-block:6px;font-size:12px;line-height:1.5}.heroVisual{min-height:245px;margin-top:8px}.selectedHelmet{width:min(160px,42%)}.aiIdentity{display:none}}
+  @media(min-width:961px) and (max-height:720px){.menuModal .heroSub{padding-block:5px;font-size:11.5px;line-height:1.45}.selectedHelmet{width:min(100px,30%)}.aiIdentity{display:none}}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-  <div class="box">
-    <p>กำลังเข้าสู่ AR Hero Typing Quest…</p>
-    <p><a href="AR_Hero_Typing_Quest_Thai_English_v2.html">คลิกที่นี่หากหน้าไม่เปลี่ยนอัตโนมัติ</a></p>
+<div id="app">
+  <video id="camera" autoplay playsinline muted></video>
+  <div id="spaceBg"></div>
+  <div class="stars"></div>
+  <div class="energyFog"></div>
+  <div class="scan"></div>
+  <div class="vignette"></div>
+  <canvas id="energyCanvas" aria-hidden="true"></canvas>
+
+  <div class="cameraAura" id="cameraAura" aria-hidden="true">
+    <div class="auraHead"></div>
+    <div class="auraBody"></div>
+    <div class="auraOrbit auraOrbitOne"></div>
+    <div class="auraOrbit auraOrbitTwo"></div>
+    <i class="auraBolt boltOne"></i><i class="auraBolt boltTwo"></i>
+    <i class="auraParticle particleOne"></i><i class="auraParticle particleTwo"></i>
+    <i class="auraParticle particleThree"></i><i class="auraParticle particleFour"></i>
+    <i class="auraParticle particleFive"></i><i class="auraParticle particleSix"></i>
   </div>
-  <script>location.replace("AR_Hero_Typing_Quest_Thai_English_v2.html");</script>
+
+  <div id="faceLayer">
+    <div id="faceRig" class="faceRig theme-armor">
+      <div class="faceGuide"></div>
+      <div class="sparkAura"></div>
+      <div class="heroPart maskBase"></div>
+      <div class="heroPart eyes"></div>
+      <div class="crown"></div>
+      <div class="earL"></div><div class="earR"></div>
+      <div class="chinPlate"></div>
+      <div class="webLines"></div>
+      <div class="halo"></div>
+      <div class="hornL"></div><div class="hornR"></div>
+      <div class="visor"></div>
+      <div class="mouthGrid"></div>
+      <div class="cheekL"></div><div class="cheekR"></div>
+      <div class="sideArcs"></div>
+      <div class="sideHeroBadge"><span>AI COMPANION</span><b>FACE CLEAR MODE</b></div>
+    </div>
+  </div>
+
+  <div class="hud">
+    <div class="hudL">
+      <div class="pill glass"><div class="label">คะแนน SCORE</div><div class="value" id="score">0</div></div>
+      <div class="pill glass"><div class="label">คอมโบ COMBO</div><div class="value" id="combo">x1</div></div>
+      <div class="pill glass"><div class="label">แปลคำศัพท์</div><div class="value" id="langMode">TH</div></div>
+    </div>
+    <div class="brand glass"><strong>AR HERO TYPING QUEST</strong><small>พิมพ์ไว • แปลได้ • ใส่หน้ากากฮีโร่ • สนุกสุดพลัง</small></div>
+    <div class="hudR">
+      <div class="pill glass"><div class="label">เลเวล</div><div class="value" id="level">1</div></div>
+      <div class="pill glass"><div class="label">เวลา</div><div class="value" id="time">120</div></div>
+      <div class="pill glass"><div class="label">พลัง</div><div class="value" id="hearts">❤️❤️❤️</div></div>
+      <div class="pill glass"><div class="label">ความแม่น</div><div class="value" id="accuracy">100%</div></div>
+    </div>
+  </div>
+
+  <div class="bossBadge" id="bossBadge">👾 BOSS ROUND<div class="progress"><div id="bossBar"></div></div></div>
+  <nav class="gameNav" aria-label="เมนูระหว่างเล่น">
+    <button class="navBtn" id="homeBtn" type="button" title="กลับหน้าเมนูหลัก">
+      <span class="navIcon" aria-hidden="true">⌂</span><span>หน้าแรก</span>
+    </button>
+    <div class="handStatus" id="handStatus" data-state="idle" role="status" aria-live="polite">
+      <i aria-hidden="true"></i><span>พลังมือ · รอเริ่มภารกิจ</span>
+    </div>
+    <div class="liveVisualSwitch" id="liveVisualSwitch" role="group" aria-label="สลับโหมดกล้องระหว่างเล่น">
+      <button class="liveVisualBtn active" type="button" data-live-visual="camera" aria-pressed="true" title="เปิดกล้องและพลังมือ"><span>◉</span><b>ใช้กล้อง</b></button>
+      <button class="liveVisualBtn" type="button" data-live-visual="space" aria-pressed="false" title="ปิดกล้อง ใช้ฉากไซเบอร์"><span>✦</span><b>ไม่ใช้กล้อง</b></button>
+    </div>
+    <button class="navBtn soundBtn" id="voiceBtn" type="button" aria-pressed="true" title="เปิดหรือปิดเสียงอ่านคำแปล">
+      <span class="navIcon" aria-hidden="true">◖))</span><span>เสียงแปล</span>
+    </button>
+  </nav>
+
+  <div id="translationCard" role="status" aria-live="assertive" aria-atomic="true">
+    <div class="translationHalo" aria-hidden="true"></div>
+    <div id="trTitle">คำแปล</div>
+    <div id="trMain">school</div>
+    <div id="trSub">คำเดิม · โรงเรียน</div>
+    <div id="trReading" hidden><span>คำอ่านอังกฤษ · IPA</span><b id="trPhonetic">/skuːl/</b><button id="englishSpeakBtn" type="button" aria-label="ฟังเสียงภาษาอังกฤษ">🔊 ฟังอังกฤษ</button></div>
+    <div class="speakingLine"><i aria-hidden="true"></i><span>กำลังออกเสียงคำแปล</span></div>
+  </div>
+  <div class="toast" id="toast">เยี่ยมมาก!</div>
+  <div id="arena"></div>
+
+  <div class="bottom">
+    <div class="voiceChallenge glass" id="voiceChallenge" role="status" aria-live="polite" hidden>
+      <div class="voiceOrb" aria-hidden="true">🎙</div>
+      <div class="voicePrompt">
+        <span id="voicePhaseLabel">TYPE FIRST · พิมพ์ก่อนแล้วพูดตาม</span>
+        <b class="voiceExpected" id="voiceExpected">school</b>
+        <small id="voiceExpectedIpa">/skuːl/</small>
+        <div class="voiceDetected" id="voiceDetected">กดไมค์ แล้วพูดให้ชัดเจน</div>
+      </div>
+      <div class="voiceScoreBox"><b id="voiceScore">--</b><span>VOICE SCORE</span></div>
+      <div class="voiceActions">
+        <button class="voiceAction" id="voiceListenBtn" type="button">🔊 ฟังตัวอย่าง</button>
+        <button class="voiceAction voiceMicBtn" id="voiceMicBtn" type="button">🎙 เริ่มพูด</button>
+        <button class="voiceAction voiceSkipBtn" id="voiceSkipBtn" type="button">ข้ามเสียง →</button>
+      </div>
+    </div>
+    <div class="typebox glass">
+      <div class="modeIcon">⌨️</div>
+      <input id="typingInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="พิมพ์คำที่เห็น แล้วกด Enter..." />
+      <button class="iconBtn" id="pauseBtn" title="พักเกม">⏸</button>
+      <button class="iconBtn" id="snapBtn" title="สลับ AR face">🎭</button>
+    </div>
+    <div id="keyboard" class="glass"></div>
+  </div>
+
+  <div id="menu">
+    <div class="menuCinematic" aria-hidden="true">
+      <div class="filmBar top"></div><div class="filmBar bottom"></div>
+      <div class="neuralGrid"></div>
+      <div class="cinemaTelemetry topLeft"><span>NEURAL LINK</span><b>STABLE // 99.8%</b></div>
+      <div class="cinemaTelemetry topRight"><span>LOCAL NODE · BKK</span><b id="menuClock">00:00:00</b></div>
+      <div class="cinemaTelemetry bottomLeft"><span>AION LANGUAGE CORE</span><b>ADAPTIVE LEARNING ONLINE</b></div>
+      <div class="cinemaTelemetry bottomRight"><span>AR-HERO // BUILD 06</span><b>ALL SYSTEMS NOMINAL</b></div>
+    </div>
+    <div class="modal menuModal">
+      <section class="menuHero" aria-labelledby="gameTitle">
+        <div class="systemBadge"><i></i> AION NEURAL SYSTEM · ONLINE</div>
+        <p class="eyebrow">AI-POWERED LANGUAGE COMMAND</p>
+        <h1 class="heroTitle" id="gameTitle">AR HERO<br><span>TYPING QUEST</span></h1>
+        <p class="heroSub">เชื่อมต่อระบบฝึกภาษาอัจฉริยะ พิมพ์ให้แม่น พูดตามให้ชัด และให้ AI จดจำพัฒนาการของคุณในทุกภารกิจ</p>
+        <div class="heroVisual" aria-hidden="true">
+          <div class="aiCoreRing ringOuter"></div><div class="aiCoreRing ringMid"></div><div class="aiCoreRing ringInner"></div>
+          <div class="aiScanBeam"></div>
+          <div class="holoOrbit orbitOne"></div><div class="holoOrbit orbitTwo"></div>
+          <div id="selectedHelmet" class="selectedHelmet theme-armor"></div>
+          <div class="holoFloor"></div>
+          <div class="aiIdentity"><span>AION // AVATAR CORE</span><b>NEURAL PILOT READY</b><small>VOICE · VISION · MEMORY</small></div>
+          <div class="neuralMeter"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <span class="scanLabel left">HAND ENERGY</span><span class="scanLabel right">VOICE LINK</span>
+        </div>
+        <div class="featureRail">
+          <span><b>01</b> AI VOICE</span><span><b>02</b> NEURAL REVIEW</span><span><b>03</b> AR HAND FX</span>
+        </div>
+      </section>
+
+      <section class="menuControls">
+        <div class="controlHead">
+          <div><small>MISSION CONTROL // AION-07</small><h2>ตั้งค่าภารกิจ</h2></div>
+          <div class="readyLight"><i></i> AI พร้อมปฏิบัติการ</div>
+        </div>
+        <div class="chips">
+          <span class="chip">2,500 WORDS</span><span class="chip">1,000 EXAM WORDS</span><span class="chip">500 CONVERSATIONS</span><span class="chip">3,600 TENSE SENTENCES</span>
+          <span class="chip">PALM POWER</span><span class="chip">VOICE SCORE</span>
+        </div>
+
+        <div class="aiBrief" role="note">
+          <div class="aiAvatar" aria-hidden="true"><i></i><span>AI</span></div>
+          <div><span>AION BRIEFING</span><p id="aiBriefText">เลือกรูปแบบการฝึก ระบบจะปรับภารกิจ เสียง และการทบทวนให้เข้ากับคุณ</p></div>
+          <div class="signalBars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+
+        <div class="config missionConfig">
+          <nav class="settingsRail" role="tablist" aria-label="หมวดตั้งค่าภารกิจ" aria-orientation="vertical">
+            <button type="button" class="settingsTab active" id="settingsTabContent" data-settings-tab="content" role="tab" aria-selected="true" aria-controls="settingsPanelContent"><span>01</span><b>เนื้อหา</b><small data-settings-summary="contentType">คำศัพท์</small><i>›</i></button>
+            <button type="button" class="settingsTab" id="settingsTabLanguage" data-settings-tab="language" role="tab" aria-selected="false" aria-controls="settingsPanelLanguage"><span>02</span><b>ภาษา</b><small data-settings-summary="language">ภาษาไทย</small><i>›</i></button>
+            <button type="button" class="settingsTab" id="settingsTabDifficulty" data-settings-tab="difficulty" role="tab" aria-selected="false" aria-controls="difficultyField"><span>03</span><b>ระดับ</b><small data-settings-summary="gradeLevel">ทั่วไป</small><i>›</i></button>
+            <button type="button" class="settingsTab" id="settingsTabDuration" data-settings-tab="duration" role="tab" aria-selected="false" aria-controls="settingsPanelDuration"><span>04</span><b>เวลา</b><small data-settings-summary="duration">2 นาที</small><i>›</i></button>
+            <button type="button" class="settingsTab" id="settingsTabVisual" data-settings-tab="visual" role="tab" aria-selected="false" aria-controls="settingsPanelVisual"><span>05</span><b>ภาพ</b><small data-settings-summary="visualMode">AR Camera</small><i>›</i></button>
+            <button type="button" class="settingsTab" id="settingsTabSpeech" data-settings-tab="speech" role="tab" aria-selected="false" aria-controls="settingsPanelSpeech"><span>06</span><b>เสียง</b><small data-settings-summary="speechPractice">พูดตาม</small><i>›</i></button>
+            <button type="button" class="settingsTab" id="settingsTabTheme" data-settings-tab="theme" role="tab" aria-selected="false" aria-controls="settingsPanelTheme"><span>07</span><b>ชุดพลัง</b><small data-settings-summary="heroTheme">Solar</small><i>›</i></button>
+            <div class="settingsRailHint"><span>HOVER</span> หรือกดเพื่อเลือกหมวด</div>
+          </nav>
+
+          <div class="field wide missionPanel is-panel-active" id="settingsPanelContent" data-settings-panel="content" role="tabpanel" aria-labelledby="settingsTabContent">
+            <label id="contentTypeLabel"><span>01</span> เนื้อหาภารกิจ</label>
+            <div class="choiceGrid four" data-select="contentType" role="group" aria-labelledby="contentTypeLabel">
+              <button type="button" class="choiceBtn active" data-value="words" aria-pressed="true"><span class="choiceIcon">Aa</span><span><b>คำศัพท์</b><small>1,500 คำ</small></span></button>
+              <button type="button" class="choiceBtn" data-value="exam" aria-pressed="false"><span class="choiceIcon">◎</span><span><b>ศัพท์สอบ</b><small>1,000 คำ</small></span></button>
+              <button type="button" class="choiceBtn" data-value="conversations" aria-pressed="false"><span class="choiceIcon">◌◌</span><span><b>บทสนทนา</b><small>500 ประโยค</small></span></button>
+              <button type="button" class="choiceBtn" data-value="tenses" aria-pressed="false"><span class="choiceIcon">T</span><span><b>12 Tenses</b><small>3,600 ประโยค</small></span></button>
+            </div>
+            <select id="contentType" class="settingValue" tabindex="-1" aria-hidden="true">
+              <option value="words" selected>คำศัพท์ 1,500 คำ</option>
+              <option value="exam">ศัพท์สอบ TOEFL · TOEIC · IELTS · KKU-AELT 1,000 คำ</option>
+              <option value="conversations">บทสนทนา 500 ประโยค</option>
+              <option value="tenses">12 Tenses · 3,600 ประโยค</option>
+            </select>
+          </div>
+          <div class="field wide missionPanel missionSubPanel is-panel-active" data-settings-panel="content" id="tenseField" hidden>
+            <label id="tenseTypeLabel"><span>T</span> เลือก Tense ที่ต้องการฝึก · Tense ละ 300 ประโยค</label>
+            <div class="choiceGrid tenseGrid" data-select="tenseType" role="group" aria-labelledby="tenseTypeLabel">
+              <button type="button" class="choiceBtn active" data-value="present_simple" aria-pressed="true"><span><b>Present Simple</b><small>S + V1(s/es)</small></span></button>
+              <button type="button" class="choiceBtn" data-value="present_continuous" aria-pressed="false"><span><b>Present Continuous</b><small>S + am/is/are + V-ing</small></span></button>
+              <button type="button" class="choiceBtn" data-value="present_perfect" aria-pressed="false"><span><b>Present Perfect</b><small>S + have/has + V3</small></span></button>
+              <button type="button" class="choiceBtn" data-value="present_perfect_continuous" aria-pressed="false"><span><b>Present Perfect Continuous</b><small>S + have/has been + V-ing</small></span></button>
+              <button type="button" class="choiceBtn" data-value="past_simple" aria-pressed="false"><span><b>Past Simple</b><small>S + V2</small></span></button>
+              <button type="button" class="choiceBtn" data-value="past_continuous" aria-pressed="false"><span><b>Past Continuous</b><small>S + was/were + V-ing</small></span></button>
+              <button type="button" class="choiceBtn" data-value="past_perfect" aria-pressed="false"><span><b>Past Perfect</b><small>S + had + V3</small></span></button>
+              <button type="button" class="choiceBtn" data-value="past_perfect_continuous" aria-pressed="false"><span><b>Past Perfect Continuous</b><small>S + had been + V-ing</small></span></button>
+              <button type="button" class="choiceBtn" data-value="future_simple" aria-pressed="false"><span><b>Future Simple</b><small>S + will + V1</small></span></button>
+              <button type="button" class="choiceBtn" data-value="future_continuous" aria-pressed="false"><span><b>Future Continuous</b><small>S + will be + V-ing</small></span></button>
+              <button type="button" class="choiceBtn" data-value="future_perfect" aria-pressed="false"><span><b>Future Perfect</b><small>S + will have + V3</small></span></button>
+              <button type="button" class="choiceBtn" data-value="future_perfect_continuous" aria-pressed="false"><span><b>Future Perfect Continuous</b><small>S + will have been + V-ing</small></span></button>
+            </div>
+            <select id="tenseType" class="settingValue" tabindex="-1" aria-hidden="true">
+              <option value="present_simple" selected>Present Simple</option><option value="present_continuous">Present Continuous</option>
+              <option value="present_perfect">Present Perfect</option><option value="present_perfect_continuous">Present Perfect Continuous</option>
+              <option value="past_simple">Past Simple</option><option value="past_continuous">Past Continuous</option>
+              <option value="past_perfect">Past Perfect</option><option value="past_perfect_continuous">Past Perfect Continuous</option>
+              <option value="future_simple">Future Simple</option><option value="future_continuous">Future Continuous</option>
+              <option value="future_perfect">Future Perfect</option><option value="future_perfect_continuous">Future Perfect Continuous</option>
+            </select>
+          </div>
+          <div class="field wide missionPanel" id="settingsPanelLanguage" data-settings-panel="language" role="tabpanel" aria-labelledby="settingsTabLanguage">
+            <label id="languageLabel"><span>02</span> ภาษาเป้าหมาย</label>
+            <div class="choiceGrid three" data-select="language" role="group" aria-labelledby="languageLabel">
+              <button type="button" class="choiceBtn active" data-value="th" aria-pressed="true"><span class="choiceIcon">ก</span><span><b>ภาษาไทย</b><small>ไทย → EN</small></span></button>
+              <button type="button" class="choiceBtn" data-value="en" aria-pressed="false"><span class="choiceIcon">A</span><span><b>English</b><small>EN → ไทย</small></span></button>
+              <button type="button" class="choiceBtn" data-value="mix" aria-pressed="false"><span class="choiceIcon">∞</span><span><b>สลับภาษา</b><small>TH + EN</small></span></button>
+            </div>
+            <select id="language" class="settingValue" tabindex="-1" aria-hidden="true">
+              <option value="th">คำไทย → แปลอังกฤษ</option>
+              <option value="en">English → แปลไทย</option>
+              <option value="mix">ผสม ไทย + English</option>
+            </select>
+          </div>
+          <div class="field wide missionPanel" id="difficultyField" data-settings-panel="difficulty" role="tabpanel" aria-labelledby="settingsTabDifficulty">
+            <label id="gradeLevelLabel"><span>03</span> ระดับความยาก</label>
+            <div class="choiceGrid three" data-select="gradeLevel" role="group" aria-labelledby="gradeLevelLabel">
+              <button type="button" class="choiceBtn" data-value="easy" aria-pressed="false"><span class="choiceIcon">Ⅰ</span><span><b>เริ่มต้น</b><small>ป.1–ป.3</small></span></button>
+              <button type="button" class="choiceBtn active" data-value="normal" aria-pressed="true"><span class="choiceIcon">Ⅱ</span><span><b>ทั่วไป</b><small>ป.4–ป.6</small></span></button>
+              <button type="button" class="choiceBtn" data-value="pro" aria-pressed="false"><span class="choiceIcon">Ⅲ</span><span><b>HERO PRO</b><small>ท้าทาย</small></span></button>
+            </div>
+            <select id="gradeLevel" class="settingValue" tabindex="-1" aria-hidden="true">
+              <option value="easy">ป.1–ป.3 · คำสั้น</option>
+              <option value="normal" selected>ป.4–ป.6 · คำทั่วไป</option>
+              <option value="pro">HERO PRO · คำท้าทาย</option>
+            </select>
+          </div>
+          <div class="field missionPanel" id="settingsPanelDuration" data-settings-panel="duration" role="tabpanel" aria-labelledby="settingsTabDuration">
+            <label id="durationLabel"><span>04</span> เวลาเล่น</label>
+            <div class="choiceGrid three" data-select="duration" role="group" aria-labelledby="durationLabel">
+              <button type="button" class="choiceBtn" data-value="60" aria-pressed="false"><span><b>1 นาที</b><small>QUICK</small></span></button>
+              <button type="button" class="choiceBtn active" data-value="120" aria-pressed="true"><span><b>2 นาที</b><small>STANDARD</small></span></button>
+              <button type="button" class="choiceBtn" data-value="180" aria-pressed="false"><span><b>3 นาที</b><small>ENDURANCE</small></span></button>
+            </div>
+            <select id="duration" class="settingValue" tabindex="-1" aria-hidden="true">
+              <option value="60">1 นาที</option>
+              <option value="120" selected>2 นาที</option>
+              <option value="180">3 นาที</option>
+            </select>
+          </div>
+          <div class="field missionPanel" id="settingsPanelVisual" data-settings-panel="visual" role="tabpanel" aria-labelledby="settingsTabVisual">
+            <label id="visualModeLabel"><span>05</span> โหมดภาพ</label>
+            <div class="choiceGrid" data-select="visualMode" role="group" aria-labelledby="visualModeLabel">
+              <button type="button" class="choiceBtn active" data-value="camera" aria-pressed="true"><span class="choiceIcon">◉</span><span><b>AR Camera</b><small>พลังมือ</small></span></button>
+              <button type="button" class="choiceBtn" data-value="space" aria-pressed="false"><span class="choiceIcon">✦</span><span><b>Cyber Space</b><small>ไม่ใช้กล้อง</small></span></button>
+            </div>
+            <select id="visualMode" class="settingValue" tabindex="-1" aria-hidden="true">
+              <option value="camera">AR Camera + พลังมือ</option>
+              <option value="space">Cyber Space · ไม่ใช้กล้อง</option>
+            </select>
+          </div>
+          <div class="field wide missionPanel" id="settingsPanelSpeech" data-settings-panel="speech" role="tabpanel" aria-labelledby="settingsTabSpeech">
+            <label id="speechPracticeLabel"><span>06</span> ฝึกออกเสียงภาษาอังกฤษ</label>
+            <div class="choiceGrid" data-select="speechPractice" role="group" aria-labelledby="speechPracticeLabel">
+              <button type="button" class="choiceBtn active" data-value="on" aria-pressed="true"><span class="choiceIcon">🎙</span><span><b>พิมพ์แล้วพูดตาม</b><small>พิมพ์ก่อน · ตรวจเสียง</small></span></button>
+              <button type="button" class="choiceBtn" data-value="off" aria-pressed="false"><span class="choiceIcon">⌨</span><span><b>พิมพ์อย่างเดียว</b><small>ไม่ใช้ไมโครโฟน</small></span></button>
+            </div>
+            <select id="speechPractice" class="settingValue" tabindex="-1" aria-hidden="true">
+              <option value="on" selected>พิมพ์ก่อน แล้วพูดตาม</option>
+              <option value="off">พิมพ์อย่างเดียว</option>
+            </select>
+          </div>
+          <div class="field wide themeSelectField">
+            <label for="heroTheme"><span>07</span> เลือกชุดพลัง AR</label>
+            <select id="heroTheme" aria-label="เลือกชุดพลัง AR">
+              <option value="armor">Solar Armor · เกราะพลังสุริยะ</option>
+              <option value="web">Crimson Pulse · พลังเรขาคณิต</option>
+              <option value="thunder">Thunder Core · พลังสายฟ้า</option>
+              <option value="cosmic">Cosmic Guardian · พลังจักรวาล</option>
+              <option value="robot">Cyber Ranger · หุ่นพิทักษ์</option>
+            </select>
+          </div>
+          <div class="field wide missionPanel heroThemePanel" id="settingsPanelTheme" data-settings-panel="theme" role="tabpanel" aria-labelledby="settingsTabTheme">
+            <label><span>07</span> เลือกชุดพลัง AR</label>
+            <div class="themePreview" role="group" aria-label="ชุดพลัง AR">
+              <button type="button" class="themeCard active" data-theme="armor"><span class="themeThumb"></span><b>Solar</b><small>ARMOR</small></button>
+              <button type="button" class="themeCard" data-theme="web"><span class="themeThumb"></span><b>Crimson</b><small>PULSE</small></button>
+              <button type="button" class="themeCard" data-theme="thunder"><span class="themeThumb"></span><b>Thunder</b><small>CORE</small></button>
+              <button type="button" class="themeCard" data-theme="cosmic"><span class="themeThumb"></span><b>Cosmic</b><small>GUARDIAN</small></button>
+              <button type="button" class="themeCard" data-theme="robot"><span class="themeThumb"></span><b>Cyber</b><small>RANGER</small></button>
+            </div>
+          </div>
+          <div class="wide missionLaunch"><button class="startBtn" id="startBtn"><span>เริ่มภารกิจกับ AI</span><b>INITIALIZE</b><i aria-hidden="true">→</i></button></div>
+        </div>
+
+        <div class="subBtns">
+          <button class="miniBtn" id="libraryBtn" type="button">คลังการเรียนรู้</button>
+          <button class="miniBtn" id="helpBtn" type="button">คู่มือการเล่น</button>
+          <button class="miniBtn" id="demoBtn" type="button">ทดลอง 30 วินาที</button>
+        </div>
+        <div class="menuFoot"><span>AION NEURAL LANGUAGE ENGINE</span><span>LOCAL CAMERA · PRIVATE VOICE LINK</span></div>
+      </section>
+    </div>
+  </div>
+
+  <div id="help">
+    <div class="modal">
+      <div style="text-align:right"><button class="iconBtn" id="closeHelp">✕</button></div>
+      <h2>วิธีเล่น</h2>
+      <div class="helpText">
+        1) กดเลือกฝึกคำศัพท์ ศัพท์สอบ บทสนทนา หรือ <b>12 Tenses</b> แล้วเลือกภาษา เวลา และธีมฮีโร่<br>
+        2) พิมพ์คำหรือประโยคที่ลอยอยู่บนหน้าจอให้ถูก แล้วกด <b>Enter</b><br>
+        3) ถ้าเปิด <b>พิมพ์แล้วพูดตาม</b> ระบบจะแสดงข้อความอังกฤษกับคำอ่าน IPA จากนั้นจึงเปิดปุ่มไมค์<br>
+        4) กดไมค์ พูดตาม ระบบจะถอดเสียงและให้คะแนนความตรง แล้วกด <b>คำถัดไป</b> (หรือข้ามเสียงได้)<br>
+        5) เมื่อพิมพ์ถูก เกมจะแสดง <b>คำแปลตัวใหญ่ คำอ่าน IPA และเสียงคำแปล</b> ทันที<br>
+        6) ถ้าพิมพ์ถูกต่อเนื่อง จะได้คอมโบและคะแนนเพิ่มขึ้น<br>
+        7) ทุก ๆ 5 คำ จะเลเวลอัป และบางช่วงจะเข้าสู่ <b>Boss Round</b><br>
+        8) เปิด <b>คลังการเรียนรู้</b> เพื่อดูคะแนนเสียง ค้นหาคำเดิม ติดดาว และทบทวน<br>
+        9) ระหว่างเล่น กด <b>◉ ใช้กล้อง</b> หรือ <b>✦ ไม่ใช้กล้อง</b> ที่แถบด้านบนเพื่อสลับโหมดได้ทันที<br>
+        10) กดปุ่ม <b>🎭</b> ระหว่างเล่น เพื่อสลับหน้ากาก AR อย่างรวดเร็ว<br><br>
+        <small>หมายเหตุ: คะแนนเสียงวัดจากความตรงของข้อความที่เบราว์เซอร์รู้จำ จึงใช้ฝึกความชัดเจนได้ แต่ไม่ใช่คะแนนสำเนียงหรือหน่วยเสียงแบบห้องสอบ</small>
+      </div>
+    </div>
+  </div>
+
+  <div id="library" role="dialog" aria-modal="true" aria-labelledby="libraryTitle">
+    <div class="modal libraryModal">
+      <div class="libraryHead">
+        <div>
+          <div class="libraryEyebrow">LEARNING MEMORY · SPACED REVIEW</div>
+          <h2 id="libraryTitle">คลังการเรียนรู้</h2>
+          <p>ดูสิ่งที่เคยฝึก ค้นหาคำเดิม และทบทวนในจังหวะที่ช่วยให้จำได้นานขึ้น</p>
+        </div>
+        <button class="iconBtn libraryClose" id="closeLibrary" type="button" aria-label="ปิดคลังการเรียนรู้">✕</button>
+      </div>
+      <div class="libraryBody">
+        <div class="libraryStats">
+          <div class="libraryStat"><b id="libTotal">6,600</b><span>รายการทั้งหมด</span></div>
+          <div class="libraryStat"><b id="libSeen">0</b><span>เคยฝึกแล้ว</span></div>
+          <div class="libraryStat"><b id="libDue">0</b><span>ถึงเวลาทบทวน</span></div>
+          <div class="libraryStat"><b id="libMastered">0</b><span>จำได้แล้ว</span></div>
+          <div class="libraryStat"><b id="libFavorites">0</b><span>คำที่ติดดาว</span></div>
+          <div class="libraryStat"><b id="libSpeech">--</b><span>คะแนนเสียงเฉลี่ย</span></div>
+        </div>
+        <div class="libraryTools">
+          <input class="librarySearch" id="librarySearch" type="search" placeholder="ค้นหาคำอังกฤษ คำแปลไทย หรือชื่อข้อสอบ..." autocomplete="off">
+          <button class="reviewNowBtn" id="reviewFilteredBtn" type="button">▶ ฝึกชุดที่กรอง</button>
+          <button class="reviewNowBtn" id="reviewDueBtn" type="button">▶ ทบทวนที่ถึงกำหนด</button>
+        </div>
+        <div class="libraryFilters" id="libraryFilters" aria-label="ตัวกรองคลังการเรียนรู้">
+          <button class="filterBtn active" data-filter="all" type="button">ทั้งหมด</button>
+          <button class="filterBtn" data-filter="seen" type="button">เคยฝึกแล้ว</button>
+          <button class="filterBtn" data-filter="due" type="button">ถึงกำหนด</button>
+          <button class="filterBtn" data-filter="learning" type="button">กำลังฝึก</button>
+          <button class="filterBtn" data-filter="mastered" type="button">จำได้แล้ว</button>
+          <button class="filterBtn" data-filter="favorites" type="button">★ ติดดาว</button>
+          <button class="filterBtn" data-filter="TOEFL" type="button">TOEFL</button>
+          <button class="filterBtn" data-filter="TOEIC" type="button">TOEIC</button>
+          <button class="filterBtn" data-filter="IELTS" type="button">IELTS</button>
+          <button class="filterBtn" data-filter="KKU-AELT" type="button">KKU-AELT</button>
+          <button class="filterBtn" data-filter="conversation" type="button">บทสนทนา</button>
+          <button class="filterBtn" data-filter="tense" type="button">12 Tenses</button>
+        </div>
+        <div class="librarySummary"><span id="libraryResultText">กำลังเตรียมคลัง...</span><span><b>1 · 3 · 7 · 14 · 30</b> วัน</span></div>
+        <div class="libraryGrid" id="libraryGrid"></div>
+        <button class="loadMore" id="libraryMore" type="button">แสดงเพิ่ม</button>
+        <div class="libraryNote">คลังรวม 6,600 รายการ: คำศัพท์และศัพท์สอบ 2,500 คำ บทสนทนา 500 ประโยค และแบบฝึก 12 Tenses 3,600 ประโยค · คะแนนเสียงประเมินจากผลรู้จำคำพูดของเบราว์เซอร์และความตรงกับข้อความเป้าหมาย</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="result">
+    <div class="modal">
+      <div class="grade">MISSION COMPLETE</div>
+      <div class="bigScore" id="finalScore">0</div>
+      <div class="grade" id="resultMessage">เยี่ยมมาก!</div>
+      <div class="statgrid">
+        <div class="statcard"><b id="rWpm">0</b><span>คำ/นาที</span></div>
+        <div class="statcard"><b id="rAcc">0%</b><span>ความแม่นยำ</span></div>
+        <div class="statcard"><b id="rBest">x0</b><span>คอมโบสูงสุด</span></div>
+        <div class="statcard"><b id="rWords">0</b><span>คำที่พิชิต</span></div>
+        <div class="statcard"><b id="rSpeech">--</b><span>คะแนนเสียงเฉลี่ย</span></div>
+      </div>
+      <div class="subBtns">
+        <button class="startBtn" id="againBtn">เล่นอีกครั้ง</button>
+        <button class="miniBtn" id="resultHomeBtn">กลับหน้าแรก</button>
+        <button class="miniBtn" id="csvBtn">ดาวน์โหลดผล CSV</button>
+      </div>
+      <div class="tip" id="bestText"></div>
+    </div>
+  </div>
+</div>
+
+<script src="vendor/mediapipe/hands/hands.js"></script>
+<script src="data/learning-bank.js"></script>
+<script src="data/translation-fixes.js"></script>
+<script src="data/exam-bank.js"></script>
+<script src="data/tense-bank.js"></script>
+<script src="data/pronunciation-bank.js"></script>
+<script src="data/exam-pronunciation-bank.js"></script>
+<script src="data/tense-pronunciation-bank.js"></script>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+
+  const fallbackVocab = {
+    easy: [
+      {th:'แมว', en:'cat'}, {th:'หมา', en:'dog'}, {th:'ปลา', en:'fish'}, {th:'นก', en:'bird'},
+      {th:'บ้าน', en:'home'}, {th:'น้ำ', en:'water'}, {th:'ดิน', en:'soil'}, {th:'ดาว', en:'star'},
+      {th:'ฟ้า', en:'sky'}, {th:'ข้าว', en:'rice'}, {th:'มือ', en:'hand'}, {th:'ตา', en:'eye'},
+      {th:'ปาก', en:'mouth'}, {th:'รถ', en:'car'}, {th:'ต้นไม้', en:'tree'}, {th:'นม', en:'milk'},
+      {th:'โรงเรียน', en:'school'}, {th:'เล่น', en:'play'}, {th:'ยิ้ม', en:'smile'}, {th:'เพื่อน', en:'friend'}
+    ],
+    normal: [
+      {th:'โรงเรียน', en:'school'}, {th:'คุณครู', en:'teacher'}, {th:'นักเรียน', en:'student'},
+      {th:'หนังสือ', en:'book'}, {th:'ดินสอ', en:'pencil'}, {th:'กระเป๋า', en:'bag'},
+      {th:'จักรยาน', en:'bicycle'}, {th:'ครอบครัว', en:'family'}, {th:'ธรรมชาติ', en:'nature'},
+      {th:'คอมพิวเตอร์', en:'computer'}, {th:'วิทยาศาสตร์', en:'science'}, {th:'ห้องสมุด', en:'library'},
+      {th:'มิตรภาพ', en:'friendship'}, {th:'สายรุ้ง', en:'rainbow'}, {th:'สวนดอกไม้', en:'garden'},
+      {th:'การบ้าน', en:'homework'}, {th:'ความสุข', en:'happiness'}, {th:'อนาคต', en:'future'},
+      {th:'พลังงาน', en:'energy'}, {th:'แป้นพิมพ์', en:'keyboard'}
+    ],
+    pro: [
+      {th:'จินตนาการ', en:'imagination'}, {th:'เทคโนโลยี', en:'technology'}, {th:'สิ่งแวดล้อม', en:'environment'},
+      {th:'การสื่อสาร', en:'communication'}, {th:'ความรับผิดชอบ', en:'responsibility'}, {th:'นวัตกรรม', en:'innovation'},
+      {th:'การค้นพบ', en:'discovery'}, {th:'การศึกษา', en:'education'}, {th:'การผจญภัย', en:'adventure'},
+      {th:'พลังสร้างสรรค์', en:'creativity'}, {th:'การเรียนรู้', en:'learning'}, {th:'มหัศจรรย์', en:'wonderful'},
+      {th:'นักสำรวจอวกาศ', en:'astronaut'}, {th:'ภารกิจพิเศษ', en:'specialmission'}, {th:'ห้องปฏิบัติการ', en:'laboratory'}
+    ]
+  };
+  const vocab = window.AR_TYPING_BANK?.vocabulary || fallbackVocab;
+  const examVocab = window.AR_EXAM_BANK?.vocabulary || {easy:[],normal:[],pro:[]};
+  const conversations = window.AR_TYPING_BANK?.conversations || fallbackVocab;
+  const tenseBank = window.AR_TENSE_BANK?.sentences || {};
+  const tenseInfo = window.AR_TENSE_BANK?.tenseInfo || {};
+
+  function flattenStudyBank(bank, kind, typeLabel, defaultTags=[]){
+    return Object.entries(bank).flatMap(([difficulty,items]) => items.map(item => ({
+      ...item,
+      kind,
+      difficulty,
+      typeLabel,
+      tags:item.tags || defaultTags,
+      studyKey:`${kind}|${item.en}`
+    })));
+  }
+
+  function flattenTenseBank(bank){
+    return Object.entries(bank).flatMap(([tenseId,items]) => items.map(item => ({
+      ...item,
+      kind:'tense',
+      difficulty:tenseId,
+      categoryLabel:item.tenseTh,
+      typeLabel:item.tense,
+      tags:['TENSE',item.tense,item.tenseTh,item.formula],
+      studyKey:`tense|${tenseId}|${item.en}`
+    })));
+  }
+
+  const allStudyItems = [
+    ...flattenStudyBank(vocab, 'word', 'คำทั่วไป', ['CORE']),
+    ...flattenStudyBank(examVocab, 'exam', 'ศัพท์สอบ'),
+    ...flattenStudyBank(conversations, 'conversation', 'บทสนทนา', ['CONVERSATION']),
+    ...flattenTenseBank(tenseBank)
+  ];
+  const studyItemMap = new Map(allStudyItems.map(item => [item.studyKey, item]));
+
+  function loadStudyMemory(){
+    try{
+      const saved = JSON.parse(localStorage.getItem('arHeroStudyMemoryV1') || '{}');
+      return {progress:saved.progress || {}, favorites:new Set(saved.favorites || [])};
+    }catch(error){
+      return {progress:{}, favorites:new Set()};
+    }
+  }
+
+  const studyMemory = loadStudyMemory();
+  const reviewIntervals = [1,3,7,14,30];
+  const libraryState = {filter:'all', query:'', limit:60, filtered:[]};
+
+  const keyboardSet = {
+    en:['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'],
+    th:['ๆไำพะัีรนยบลฃ','ฟหกดเ้่าสวง','ผปแอิืทมใฝ']
+  };
+
+  const arena = $('#arena'), input = $('#typingInput');
+  const camera = $('#camera'), spaceBg = $('#spaceBg'), faceRig = $('#faceRig');
+  const energyCanvas = $('#energyCanvas'), energyCtx = energyCanvas.getContext('2d');
+
+  const ui = {
+    app: $('#app'), menu: $('#menu'), help: $('#help'), result: $('#result'), library: $('#library'),
+    score: $('#score'), combo: $('#combo'), level: $('#level'), time: $('#time'),
+    hearts: $('#hearts'), accuracy: $('#accuracy'), langMode: $('#langMode'),
+    toast: $('#toast'), translationCard: $('#translationCard'), trTitle: $('#trTitle'),
+    trMain: $('#trMain'), trSub: $('#trSub'), trReading: $('#trReading'), trPhonetic: $('#trPhonetic'),
+    englishSpeakBtn: $('#englishSpeakBtn'), bossBadge: $('#bossBadge'), bossBar: $('#bossBar'),
+    finalScore: $('#finalScore'), resultMessage: $('#resultMessage'),
+    rWpm: $('#rWpm'), rAcc: $('#rAcc'), rBest: $('#rBest'), rWords: $('#rWords'), rSpeech: $('#rSpeech'), bestText: $('#bestText'),
+    handStatus: $('#handStatus'), voiceBtn: $('#voiceBtn'), selectedHelmet: $('#selectedHelmet'),
+    voiceChallenge: $('#voiceChallenge'), voicePhaseLabel: $('#voicePhaseLabel'), voiceExpected: $('#voiceExpected'), voiceExpectedIpa: $('#voiceExpectedIpa'),
+    voiceDetected: $('#voiceDetected'), voiceScore: $('#voiceScore'), voiceMicBtn: $('#voiceMicBtn'),
+    voiceListenBtn: $('#voiceListenBtn'), voiceSkipBtn: $('#voiceSkipBtn'),
+    libraryGrid: $('#libraryGrid'), libraryResultText: $('#libraryResultText'), libraryMore: $('#libraryMore'),
+    reviewDueBtn: $('#reviewDueBtn'), reviewFilteredBtn: $('#reviewFilteredBtn'), librarySearch: $('#librarySearch')
+  };
+
+  let state = {
+    running:false, paused:false, score:0, combo:1, bestCombo:1, level:1, hearts:3,
+    remain:120, duration:120, correctChars:0, wrongChars:0, words:0, target:null,
+    timer:null, boss:false, bossHits:0, language:'th', difficulty:'normal', contentType:'words', tenseType:'present_simple', theme:'armor', visualMode:'camera',
+    lastPair:null, reviewPool:null, stream:null, audioCtx:null, visualRequest:0,
+    speechEnabled:localStorage.getItem('arHeroVoice') !== 'off',
+    speechPractice:localStorage.getItem('arHeroSpeechPractice') !== 'off', speechRecognition:null,
+    speechToken:0, speechListening:false, speechComplete:false, voicePhase:'typing', speechScoreTotal:0, speechScoreCount:0
+  };
+
+  function beep(freq=720, dur=.07, type='sine', gain=.04){
+    try{
+      state.audioCtx = state.audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const o = state.audioCtx.createOscillator(), g = state.audioCtx.createGain();
+      o.type = type; o.frequency.value = freq; g.gain.value = gain;
+      o.connect(g); g.connect(state.audioCtx.destination);
+      o.start(); g.gain.exponentialRampToValueAtTime(.0001, state.audioCtx.currentTime + dur);
+      o.stop(state.audioCtx.currentTime + dur);
+    }catch(e){}
+  }
+
+  function toast(msg){
+    ui.toast.textContent = msg;
+    ui.toast.classList.remove('show'); void ui.toast.offsetWidth;
+    ui.toast.classList.add('show');
+  }
+
+  function setVoiceUI(){
+    ui.voiceBtn.setAttribute('aria-pressed', String(state.speechEnabled));
+    ui.voiceBtn.querySelector('.navIcon').textContent = state.speechEnabled ? '◖))' : '×';
+    ui.voiceBtn.lastElementChild.textContent = state.speechEnabled ? 'เสียงแปล' : 'ปิดเสียง';
+  }
+
+  function speakTranslation(text, language, force=false){
+    if((!state.speechEnabled && !force) || !('speechSynthesis' in window) || !text) return;
+    try{
+      speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      const languageCode = language === 'th' ? 'th-TH' : 'en-US';
+      utterance.lang = languageCode;
+      utterance.rate = language === 'th' ? .82 : .86;
+      utterance.pitch = 1.02;
+      utterance.volume = 1;
+      const voices = speechSynthesis.getVoices();
+      const exactVoice = voices.find(voice => voice.lang.toLowerCase() === languageCode.toLowerCase());
+      const nearVoice = voices.find(voice => voice.lang.toLowerCase().startsWith(languageCode.slice(0,2).toLowerCase()));
+      utterance.voice = exactVoice || nearVoice || null;
+      speechSynthesis.speak(utterance);
+    }catch(e){}
+  }
+
+  function normalizeSpeechText(text){
+    const numberWords = ['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+    return String(text || '')
+      .toLowerCase()
+      .normalize('NFKD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[’]/g,"'")
+      .replace(/\bi'm\b/g,'i am').replace(/\bi'll\b/g,'i will').replace(/\bi've\b/g,'i have')
+      .replace(/\byou're\b/g,'you are').replace(/\bwe're\b/g,'we are').replace(/\bthey're\b/g,'they are')
+      .replace(/\bdon't\b/g,'do not').replace(/\bdoesn't\b/g,'does not').replace(/\bdidn't\b/g,'did not')
+      .replace(/\bcan't\b/g,'cannot').replace(/\bwon't\b/g,'will not').replace(/\bit's\b/g,'it is')
+      .replace(/\b(\d{1,2})(?:\.00)?\b/g, (match,value) => numberWords[Number(value)] || value)
+      .replace(/&/g,' and ')
+      .replace(/[^a-z0-9\s]/g,' ')
+      .replace(/\s+/g,' ').trim();
+  }
+
+  function editDistance(a,b){
+    if(!a.length) return b.length;
+    if(!b.length) return a.length;
+    const previous = Array.from({length:b.length+1},(_,index)=>index);
+    for(let i=1;i<=a.length;i++){
+      let diagonal = previous[0];
+      previous[0] = i;
+      for(let j=1;j<=b.length;j++){
+        const above = previous[j];
+        previous[j] = Math.min(previous[j]+1, previous[j-1]+1, diagonal+(a[i-1]===b[j-1]?0:1));
+        diagonal = above;
+      }
+    }
+    return previous[b.length];
+  }
+
+  function speechSimilarity(expected,heard){
+    const target = normalizeSpeechText(expected), actual = normalizeSpeechText(heard);
+    if(!target || !actual) return 0;
+    if(target === actual) return 1;
+    const charScore = 1 - editDistance(target,actual) / Math.max(target.length,actual.length,1);
+    const targetWords = target.split(' '), actualWords = actual.split(' ');
+    const wordScore = 1 - editDistance(targetWords,actualWords) / Math.max(targetWords.length,actualWords.length,1);
+    return Math.max(0, Math.min(1, targetWords.length === 1 ? charScore : wordScore*.7 + charScore*.3));
+  }
+
+  function calculateSpeechScore(expected,heard,confidence=0){
+    const similarity = speechSimilarity(expected,heard);
+    if(similarity >= .995) return 100;
+    const usableConfidence = Number.isFinite(confidence) && confidence > 0 ? confidence : .7;
+    return Math.max(0, Math.min(100, Math.round(similarity*90 + usableConfidence*10)));
+  }
+
+  function recordSpeechScore(key,score,transcript,confidence){
+    if(!key) return;
+    const now = Date.now();
+    const progress = studyMemory.progress[key] || {attempts:0,correct:0,wrong:0,streak:0,stage:0,lastSeen:0,nextReview:now};
+    progress.speechAttempts = (progress.speechAttempts || 0) + 1;
+    progress.bestSpeech = Math.max(progress.bestSpeech || 0, score);
+    progress.lastSpeech = score;
+    progress.lastTranscript = transcript;
+    progress.speechConfidence = Math.round((confidence || 0) * 100);
+    studyMemory.progress[key] = progress;
+    saveStudyMemory();
+  }
+
+  function stopSpeechRecognition(){
+    state.speechToken++;
+    const recognition = state.speechRecognition;
+    state.speechRecognition = null;
+    state.speechListening = false;
+    ui.voiceChallenge.classList.remove('listening');
+    if(recognition){
+      try{ recognition.abort(); }catch(error){}
+    }
+  }
+
+  function typingPlaceholder(){
+    return state.contentType === 'conversations' || state.contentType === 'tenses' || state.target?.dataset.kind === 'tense'
+      ? 'พิมพ์ประโยคที่เห็น แล้วกด Enter...'
+      : 'พิมพ์คำที่เห็น แล้วกด Enter...';
+  }
+
+  function advanceAfterSpeech(){
+    if(!state.running || state.voicePhase === 'typing') return;
+    stopSpeechRecognition();
+    state.voicePhase = 'advancing';
+    ui.voiceChallenge.hidden = true;
+    ui.app.classList.remove('speech-active');
+    ui.voiceMicBtn.disabled = true;
+    ui.voiceListenBtn.disabled = true;
+    ui.voiceSkipBtn.disabled = true;
+    setTimeout(spawnTarget,220);
+  }
+
+  function finishSpeechAttempt(transcript,confidence,expected,studyKey){
+    stopSpeechRecognition();
+    const score = calculateSpeechScore(expected,transcript,confidence);
+    const feedback = score >= 90 ? 'ยอดเยี่ยม เสียงชัดมาก' : score >= 75 ? 'ดีมาก ออกเสียงได้ชัดเจน' : score >= 60 ? 'ดี ลองพูดช้าลงอีกนิด' : 'ลองฟังตัวอย่างแล้วพูดใหม่';
+    ui.voiceScore.textContent = score;
+    ui.voiceDetected.innerHTML = `ได้ยินว่า <b>${escapeHTML(transcript || '—')}</b> · ${feedback}`;
+    ui.voiceChallenge.classList.remove('score-great','score-good','score-retry');
+    ui.voiceChallenge.classList.add(score >= 90 ? 'score-great' : score >= 65 ? 'score-good' : 'score-retry');
+    state.voicePhase = 'scored';
+    state.speechComplete = true;
+    ui.voiceMicBtn.disabled = false;
+    ui.voiceMicBtn.textContent = '🎙 ลองอีกครั้ง';
+    ui.voiceSkipBtn.disabled = false;
+    ui.voiceSkipBtn.textContent = 'คำถัดไป →';
+    recordSpeechScore(studyKey,score,transcript,confidence);
+    if(state.target && !state.target.dataset.voiceAwarded){
+      state.target.dataset.voiceAwarded = 'true';
+      state.speechScoreTotal += score;
+      state.speechScoreCount++;
+      state.score += score;
+      updateHUD();
+    }
+    beep(score >= 75 ? 880 : 330,.1,score >= 75 ? 'sine' : 'triangle',.035);
+  }
+
+  function startSpeechRecognition(){
+    if(!state.running || !state.target || state.speechListening || !['speaking','scored'].includes(state.voicePhase)) return;
+    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!Recognition){
+      state.voicePhase = 'scored';
+      ui.voiceDetected.textContent = 'เบราว์เซอร์นี้ยังไม่รองรับการตรวจเสียง — กดคำถัดไปได้เลย';
+      ui.voiceMicBtn.disabled = true;
+      ui.voiceSkipBtn.disabled = false;
+      ui.voiceSkipBtn.textContent = 'คำถัดไป →';
+      return;
+    }
+    stopSpeechRecognition();
+    try{ if('speechSynthesis' in window) speechSynthesis.cancel(); }catch(error){}
+    const expected = state.target.dataset.english;
+    const studyKey = state.target.dataset.studyKey;
+    const recognition = new Recognition();
+    const token = ++state.speechToken;
+    state.speechRecognition = recognition;
+    state.speechListening = true;
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 5;
+    ui.voiceChallenge.classList.remove('score-great','score-good','score-retry');
+    ui.voiceChallenge.classList.add('listening');
+    ui.voiceScore.textContent = '•••';
+    ui.voiceDetected.textContent = 'กำลังฟัง... พูดภาษาอังกฤษได้เลย';
+    ui.voiceMicBtn.textContent = 'กำลังฟัง...';
+    ui.voiceMicBtn.disabled = true;
+    let receivedFinal = false;
+
+    recognition.onresult = event => {
+      if(token !== state.speechToken) return;
+      const result = event.results[event.results.length-1];
+      const alternatives = Array.from({length:result.length},(_,index)=>result[index]);
+      const best = alternatives.sort((a,b) => {
+        const scoreA = speechSimilarity(expected,a.transcript)*.92 + (a.confidence || 0)*.08;
+        const scoreB = speechSimilarity(expected,b.transcript)*.92 + (b.confidence || 0)*.08;
+        return scoreB-scoreA;
+      })[0];
+      if(result.isFinal){
+        receivedFinal = true;
+        finishSpeechAttempt(best?.transcript?.trim() || '',best?.confidence || 0,expected,studyKey);
+      }else if(best?.transcript){
+        ui.voiceDetected.innerHTML = `กำลังฟัง · <b>${escapeHTML(best.transcript.trim())}</b>`;
+      }
+    };
+    recognition.onerror = event => {
+      if(token !== state.speechToken || event.error === 'aborted') return;
+      stopSpeechRecognition();
+      ui.voiceMicBtn.disabled = false;
+      ui.voiceMicBtn.textContent = '🎙 ลองอีกครั้ง';
+      const blocked = event.error === 'not-allowed' || event.error === 'service-not-allowed';
+      const messages = {'no-speech':'ยังไม่ได้ยินเสียง ลองพูดใกล้ไมค์ขึ้น',network:'บริการตรวจเสียงเชื่อมต่อไม่ได้','audio-capture':'ไม่พบไมโครโฟน','not-allowed':'ไม่ได้รับอนุญาตใช้ไมโครโฟน','service-not-allowed':'เบราว์เซอร์ปิดกั้นบริการตรวจเสียง'};
+      ui.voiceDetected.textContent = messages[event.error] || 'ตรวจเสียงไม่สำเร็จ ลองอีกครั้งหรือกดข้าม';
+      if(blocked || event.error === 'audio-capture'){
+        state.voicePhase = 'scored';
+        ui.voiceMicBtn.disabled = true;
+        ui.voiceSkipBtn.textContent = 'คำถัดไป →';
+      }
+    };
+    recognition.onend = () => {
+      if(token !== state.speechToken || receivedFinal) return;
+      state.speechListening = false;
+      state.speechRecognition = null;
+      ui.voiceChallenge.classList.remove('listening');
+      ui.voiceMicBtn.disabled = false;
+      ui.voiceMicBtn.textContent = '🎙 ลองอีกครั้ง';
+      if(ui.voiceDetected.textContent.startsWith('กำลังฟัง')) ui.voiceDetected.textContent = 'ยังจับคำพูดไม่ได้ ลองพูดอีกครั้งหรือกดข้าม';
+    };
+    try{
+      recognition.start();
+    }catch(error){
+      stopSpeechRecognition();
+      ui.voiceMicBtn.disabled = false;
+      ui.voiceDetected.textContent = 'เริ่มไมโครโฟนไม่ได้ ลองอีกครั้งหรือกดข้าม';
+    }
+  }
+
+  function prepareSpeechChallenge(item,englishReading){
+    stopSpeechRecognition();
+    state.speechComplete = !state.speechPractice;
+    state.voicePhase = 'typing';
+    ui.voiceChallenge.classList.remove('listening','score-great','score-good','score-retry');
+    ui.voicePhaseLabel.textContent = 'TYPE FIRST · พิมพ์ก่อนแล้วพูดตาม';
+    ui.voiceExpected.textContent = 'พิมพ์ข้อความให้ถูกก่อน';
+    ui.voiceExpectedIpa.textContent = 'คำอ่านและปุ่มไมค์จะเปิดหลังพิมพ์ถูก';
+    ui.voiceDetected.textContent = 'ขั้นที่ 1 · พิมพ์คำหรือประโยคด้านบน แล้วกด Enter';
+    ui.voiceScore.textContent = '--';
+    ui.voiceMicBtn.disabled = true;
+    ui.voiceListenBtn.disabled = true;
+    ui.voiceSkipBtn.disabled = true;
+    ui.voiceMicBtn.textContent = '🎙 รอพิมพ์';
+    ui.voiceSkipBtn.textContent = 'ข้ามเสียง →';
+    ui.voiceChallenge.hidden = true;
+    ui.app.classList.remove('speech-active');
+    input.disabled = false;
+    input.placeholder = typingPlaceholder();
+  }
+
+  function activateSpeechAfterTyping(){
+    if(!state.speechPractice || !state.target) return false;
+    state.voicePhase = 'speaking';
+    state.speechComplete = false;
+    input.disabled = true;
+    ui.voiceChallenge.hidden = false;
+    ui.voicePhaseLabel.textContent = 'SPEAK AFTER TYPING · พูดตามภาษาอังกฤษ';
+    ui.voiceExpected.textContent = state.target.dataset.english;
+    ui.voiceExpectedIpa.textContent = state.target.dataset.reading ? `/${state.target.dataset.reading}/` : 'ฟังตัวอย่างแล้วพูดตาม';
+    ui.voiceDetected.textContent = 'ขั้นที่ 2 · ฟังตัวอย่าง แล้วกดไมค์เพื่อพูดตาม';
+    ui.voiceScore.textContent = '--';
+    ui.voiceListenBtn.disabled = false;
+    ui.voiceSkipBtn.disabled = false;
+    ui.voiceSkipBtn.textContent = 'ข้ามเสียง →';
+    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    ui.voiceMicBtn.disabled = !Recognition;
+    ui.voiceMicBtn.textContent = Recognition ? '🎙 เริ่มพูด' : 'ไม่รองรับไมค์';
+    if(!Recognition){
+      state.voicePhase = 'scored';
+      ui.voiceDetected.textContent = 'เบราว์เซอร์นี้ไม่รองรับการตรวจเสียง แต่ยังฟังตัวอย่างและกดคำถัดไปได้';
+      ui.voiceSkipBtn.textContent = 'คำถัดไป →';
+    }
+    return true;
+  }
+
+  function setTheme(theme){
+    state.theme = theme;
+    ui.app.dataset.heroTheme = theme;
+    faceRig.className = 'faceRig theme-' + theme;
+    ui.selectedHelmet.className = 'selectedHelmet theme-' + theme;
+    document.querySelectorAll('.themeCard').forEach(card => {
+      const active = card.dataset.theme === theme;
+      card.classList.toggle('active', active);
+      card.setAttribute('aria-pressed', String(active));
+    });
+  }
+
+  function cycleTheme(){
+    const order = ['armor','web','thunder','cosmic','robot'];
+    const idx = order.indexOf(state.theme);
+    const next = order[(idx + 1) % order.length];
+    $('#heroTheme').value = next;
+    setTheme(next);
+    toast('สลับหน้ากาก: ' + $('#heroTheme').selectedOptions[0].textContent.split('—')[0].trim());
+  }
+
+  function syncVisualModeUI(mode,busy=false){
+    const selectedMode = mode === 'camera' ? 'camera' : 'space';
+    ui.app.classList.toggle('visual-camera',selectedMode === 'camera');
+    ui.app.classList.toggle('visual-space',selectedMode === 'space');
+    const menuSelect = $('#visualMode');
+    if(menuSelect) menuSelect.value = selectedMode;
+    document.querySelectorAll('[data-select="visualMode"] .choiceBtn').forEach(button => {
+      const active = button.dataset.value === selectedMode;
+      button.classList.toggle('active',active);
+      button.setAttribute('aria-pressed',String(active));
+    });
+    document.querySelectorAll('[data-live-visual]').forEach(button => {
+      const active = button.dataset.liveVisual === selectedMode;
+      button.classList.toggle('active',active);
+      button.setAttribute('aria-pressed',String(active));
+      button.disabled = busy;
+    });
+  }
+
+  async function setVisual(mode){
+    const requestId = ++state.visualRequest;
+    state.visualMode = mode;
+    syncVisualModeUI(mode,true);
+    stopHandTracking();
+    if(state.stream){
+      state.stream.getTracks().forEach(t => t.stop());
+      state.stream = null;
+    }
+    if(mode === 'space'){
+      camera.style.display = 'none';
+      spaceBg.style.display = 'block';
+      setHandStatus('พลังมือ · โหมดจำลองไซเบอร์', 'fallback');
+      syncVisualModeUI('space',false);
+      return;
+    }
+    try{
+      const s = await navigator.mediaDevices.getUserMedia({
+        video:{facingMode:'user',width:{ideal:1280},height:{ideal:720}},
+        audio:false
+      });
+      if(requestId !== state.visualRequest || !state.running){
+        s.getTracks().forEach(track => track.stop());
+        syncVisualModeUI(state.visualMode,false);
+        return;
+      }
+      state.stream = s;
+      camera.srcObject = s;
+      await camera.play();
+      camera.style.display = 'block';
+      spaceBg.style.display = 'none';
+      syncVisualModeUI('camera',false);
+      startHandTracking();
+    }catch(e){
+      if(requestId !== state.visualRequest) return;
+      camera.style.display = 'none';
+      spaceBg.style.display = 'block';
+      state.visualMode = 'space';
+      setHandStatus('พลังมือ · โหมดจำลอง', 'fallback');
+      syncVisualModeUI('space',false);
+      toast('เปิดกล้องไม่ได้ — ใช้ Cyber Space แทน');
+    }
+  }
+
+  const energySystem = {
+    model:null, active:false, busy:false, frame:0, lastSend:0, lastSeen:0,
+    landmarks:[], palms:[], pointer:{x:innerWidth*.5,y:innerHeight*.68,seen:0}, errorShown:false
+  };
+
+  const energyPalettes = {
+    armor:{core:'255,244,185',glow:'255,172,60',edge:'255,221,112'},
+    web:{core:'255,238,241',glow:'255,61,97',edge:'255,111,135'},
+    thunder:{core:'235,253,255',glow:'55,192,255',edge:'112,238,255'},
+    cosmic:{core:'255,239,255',glow:'186,92,255',edge:'238,151,255'},
+    robot:{core:'229,255,255',glow:'58,231,255',edge:'121,255,231'}
+  };
+
+  function setHandStatus(text, status='idle'){
+    if(!ui.handStatus || ui.handStatus.dataset.label === text) return;
+    ui.handStatus.dataset.label = text;
+    ui.handStatus.dataset.state = status;
+    ui.handStatus.querySelector('span').textContent = text;
+  }
+
+  function resizeEnergyCanvas(){
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    energyCanvas.width = Math.round(innerWidth * ratio);
+    energyCanvas.height = Math.round(innerHeight * ratio);
+    energyCanvas.style.width = innerWidth + 'px';
+    energyCanvas.style.height = innerHeight + 'px';
+    energyCtx.setTransform(ratio,0,0,ratio,0,0);
+  }
+
+  function stopHandTracking(){
+    energySystem.active = false;
+    energySystem.landmarks = [];
+    energySystem.palms = [];
+    if(energySystem.frame) cancelAnimationFrame(energySystem.frame);
+    energySystem.frame = 0;
+  }
+
+  async function createHandModel(){
+    if(energySystem.model || !window.Hands) return energySystem.model;
+    const model = new window.Hands({
+      locateFile:file => 'vendor/mediapipe/hands/' + file
+    });
+    model.setOptions({
+      maxNumHands:2,
+      modelComplexity:0,
+      minDetectionConfidence:.58,
+      minTrackingConfidence:.55
+    });
+    model.onResults(results => {
+      energySystem.landmarks = results.multiHandLandmarks || [];
+      if(energySystem.landmarks.length){
+        energySystem.lastSeen = performance.now();
+        setHandStatus('พลังมือ · ตรวจพบ ' + energySystem.landmarks.length + ' มือ', 'live');
+      }else{
+        setHandStatus('พลังมือ · ยกฝ่ามือเข้ากล้อง', 'scan');
+      }
+    });
+    energySystem.model = model;
+    return model;
+  }
+
+  async function startHandTracking(){
+    energySystem.active = true;
+    setHandStatus('พลังมือ · กำลังสแกน', 'scan');
+    try{
+      const model = await createHandModel();
+      if(!model) throw new Error('Hand tracker unavailable');
+      const track = async now => {
+        if(!energySystem.active || !state.running || state.visualMode !== 'camera') return;
+        if(camera.readyState >= 2 && !energySystem.busy && now - energySystem.lastSend > 70){
+          energySystem.busy = true;
+          energySystem.lastSend = now;
+          try{ await model.send({image:camera}); }
+          catch(e){
+            energySystem.active = false;
+            setHandStatus('พลังมือ · ใช้ตัวชี้สำรอง', 'fallback');
+            if(!energySystem.errorShown){
+              energySystem.errorShown = true;
+              toast('ระบบติดตามมือไม่พร้อม — ใช้พลังตามตัวชี้แทน');
+            }
+          }finally{ energySystem.busy = false; }
+        }
+        if(energySystem.active) energySystem.frame = requestAnimationFrame(track);
+      };
+      energySystem.frame = requestAnimationFrame(track);
+    }catch(e){
+      energySystem.active = false;
+      setHandStatus('พลังมือ · ใช้ตัวชี้สำรอง', 'fallback');
+    }
+  }
+
+  function handPoints(landmarks){
+    return landmarks.map(point => ({x:(1-point.x)*innerWidth,y:point.y*innerHeight,z:point.z || 0}));
+  }
+
+  function averagePoint(points, ids){
+    const sum = ids.reduce((value,id) => ({x:value.x+points[id].x,y:value.y+points[id].y}), {x:0,y:0});
+    return {x:sum.x/ids.length,y:sum.y/ids.length};
+  }
+
+  function energyGradient(x,y,radius,palette,alpha=1){
+    const gradient = energyCtx.createRadialGradient(x,y,0,x,y,radius);
+    gradient.addColorStop(0,`rgba(${palette.core},${.92*alpha})`);
+    gradient.addColorStop(.12,`rgba(${palette.edge},${.62*alpha})`);
+    gradient.addColorStop(.46,`rgba(${palette.glow},${.2*alpha})`);
+    gradient.addColorStop(1,`rgba(${palette.glow},0)`);
+    return gradient;
+  }
+
+  function drawElectricArc(a,b,palette,alpha,seed){
+    const dx=b.x-a.x,dy=b.y-a.y,length=Math.max(1,Math.hypot(dx,dy));
+    const nx=-dy/length,ny=dx/length;
+    energyCtx.beginPath();
+    energyCtx.moveTo(a.x,a.y);
+    for(let i=1;i<8;i++){
+      const t=i/8;
+      const jitter=Math.sin(seed*.012+i*8.31)*5*Math.sin(t*Math.PI);
+      energyCtx.lineTo(a.x+dx*t+nx*jitter,a.y+dy*t+ny*jitter);
+    }
+    energyCtx.lineTo(b.x,b.y);
+    energyCtx.strokeStyle=`rgba(${palette.edge},${alpha*.22})`;energyCtx.lineWidth=6;energyCtx.stroke();
+    energyCtx.strokeStyle=`rgba(${palette.core},${alpha*.9})`;energyCtx.lineWidth=1.1;energyCtx.stroke();
+  }
+
+  function drawPalmEnergy(points,index,now,simulated=false){
+    const palette=energyPalettes[state.theme] || energyPalettes.robot;
+    const palm=simulated ? points : averagePoint(points,[0,5,9,13,17]);
+    const span=simulated ? 92 : Math.hypot(points[5].x-points[17].x,points[5].y-points[17].y);
+    const radius=Math.max(28,Math.min(82,span*.72));
+    const pulse=1+Math.sin(now*.005+index)*.08;
+    energySystem.palms[index]=palm;
+    energyCtx.save();
+    energyCtx.globalCompositeOperation='lighter';
+    energyCtx.fillStyle=energyGradient(palm.x,palm.y,radius*2.25,palette,simulated ? .68 : 1);
+    energyCtx.beginPath();energyCtx.arc(palm.x,palm.y,radius*2.25,0,Math.PI*2);energyCtx.fill();
+    energyCtx.translate(palm.x,palm.y);
+    for(let ring=0;ring<3;ring++){
+      energyCtx.save();
+      energyCtx.rotate(now*.00055*(ring%2?-1:1)+ring);
+      energyCtx.strokeStyle=`rgba(${ring?palette.edge:palette.core},${.72-ring*.16})`;
+      energyCtx.lineWidth=ring===0?1.8:.85;
+      energyCtx.setLineDash(ring===1?[7,8]:ring===2?[2,9]:[]);
+      energyCtx.beginPath();energyCtx.ellipse(0,0,radius*(.78+ring*.25)*pulse,radius*(.22+ring*.07),0,0,Math.PI*2);energyCtx.stroke();
+      energyCtx.restore();
+    }
+    energyCtx.fillStyle=`rgba(${palette.core},.96)`;
+    energyCtx.beginPath();energyCtx.arc(0,0,Math.max(4,radius*.11),0,Math.PI*2);energyCtx.fill();
+    for(let i=0;i<12;i++){
+      const angle=now*.0014*(i%2?-1:1)+i*Math.PI/6;
+      const orbit=radius*(.75+(i%4)*.15);
+      const x=Math.cos(angle)*orbit,y=Math.sin(angle)*orbit*.36;
+      energyCtx.globalAlpha=.35+(i%3)*.18;
+      energyCtx.fillRect(x-1,y-1,2+(i%2),2+(i%2));
+    }
+    energyCtx.restore();
+    if(!simulated){
+      const links=[[0,5],[5,9],[9,13],[13,17],[17,0],[5,6],[6,7],[7,8],[9,10],[10,11],[11,12],[13,14],[14,15],[15,16],[17,18],[18,19],[19,20]];
+      energyCtx.save();energyCtx.globalCompositeOperation='lighter';
+      links.forEach(([a,b])=>{energyCtx.beginPath();energyCtx.moveTo(points[a].x,points[a].y);energyCtx.lineTo(points[b].x,points[b].y);energyCtx.strokeStyle=`rgba(${palette.edge},.16)`;energyCtx.lineWidth=1;energyCtx.stroke()});
+      [4,8,12,16,20].forEach((id,tipIndex)=>{
+        drawElectricArc(palm,points[id],palette,.52,now+tipIndex*43);
+        energyCtx.fillStyle=`rgba(${palette.core},.82)`;energyCtx.beginPath();energyCtx.arc(points[id].x,points[id].y,2.4,0,Math.PI*2);energyCtx.fill();
+      });
+      energyCtx.restore();
+    }
+  }
+
+  function drawBodyEnergy(now){
+    const palette=energyPalettes[state.theme] || energyPalettes.robot;
+    const compact=innerWidth < 720;
+    const cx=innerWidth*.5;
+    const headY=innerHeight*(compact ? .31 : .29);
+    const headRx=Math.max(66,Math.min(compact ? 88 : 132,innerWidth*.082));
+    const headRy=headRx*1.14;
+    const bodyY=innerHeight*(compact ? .59 : .58);
+    const bodyRx=Math.max(145,Math.min(compact ? innerWidth*.41 : 330,innerWidth*.205));
+    const bodyRy=Math.max(180,Math.min(compact ? innerHeight*.25 : 290,innerHeight*.31));
+    const pulse=1+Math.sin(now*.0032)*.025;
+    energyCtx.save();
+    energyCtx.globalCompositeOperation='lighter';
+
+    const headGlow=energyCtx.createRadialGradient(cx,headY,headRx*.68,cx,headY,headRx*1.55);
+    headGlow.addColorStop(0,`rgba(${palette.glow},0)`);
+    headGlow.addColorStop(.56,`rgba(${palette.glow},.025)`);
+    headGlow.addColorStop(.76,`rgba(${palette.edge},.09)`);
+    headGlow.addColorStop(1,`rgba(${palette.glow},0)`);
+    energyCtx.fillStyle=headGlow;
+    energyCtx.beginPath();energyCtx.ellipse(cx,headY,headRx*1.55,headRy*1.52,0,0,Math.PI*2);energyCtx.fill();
+
+    for(let ring=0;ring<3;ring++){
+      energyCtx.save();
+      energyCtx.translate(cx,headY);
+      energyCtx.rotate(now*.00018*(ring%2 ? -1 : 1)+ring*.72);
+      energyCtx.strokeStyle=`rgba(${ring===0?palette.core:palette.edge},${.25-ring*.055})`;
+      energyCtx.lineWidth=ring===0?1.35:.75;
+      energyCtx.setLineDash(ring===0?[18,13]:ring===1?[4,11]:[2,18]);
+      energyCtx.lineDashOffset=-now*.018*(ring+1);
+      energyCtx.beginPath();
+      energyCtx.ellipse(0,0,headRx*(1+ring*.13)*pulse,headRy*(1+ring*.1)*pulse,0,0,Math.PI*2);
+      energyCtx.stroke();
+      energyCtx.restore();
+    }
+
+    energyCtx.save();
+    energyCtx.translate(cx,bodyY);
+    energyCtx.strokeStyle=`rgba(${palette.edge},.13)`;
+    energyCtx.lineWidth=1;
+    energyCtx.setLineDash([24,20]);
+    energyCtx.lineDashOffset=now*.026;
+    energyCtx.beginPath();energyCtx.ellipse(0,0,bodyRx*pulse,bodyRy*pulse,0,0,Math.PI*2);energyCtx.stroke();
+    energyCtx.strokeStyle=`rgba(${palette.glow},.075)`;
+    energyCtx.lineWidth=9;
+    energyCtx.setLineDash([55,38]);
+    energyCtx.beginPath();energyCtx.ellipse(0,0,bodyRx*.94,bodyRy*.96,0,0,Math.PI*2);energyCtx.stroke();
+    energyCtx.restore();
+
+    const ellipsePoint=(centerX,centerY,radiusX,radiusY,angle)=>({x:centerX+Math.cos(angle)*radiusX,y:centerY+Math.sin(angle)*radiusY});
+    energyCtx.setLineDash([]);
+    [-1,1].forEach((side,sideIndex)=>{
+      const start=side < 0 ? Math.PI*.61 : -Math.PI*.39;
+      const points=Array.from({length:7},(_,index)=>ellipsePoint(cx,bodyY,bodyRx,bodyRy,start+index*Math.PI*.13));
+      for(let index=0;index<points.length-1;index++){
+        if((index+Math.floor(now/280)+sideIndex)%3!==1) drawElectricArc(points[index],points[index+1],palette,.34,now+index*97+sideIndex*211);
+      }
+    });
+    for(let index=0;index<18;index++){
+      const angle=now*.00024+index*Math.PI*2/18;
+      const aroundHead=index%2===0;
+      const orbitX=aroundHead?headRx*1.23:bodyRx*.98;
+      const orbitY=aroundHead?headRy*1.18:bodyRy*.94;
+      const centerY=aroundHead?headY:bodyY;
+      const x=cx+Math.cos(angle)*orbitX;
+      const y=centerY+Math.sin(angle)*orbitY;
+      const size=aroundHead?1.7:2.2;
+      energyCtx.fillStyle=`rgba(${index%3?palette.edge:palette.core},${.24+(index%4)*.09})`;
+      energyCtx.beginPath();energyCtx.arc(x,y,size,0,Math.PI*2);energyCtx.fill();
+    }
+
+    if(energySystem.palms.length){
+      const shoulders=[{x:cx-bodyRx*.58,y:bodyY-bodyRy*.43},{x:cx+bodyRx*.58,y:bodyY-bodyRy*.43}];
+      energySystem.palms.slice(0,2).forEach((palm,index)=>{
+        const anchor=shoulders.reduce((best,point)=>Math.abs(point.x-palm.x)<Math.abs(best.x-palm.x)?point:best,shoulders[0]);
+        drawElectricArc(anchor,palm,palette,.24,now+index*313);
+      });
+    }
+    energyCtx.restore();
+  }
+
+  function drawEnergyFrame(now){
+    energyCtx.clearRect(0,0,innerWidth,innerHeight);
+    energySystem.palms=[];
+    if(state.running && !state.paused){
+      const live=energySystem.landmarks.length && now-energySystem.lastSeen<500;
+      if(live){
+        energySystem.landmarks.slice(0,2).forEach((landmarks,index)=>drawPalmEnergy(handPoints(landmarks),index,now));
+      }else if(state.visualMode==='space' || !energySystem.active){
+        const pointerFresh=now-energySystem.pointer.seen<2200;
+        if(pointerFresh) drawPalmEnergy(energySystem.pointer,0,now,true);
+        else{
+          drawPalmEnergy({x:innerWidth*.27,y:innerHeight*.64},0,now,true);
+          drawPalmEnergy({x:innerWidth*.73,y:innerHeight*.64},1,now,true);
+        }
+      }
+      if(state.visualMode==='camera') drawBodyEnergy(now);
+    }
+    requestAnimationFrame(drawEnergyFrame);
+  }
+
+  window.addEventListener('resize',resizeEnergyCanvas);
+  window.addEventListener('pointermove',event=>{
+    energySystem.pointer={x:event.clientX,y:event.clientY,seen:performance.now()};
+  },{passive:true});
+
+  function getPool(){
+    if(state.reviewPool?.length) return state.reviewPool;
+    if(state.contentType === 'tenses') return tenseBank[state.tenseType] || tenseBank.present_simple || [];
+    const bank = state.contentType === 'conversations' ? conversations : state.contentType === 'exam' ? examVocab : vocab;
+    return bank[state.difficulty] || bank.normal;
+  }
+
+  function pickPair(){
+    const pool = getPool();
+    let item = pool[Math.floor(Math.random() * pool.length)];
+    if(state.lastPair && pool.length > 1){
+      let tries = 0;
+      while(item.th === state.lastPair.th && item.en === state.lastPair.en && tries < 5){
+        item = pool[Math.floor(Math.random() * pool.length)];
+        tries++;
+      }
+    }
+    state.lastPair = item;
+    return item;
+  }
+
+  function createTargetText(item){
+    const isSentence = item.kind === 'conversation' || item.kind === 'tense' || state.contentType === 'conversations' || state.contentType === 'tenses';
+    const tenseTitle = item.kind === 'tense' ? `${item.tense} · ${item.formula}` : '';
+    if(state.language === 'th'){
+      return {show:item.th, answer:item.th, title:tenseTitle || (isSentence ? 'พิมพ์ประโยคภาษาไทย' : 'พิมพ์คำไทย'), opposite:item.en, direction:'ไทย → English', lang:'th'};
+    }
+    if(state.language === 'en'){
+      return {show:item.en, answer:item.en, title:tenseTitle || (isSentence ? 'Type the English sentence' : 'Type the English word'), opposite:item.th, direction:'English → ไทย', lang:'en'};
+    }
+    const thaiFirst = Math.random() < .5;
+    return thaiFirst
+      ? {show:item.th, answer:item.th, title:tenseTitle || (isSentence ? 'พิมพ์ประโยคภาษาไทย' : 'พิมพ์คำไทย'), opposite:item.en, direction:'ไทย → English', lang:'th'}
+      : {show:item.en, answer:item.en, title:tenseTitle || (isSentence ? 'Type the English sentence' : 'Type the English word'), opposite:item.th, direction:'English → ไทย', lang:'en'};
+  }
+
+  function spawnTarget(){
+    if(!state.running || state.paused) return;
+    if(state.target) state.target.remove();
+
+    const item = pickPair();
+    const meta = createTargetText(item);
+    const englishReading = window.AR_PRONUNCIATIONS?.[item.en] || '';
+    const target = document.createElement('div');
+    const isSentence = item.kind === 'conversation' || item.kind === 'tense' || state.contentType === 'conversations' || state.contentType === 'tenses';
+    target.className = 'target' + (isSentence ? ' sentence' : '');
+
+    const x = 18 + Math.random() * 64;
+    const y = 18 + Math.random() * 58;
+    target.style.left = x + '%';
+    target.style.top = y + '%';
+
+    target.dataset.answer = meta.answer;
+    target.dataset.show = meta.show;
+    target.dataset.lang = meta.lang;
+    target.dataset.opposite = meta.opposite;
+    target.dataset.direction = meta.direction;
+    target.dataset.kind = item.kind || (state.contentType === 'tenses' ? 'tense' : 'word');
+    target.dataset.english = item.en;
+    target.dataset.reading = englishReading;
+    target.dataset.studyKey = item.reviewKey || (state.contentType === 'tenses'
+      ? `tense|${item.tenseId || state.tenseType}|${item.en}`
+      : `${state.contentType === 'conversations' ? 'conversation' : state.contentType === 'exam' ? 'exam' : 'word'}|${item.en}`);
+
+    target.innerHTML = `
+      <div class="target-word"></div>
+      ${meta.lang === 'en' && englishReading ? `<div class="target-reading"><span>คำอ่าน · IPA</span>/${escapeHTML(englishReading)}/</div>` : ''}
+      <div class="target-sub">${state.boss ? 'BOSS x3 • ' : ''}${meta.title}</div>
+    `;
+    arena.appendChild(target);
+    state.target = target;
+    input.value = '';
+    prepareSpeechChallenge(item,englishReading);
+    renderTarget();
+    if(!input.disabled) input.focus();
+    updateKeyboard();
+  }
+
+  function escapeHTML(s){
+    return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  function saveStudyMemory(){
+    try{
+      localStorage.setItem('arHeroStudyMemoryV1', JSON.stringify({
+        progress:studyMemory.progress,
+        favorites:[...studyMemory.favorites]
+      }));
+    }catch(error){}
+  }
+
+  function progressStatus(key, now=Date.now()){
+    const progress = studyMemory.progress[key];
+    if(!progress || !progress.attempts) return 'unseen';
+    if(progress.nextReview <= now) return 'due';
+    if(progress.stage >= 4) return 'mastered';
+    return 'learning';
+  }
+
+  function recordStudyResult(key, correct){
+    if(!key) return;
+    const now = Date.now();
+    const progress = studyMemory.progress[key] || {
+      attempts:0, correct:0, wrong:0, streak:0, stage:0, lastSeen:0, nextReview:now
+    };
+    progress.attempts++;
+    progress.lastSeen = now;
+    if(correct){
+      progress.correct++;
+      progress.streak++;
+      progress.stage = Math.min(reviewIntervals.length, progress.stage + 1);
+      const days = reviewIntervals[Math.max(0, progress.stage - 1)];
+      progress.nextReview = now + days * 86400000;
+    }else{
+      progress.wrong++;
+      progress.streak = 0;
+      progress.stage = Math.max(0, progress.stage - 1);
+      progress.nextReview = now;
+    }
+    studyMemory.progress[key] = progress;
+    saveStudyMemory();
+  }
+
+  function describeReview(progress){
+    if(!progress || !progress.attempts) return {label:'ยังไม่เรียน', className:'', accuracy:'ใหม่'};
+    const ownStatus = progress.nextReview <= Date.now() ? 'due' : progress.stage >= 4 ? 'mastered' : 'learning';
+    const accuracy = Math.round(progress.correct / progress.attempts * 100) + '%';
+    if(ownStatus === 'due') return {label:'ถึงเวลาทบทวน', className:'due', accuracy};
+    const days = Math.max(1, Math.ceil((progress.nextReview - Date.now()) / 86400000));
+    if(ownStatus === 'mastered') return {label:`จำได้แล้ว · อีก ${days} วัน`, className:'mastered', accuracy};
+    return {label:`กำลังฝึก · อีก ${days} วัน`, className:'', accuracy};
+  }
+
+  function filterLibraryItems(){
+    const now = Date.now();
+    const query = libraryState.query.trim().toLocaleLowerCase('th');
+    return allStudyItems.filter(item => {
+      const progress = studyMemory.progress[item.studyKey];
+      const status = progressStatus(item.studyKey, now);
+      const matchesQuery = !query || [item.en,item.th,item.typeLabel,...item.tags]
+        .some(value => String(value).toLocaleLowerCase('th').includes(query));
+      if(!matchesQuery) return false;
+      switch(libraryState.filter){
+        case 'seen': return Boolean(progress?.attempts || progress?.speechAttempts);
+        case 'due': return status === 'due';
+        case 'learning': return status === 'learning' || status === 'due';
+        case 'mastered': return status === 'mastered';
+        case 'favorites': return studyMemory.favorites.has(item.studyKey);
+        case 'conversation': return item.kind === 'conversation';
+        case 'tense': return item.kind === 'tense';
+        case 'TOEFL': case 'TOEIC': case 'IELTS': case 'KKU-AELT':
+          return item.tags.includes(libraryState.filter);
+        default: return true;
+      }
+    }).sort((a,b) => {
+      if(libraryState.filter === 'seen'){
+        return (studyMemory.progress[b.studyKey]?.lastSeen || 0) - (studyMemory.progress[a.studyKey]?.lastSeen || 0);
+      }
+      const rank = {due:0,learning:1,mastered:2,unseen:3};
+      return rank[progressStatus(a.studyKey,now)] - rank[progressStatus(b.studyKey,now)] || a.en.localeCompare(b.en);
+    });
+  }
+
+  function renderLibrary(){
+    const now = Date.now();
+    const seen = allStudyItems.filter(item => studyMemory.progress[item.studyKey]?.attempts || studyMemory.progress[item.studyKey]?.speechAttempts).length;
+    const due = allStudyItems.filter(item => progressStatus(item.studyKey,now) === 'due');
+    const mastered = allStudyItems.filter(item => progressStatus(item.studyKey,now) === 'mastered').length;
+    const speechScores = Object.values(studyMemory.progress).filter(progress => progress.speechAttempts).map(progress => progress.bestSpeech || 0);
+    $('#libTotal').textContent = allStudyItems.length.toLocaleString();
+    $('#libSeen').textContent = seen.toLocaleString();
+    $('#libDue').textContent = due.length.toLocaleString();
+    $('#libMastered').textContent = mastered.toLocaleString();
+    $('#libFavorites').textContent = studyMemory.favorites.size.toLocaleString();
+    $('#libSpeech').textContent = speechScores.length ? Math.round(speechScores.reduce((sum,score)=>sum+score,0)/speechScores.length) : '--';
+    ui.reviewDueBtn.disabled = !due.length;
+    ui.reviewDueBtn.textContent = due.length ? `▶ ทบทวนที่ถึงกำหนด (${due.length})` : '✓ ยังไม่มีคำถึงกำหนด';
+
+    libraryState.filtered = filterLibraryItems();
+    const visible = libraryState.filtered.slice(0, libraryState.limit);
+    ui.reviewFilteredBtn.disabled = !libraryState.filtered.length;
+    ui.reviewFilteredBtn.textContent = libraryState.filtered.length ? `▶ ฝึกชุดนี้ (${libraryState.filtered.length})` : 'ไม่มีรายการให้ฝึก';
+    ui.libraryResultText.innerHTML = `พบ <b>${libraryState.filtered.length.toLocaleString()}</b> รายการ · แสดง ${visible.length.toLocaleString()}`;
+    ui.libraryGrid.innerHTML = visible.length ? visible.map(item => {
+      const progress = studyMemory.progress[item.studyKey];
+      const status = progressStatus(item.studyKey,now);
+      const review = describeReview(progress);
+      const ipa = window.AR_PRONUNCIATIONS?.[item.en] || '';
+      const tags = item.tags.map(tag => `<span class="examTag">${escapeHTML(tag)}</span>`).join('');
+      const favorite = studyMemory.favorites.has(item.studyKey);
+      return `<article class="studyCard is-${status}" data-key="${escapeHTML(item.studyKey)}">
+        <div class="studyTop"><span class="studyType">${escapeHTML(item.typeLabel)} · ${escapeHTML(item.categoryLabel || item.difficulty.toUpperCase())}</span><button class="favoriteBtn${favorite?' active':''}" type="button" data-action="favorite" aria-label="${favorite?'เลิกติดดาว':'ติดดาว'}">★</button></div>
+        <h3 class="studyEn">${escapeHTML(item.en)}</h3>
+        <div class="studyIpa">${ipa ? '/' + escapeHTML(ipa) + '/' : '&nbsp;'}</div>
+        <div class="studyTh">${escapeHTML(item.th)}</div>
+        <div class="studyTags">${tags}</div>
+        <div class="studyMeta"><span class="${review.className}">${review.label}</span><span>แม่น ${review.accuracy} · เสียง ${progress?.bestSpeech ?? '--'}</span></div>
+        <div class="studyActions"><button class="studyAction" type="button" data-action="speak">🔊 ฟัง</button><button class="studyAction" type="button" data-action="practice">▶ ฝึกคำนี้</button></div>
+      </article>`;
+    }).join('') : '<div class="libraryEmpty">ยังไม่มีรายการในหมวดนี้ ลองเปลี่ยนตัวกรองหรือคำค้นหา</div>';
+    ui.libraryMore.style.display = visible.length < libraryState.filtered.length ? 'block' : 'none';
+  }
+
+  function openLibrary(filter='all'){
+    libraryState.filter = filter;
+    libraryState.query = '';
+    libraryState.limit = 60;
+    ui.librarySearch.value = '';
+    document.querySelectorAll('#libraryFilters .filterBtn').forEach(button => button.classList.toggle('active', button.dataset.filter === filter));
+    renderLibrary();
+    ui.library.style.display = 'grid';
+    setTimeout(() => ui.librarySearch.focus(), 40);
+  }
+
+  function closeLibrary(){
+    ui.library.style.display = 'none';
+  }
+
+  function startReview(items){
+    if(!items.length) return;
+    const pool = items.map(item => ({...item, reviewKey:item.studyKey}));
+    closeLibrary();
+    startGame(false, pool);
+  }
+
+  function renderTarget(){
+    if(!state.target) return;
+    const answer = state.target.dataset.answer;
+    const typed = input.value;
+    let html = '';
+    [...answer].forEach((c,i) => {
+      if(i < typed.length && typed[i] === c) html += `<span class="typed-ok">${escapeHTML(c)}</span>`;
+      else if(i === typed.length) html += `<span class="next-char">${escapeHTML(c)}</span>`;
+      else html += escapeHTML(c);
+    });
+    state.target.querySelector('.target-word').innerHTML = html;
+    highlightKey(answer[typed.length] || '');
+  }
+
+  function renderKeyboard(lang){
+    const rows = keyboardSet[lang] || keyboardSet.en;
+    const box = $('#keyboard');
+    box.innerHTML = '';
+    rows.forEach(rowText => {
+      const row = document.createElement('div');
+      row.className = 'keyrow';
+      [...rowText].forEach(ch => {
+        const key = document.createElement('div');
+        key.className = 'key';
+        key.dataset.key = ch.toLowerCase();
+        key.textContent = ch;
+        row.appendChild(key);
+      });
+      box.appendChild(row);
+    });
+  }
+
+  let currentKeyboard = '';
+  function updateKeyboard(){
+    if(!state.target) return;
+    const lang = state.target.dataset.lang === 'th' ? 'th' : 'en';
+    if(currentKeyboard !== lang){
+      currentKeyboard = lang;
+      renderKeyboard(lang);
+    }
+  }
+
+  function highlightKey(ch){
+    const targetKey = String(ch).toLowerCase();
+    document.querySelectorAll('.key').forEach(k => k.classList.toggle('hot', k.dataset.key === targetKey));
+  }
+
+  function laserFX(){
+    if(!state.target) return;
+    const r = state.target.getBoundingClientRect();
+    const palm = energySystem.palms[0];
+    const x1 = palm ? palm.x : innerWidth/2, y1 = palm ? palm.y : innerHeight - 118;
+    const x2 = r.left + r.width/2, y2 = r.top + r.height/2;
+    const dx = x2 - x1, dy = y2 - y1;
+    const len = Math.hypot(dx,dy), ang = Math.atan2(dy,dx)*180/Math.PI;
+    const beam = document.createElement('div');
+    beam.className = 'laser';
+    beam.style.left = x1 + 'px';
+    beam.style.top = y1 + 'px';
+    beam.style.width = len + 'px';
+    beam.style.transform = `rotate(${ang}deg)`;
+    document.body.appendChild(beam);
+    setTimeout(() => beam.remove(), 360);
+
+    for(let i=0;i<16;i++){
+      const s = document.createElement('i');
+      s.className = 'spark';
+      s.style.left = x2 + 'px';
+      s.style.top = y2 + 'px';
+      s.style.setProperty('--dx', (Math.random()*180 - 90) + 'px');
+      s.style.setProperty('--dy', (Math.random()*180 - 90) + 'px');
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 760);
+    }
+  }
+
+  function showTranslation(direction, original, translated, translatedLanguage, englishText, englishReading){
+    ui.trTitle.textContent = direction;
+    ui.trMain.textContent = translated;
+    ui.trMain.classList.toggle('sentenceTranslation', translated.length > 24);
+    ui.trSub.textContent = 'คำเดิม · ' + original;
+    ui.trReading.hidden = !englishReading;
+    ui.trPhonetic.textContent = englishReading ? '/' + englishReading + '/' : '';
+    ui.englishSpeakBtn.dataset.english = englishText || '';
+    ui.translationCard.classList.remove('show'); void ui.translationCard.offsetWidth;
+    ui.translationCard.classList.add('show');
+    speakTranslation(translated, translatedLanguage);
+  }
+
+  function updateHUD(){
+    ui.score.textContent = state.score.toLocaleString();
+    ui.combo.textContent = 'x' + state.combo;
+    ui.level.textContent = state.level;
+    ui.time.textContent = state.remain;
+    ui.hearts.textContent = '❤️'.repeat(Math.max(0, state.hearts)) || '💔';
+    const total = state.correctChars + state.wrongChars;
+    ui.accuracy.textContent = (total ? Math.round(state.correctChars/total*100) : 100) + '%';
+    ui.langMode.textContent = state.language === 'th' ? 'TH' : state.language === 'en' ? 'EN' : 'MIX';
+  }
+
+  function droneSpawner(){
+    if(!state.running) return;
+    const icons = ['🛸','⚡','🕸️','🤖','💫','🚀','🛰️'];
+    const d = document.createElement('div');
+    d.className = 'drone';
+    d.textContent = icons[Math.floor(Math.random()*icons.length)];
+    d.style.top = (12 + Math.random() * 70) + '%';
+    d.style.left = '-6vw';
+    d.style.animationDuration = (7 + Math.random() * 7) + 's';
+    arena.appendChild(d);
+    setTimeout(() => d.remove(), 15000);
+  }
+
+  function submitAnswer(){
+    if(!state.running || state.paused || !state.target) return;
+    const answer = state.target.dataset.answer;
+    const typed = input.value.trim();
+    state.correctChars += [...typed].filter((ch, idx) => answer[idx] === ch).length;
+    if(typed === answer){
+      recordStudyResult(state.target.dataset.studyKey, true);
+      const bonus = state.boss ? 3 : 1;
+      state.words++;
+      state.score += Math.round((110 + answer.length * 14) * state.combo * bonus);
+      state.combo = Math.min(9, state.combo + 1);
+      state.bestCombo = Math.max(state.bestCombo, state.combo);
+
+      laserFX();
+      state.target.classList.add('hit');
+      beep(state.boss ? 920 : 760, .09, 'triangle', .05);
+
+      const show = state.target.dataset.show;
+      const opposite = state.target.dataset.opposite;
+      const translatedLanguage = state.target.dataset.lang === 'th' ? 'en' : 'th';
+      showTranslation(
+        state.target.dataset.direction,
+        show,
+        opposite,
+        translatedLanguage,
+        state.target.dataset.english,
+        state.target.dataset.reading
+      );
+
+      if(state.words % 5 === 0){
+        state.level++;
+        toast('LEVEL UP! ' + state.level);
+        beep(1080,.12,'sine',.045);
+      }
+
+      if(state.level % 5 === 0 && !state.boss){
+        state.boss = true;
+        state.bossHits = 0;
+        ui.bossBadge.style.display = 'block';
+        ui.bossBar.style.width = '100%';
+        toast('👾 BOSS ROUND!');
+      }
+
+      if(state.boss){
+        state.bossHits++;
+        ui.bossBar.style.width = (100 - state.bossHits * 34) + '%';
+        if(state.bossHits >= 3){
+          state.boss = false;
+          ui.bossBadge.style.display = 'none';
+          state.score += 1200;
+          toast('🏆 BOSS DEFEATED +1200');
+        }
+      }
+
+      updateHUD();
+      if(!activateSpeechAfterTyping()) setTimeout(spawnTarget, 1500);
+    }else{
+      recordStudyResult(state.target.dataset.studyKey, false);
+      state.wrongChars += Math.max(1, Math.max(answer.length, typed.length));
+      state.combo = 1;
+      state.hearts--;
+      state.target.classList.add('miss');
+      beep(180,.16,'sawtooth',.04);
+      toast('ยังไม่ถูก ลองใหม่อีกครั้ง!');
+      updateHUD();
+      if(state.hearts <= 0){ endGame(); return; }
+      setTimeout(spawnTarget, 460);
+    }
+  }
+
+  function stopMedia(){
+    state.visualRequest++;
+    stopSpeechRecognition();
+    stopHandTracking();
+    if(state.stream){
+      state.stream.getTracks().forEach(track => track.stop());
+      state.stream = null;
+    }
+    camera.srcObject = null;
+    try{ if('speechSynthesis' in window) speechSynthesis.cancel(); }catch(e){}
+  }
+
+  function clearTransientFX(){
+    document.querySelectorAll('.laser,.spark').forEach(element => element.remove());
+    arena.querySelectorAll('.drone').forEach(element => element.remove());
+  }
+
+  function goHome(){
+    state.running = false;
+    state.paused = false;
+    state.reviewPool = null;
+    clearInterval(state.timer);
+    state.timer = null;
+    if(state.target){ state.target.remove(); state.target = null; }
+    clearTransientFX();
+    input.value = '';
+    input.disabled = false;
+    input.blur();
+    ui.voiceChallenge.hidden = true;
+    ui.app.classList.remove('speech-active');
+    ui.translationCard.classList.remove('show');
+    ui.help.style.display = 'none';
+    ui.library.style.display = 'none';
+    ui.result.style.display = 'none';
+    ui.bossBadge.style.display = 'none';
+    ui.menu.style.display = 'grid';
+    stopMedia();
+    camera.style.display = 'none';
+    spaceBg.style.display = 'block';
+    setHandStatus('พลังมือ · รอเริ่มภารกิจ', 'idle');
+  }
+
+  function endGame(){
+    if(!state.running) return;
+    state.running = false;
+    clearInterval(state.timer);
+    if(state.target){ state.target.remove(); state.target = null; }
+    clearTransientFX();
+    ui.voiceChallenge.hidden = true;
+    ui.app.classList.remove('speech-active');
+
+    const total = state.correctChars + state.wrongChars;
+    const acc = total ? Math.round(state.correctChars/total*100) : 0;
+    const minutes = Math.max(1/60, state.duration/60);
+    const wpm = Math.round((state.correctChars/5) / minutes);
+
+    ui.finalScore.textContent = state.score.toLocaleString();
+    ui.rWpm.textContent = wpm;
+    ui.rAcc.textContent = acc + '%';
+    ui.rBest.textContent = 'x' + state.bestCombo;
+    ui.rWords.textContent = state.words;
+    ui.rSpeech.textContent = state.speechScoreCount ? Math.round(state.speechScoreTotal/state.speechScoreCount) : '--';
+
+    ui.resultMessage.textContent =
+      acc >= 95 ? '🌟 สุดยอดฮีโร่นักพิมพ์!' :
+      acc >= 85 ? '🚀 เก่งมาก! เร็วและแม่นแล้ว' :
+      acc >= 70 ? '💪 ดีมาก ฝึกอีกหน่อยจะเทพกว่าเดิม' :
+      '🎯 เน้นความแม่นก่อน แล้วความเร็วจะตามมา';
+
+    const best = Math.max(Number(localStorage.getItem('arHeroTypingBest') || 0), state.score);
+    localStorage.setItem('arHeroTypingBest', best);
+    ui.bestText.textContent = 'สถิติสูงสุดบนเครื่องนี้: ' + best.toLocaleString() + ' คะแนน';
+    stopMedia();
+    ui.result.style.display = 'grid';
+  }
+
+  function pauseGame(){
+    if(!state.running) return;
+    state.paused = !state.paused;
+    $('#pauseBtn').textContent = state.paused ? '▶' : '⏸';
+    toast(state.paused ? 'PAUSED' : 'GO!');
+    if(!state.paused) input.focus();
+  }
+
+  function exportCSV(){
+    const total = state.correctChars + state.wrongChars;
+    const acc = total ? Math.round(state.correctChars/total*100) : 0;
+    const minutes = Math.max(1/60, state.duration/60);
+    const wpm = Math.round((state.correctChars/5) / minutes);
+    const rows = [
+      ['date','content_type','tense_type','language_mode','difficulty','theme','duration_sec','score','items','wpm','accuracy','best_combo','voice_score'],
+      [new Date().toLocaleString('th-TH'), state.contentType, state.contentType === 'tenses' ? state.tenseType : '', state.language, state.difficulty, state.theme, state.duration, state.score, state.words, wpm, acc, state.bestCombo, state.speechScoreCount ? Math.round(state.speechScoreTotal/state.speechScoreCount) : '']
+    ];
+    const csv = '\ufeff' + rows.map(r => r.map(v => `"${String(v).replaceAll('"','""')}"`).join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+    a.download = 'AR_Hero_Typing_Result.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  async function startGame(demo=false, reviewItems=null){
+    state.running = true;
+    state.paused = false;
+    state.score = 0;
+    state.combo = 1;
+    state.bestCombo = 1;
+    state.level = 1;
+    state.hearts = 3;
+    state.correctChars = 0;
+    state.wrongChars = 0;
+    state.words = 0;
+    state.speechScoreTotal = 0;
+    state.speechScoreCount = 0;
+    state.boss = false;
+    state.bossHits = 0;
+    clearTransientFX();
+    energySystem.landmarks = [];
+    energySystem.lastSeen = 0;
+
+    state.reviewPool = reviewItems?.length ? reviewItems : null;
+    state.language = $('#language').value;
+    state.difficulty = $('#gradeLevel').value;
+    state.tenseType = $('#tenseType').value;
+    state.contentType = state.reviewPool ? 'review' : $('#contentType').value;
+    state.speechPractice = $('#speechPractice').value === 'on';
+    localStorage.setItem('arHeroSpeechPractice', state.speechPractice ? 'on' : 'off');
+    state.duration = demo ? 30 : Number($('#duration').value);
+    state.remain = state.duration;
+    setTheme($('#heroTheme').value);
+
+    ui.menu.style.display = 'none';
+    ui.result.style.display = 'none';
+    ui.help.style.display = 'none';
+    ui.library.style.display = 'none';
+    ui.bossBadge.style.display = 'none';
+
+    await setVisual($('#visualMode').value);
+    if(!state.running) return;
+    updateHUD();
+    spawnTarget();
+
+    clearInterval(state.timer);
+    state.timer = setInterval(() => {
+      if(!state.running || state.paused) return;
+      state.remain--;
+      updateHUD();
+      if(state.remain <= 0) endGame();
+      if(Math.random() < .55) droneSpawner();
+    }, 1000);
+  }
+
+  input.addEventListener('input', () => {
+    if(!state.target) return;
+    const answer = state.target.dataset.answer;
+    const typed = input.value;
+    let mismatch = false;
+    for(let i=0;i<typed.length;i++){
+      if(typed[i] !== answer[i]) { mismatch = true; break; }
+    }
+    input.style.borderColor = mismatch ? 'rgba(255,102,126,.85)' : 'rgba(65,232,255,.8)';
+    renderTarget();
+  });
+
+  input.addEventListener('keydown', e => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      submitAnswer();
+    }
+  });
+
+  document.querySelectorAll('.choiceBtn,.themeCard').forEach(button => {
+    const title = button.querySelector('b')?.textContent.trim() || button.textContent.trim();
+    const detail = button.querySelector('small')?.textContent.trim() || '';
+    button.dataset.popup = detail ? `${title} · ${detail}` : title;
+  });
+
+  document.querySelectorAll('.choiceGrid[data-select]').forEach(group => {
+    const select = document.getElementById(group.dataset.select);
+    const buttons = [...group.querySelectorAll('.choiceBtn')];
+    const choose = button => {
+      select.value = button.dataset.value;
+      buttons.forEach(item => {
+        const active = item === button;
+        item.classList.toggle('active', active);
+        item.setAttribute('aria-pressed', String(active));
+      });
+      if(select.id === 'contentType'){
+        const usesSentences = select.value === 'conversations' || select.value === 'tenses';
+        input.placeholder = usesSentences
+          ? 'พิมพ์ประโยคที่เห็น แล้วกด Enter...'
+          : 'พิมพ์คำที่เห็น แล้วกด Enter...';
+        $('#tenseField').hidden = select.value !== 'tenses';
+        $('#difficultyField').hidden = select.value === 'tenses';
+        const briefings = {
+          words:'AI จะสุ่มคำศัพท์ตามระดับ และวางแผนทบทวนคำที่คุณยังจำไม่แม่น',
+          exam:'เปิดคลังศัพท์ TOEFL · TOEIC · IELTS · KKU-AELT พร้อมติดตามความแม่นยำ',
+          conversations:'ฝึกประโยคสนทนาที่ใช้จริง พิมพ์ให้ถูก แล้วพูดตามเพื่อรับคะแนนเสียง',
+          tenses:'เลือกหนึ่งใน 12 Tenses แล้วฝึกจากสถานการณ์ชีวิตประจำวัน Tense ละ 300 ประโยค'
+        };
+        $('#aiBriefText').textContent = briefings[select.value] || briefings.words;
+      }
+      select.dispatchEvent(new Event('change', {bubbles:true}));
+    };
+    buttons.forEach((button,index) => {
+      button.addEventListener('click', () => choose(button));
+      button.addEventListener('keydown', event => {
+        if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)) return;
+        event.preventDefault();
+        const step = ['ArrowRight','ArrowDown'].includes(event.key) ? 1 : -1;
+        const next = buttons[(index + step + buttons.length) % buttons.length];
+        choose(next);
+        next.focus();
+      });
+    });
+  });
+
+  $('#startBtn').onclick = () => startGame(false);
+  $('#demoBtn').onclick = () => startGame(true);
+  $('#libraryBtn').onclick = () => openLibrary();
+  $('#closeLibrary').onclick = closeLibrary;
+  $('#libraryFilters').addEventListener('click', event => {
+    const button = event.target.closest('.filterBtn');
+    if(!button) return;
+    libraryState.filter = button.dataset.filter;
+    libraryState.limit = 60;
+    document.querySelectorAll('#libraryFilters .filterBtn').forEach(item => item.classList.toggle('active', item === button));
+    renderLibrary();
+  });
+  ui.librarySearch.addEventListener('input', event => {
+    libraryState.query = event.target.value;
+    libraryState.limit = 60;
+    renderLibrary();
+  });
+  ui.libraryMore.onclick = () => {
+    libraryState.limit += 60;
+    renderLibrary();
+  };
+  ui.reviewDueBtn.onclick = () => startReview(allStudyItems.filter(item => progressStatus(item.studyKey) === 'due'));
+  ui.reviewFilteredBtn.onclick = () => startReview(libraryState.filtered);
+  ui.libraryGrid.addEventListener('click', event => {
+    const action = event.target.closest('[data-action]');
+    const card = event.target.closest('.studyCard');
+    if(!action || !card) return;
+    const item = studyItemMap.get(card.dataset.key);
+    if(!item) return;
+    if(action.dataset.action === 'favorite'){
+      if(studyMemory.favorites.has(item.studyKey)) studyMemory.favorites.delete(item.studyKey);
+      else studyMemory.favorites.add(item.studyKey);
+      saveStudyMemory();
+      renderLibrary();
+    }else if(action.dataset.action === 'speak'){
+      speakTranslation(item.en, 'en', true);
+    }else if(action.dataset.action === 'practice'){
+      startReview([item]);
+    }
+  });
+  ui.library.addEventListener('click', event => {
+    if(event.target === ui.library) closeLibrary();
+  });
+  $('#againBtn').onclick = goHome;
+  $('#resultHomeBtn').onclick = goHome;
+  $('#homeBtn').onclick = goHome;
+  document.querySelectorAll('[data-live-visual]').forEach(button => {
+    button.addEventListener('click', async () => {
+      if(!state.running || button.dataset.liveVisual === state.visualMode) return;
+      const requestedMode = button.dataset.liveVisual;
+      await setVisual(requestedMode);
+      if(!state.running) return;
+      if(state.visualMode === 'camera') toast('เปิด AR Camera และพลังมือแล้ว');
+      else if(requestedMode === 'space') toast('ปิดกล้องแล้ว · ใช้ Cyber Space');
+      if(!input.disabled) input.focus();
+    });
+  });
+  $('#helpBtn').onclick = () => { ui.help.style.display = 'grid'; };
+  $('#closeHelp').onclick = () => { ui.help.style.display = 'none'; };
+  $('#pauseBtn').onclick = pauseGame;
+  $('#snapBtn').onclick = cycleTheme;
+  $('#csvBtn').onclick = exportCSV;
+  $('#heroTheme').addEventListener('change', e => setTheme(e.target.value));
+  document.querySelectorAll('.themeCard').forEach(card => card.addEventListener('click', () => {
+    $('#heroTheme').value = card.dataset.theme;
+    setTheme(card.dataset.theme);
+  }));
+  ui.englishSpeakBtn.onclick = event => {
+    event.stopPropagation();
+    speakTranslation(ui.englishSpeakBtn.dataset.english, 'en', true);
+  };
+  ui.voiceMicBtn.onclick = startSpeechRecognition;
+  ui.voiceListenBtn.onclick = () => {
+    if(!state.target || state.voicePhase === 'typing' || state.voicePhase === 'advancing') return;
+    stopSpeechRecognition();
+    ui.voiceMicBtn.disabled = !(window.SpeechRecognition || window.webkitSpeechRecognition);
+    ui.voiceMicBtn.textContent = '🎙 เริ่มพูด';
+    ui.voiceDetected.textContent = 'ฟังตัวอย่าง แล้วกดไมค์เพื่อพูดตาม';
+    speakTranslation(state.target.dataset.english, 'en', true);
+  };
+  ui.voiceSkipBtn.onclick = advanceAfterSpeech;
+  $('#speechPractice').addEventListener('change', event => {
+    localStorage.setItem('arHeroSpeechPractice', event.target.value);
+  });
+  ui.voiceBtn.onclick = () => {
+    state.speechEnabled = !state.speechEnabled;
+    localStorage.setItem('arHeroVoice', state.speechEnabled ? 'on' : 'off');
+    if(!state.speechEnabled && 'speechSynthesis' in window) speechSynthesis.cancel();
+    setVoiceUI();
+    toast(state.speechEnabled ? 'เปิดเสียงอ่านคำแปลแล้ว' : 'ปิดเสียงอ่านคำแปลแล้ว');
+  };
+
+  document.addEventListener('keydown', event => {
+    if(event.key === 'Escape' && ui.library.style.display === 'grid'){
+      event.preventDefault();
+      closeLibrary();
+    }else if(event.key === 'Escape' && ui.help.style.display === 'grid'){
+      event.preventDefault();
+      ui.help.style.display = 'none';
+    }else if(event.key === 'Escape' && state.running){
+      event.preventDefault();
+      goHome();
+    }
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden && state.running && !state.paused) pauseGame();
+  });
+
+  window.addEventListener('beforeunload', () => {
+    stopMedia();
+  });
+
+  function updateMenuClock(){
+    const clock = $('#menuClock');
+    if(clock) clock.textContent = new Date().toLocaleTimeString('en-GB',{hour12:false});
+  }
+
+  resizeEnergyCanvas();
+  requestAnimationFrame(drawEnergyFrame);
+  updateMenuClock();
+  setInterval(updateMenuClock,1000);
+  const savedSpeechPractice = localStorage.getItem('arHeroSpeechPractice') === 'off' ? 'off' : 'on';
+  $('#speechPractice').value = savedSpeechPractice;
+  document.querySelectorAll('[data-select="speechPractice"] .choiceBtn').forEach(button => {
+    const active = button.dataset.value === savedSpeechPractice;
+    button.classList.toggle('active',active);
+    button.setAttribute('aria-pressed',String(active));
+  });
+  $('#tenseField').hidden = $('#contentType').value !== 'tenses';
+  $('#difficultyField').hidden = $('#contentType').value === 'tenses';
+  setTheme('armor');
+  syncVisualModeUI($('#visualMode').value,false);
+  setVoiceUI();
+  renderKeyboard('th');
+  updateHUD();
+})();
+</script>
 </body>
 </html>
