@@ -292,6 +292,10 @@
   .navBtn,.handStatus{min-height:38px;border:1px solid rgba(117,226,255,.2);border-radius:11px;background:linear-gradient(145deg,rgba(4,20,35,.9),rgba(5,12,24,.76));color:#dff9ff;box-shadow:0 12px 40px rgba(0,0,0,.25);backdrop-filter:blur(14px)}
   .navBtn{pointer-events:auto;display:flex;align-items:center;gap:8px;padding:7px 11px;font-size:11px;font-weight:850;letter-spacing:.04em;transition:.2s ease}
   .navBtn:hover,.navBtn:focus-visible{border-color:rgba(91,238,255,.72);background:rgba(28,77,96,.75);transform:translateY(-2px);outline:none}
+  .finishBtn{border-color:rgba(255,216,95,.36);color:#fff0a3;background:linear-gradient(145deg,rgba(55,42,8,.9),rgba(13,18,27,.78))}
+  .finishBtn:hover,.finishBtn:focus-visible{border-color:rgba(255,226,109,.8);background:rgba(102,76,13,.78)}
+  .finishBtn[hidden]{display:none!important}
+  #time.untimed{color:#7dffc8;text-shadow:0 0 14px rgba(76,255,190,.62)}
   .navIcon{display:grid;place-items:center;width:23px;height:23px;border:1px solid rgba(115,235,255,.3);border-radius:7px;color:#8cf5ff;font-size:15px;box-shadow:inset 0 0 12px rgba(65,232,255,.12)}
   .soundBtn{margin-left:auto}
   .soundBtn[aria-pressed="false"]{opacity:.58}
@@ -491,6 +495,53 @@
   @keyframes missionPanelIn{from{opacity:0;transform:translateX(14px) scale(.985)}to{opacity:1;transform:translateX(0) scale(1)}}
   @media(hover:hover) and (pointer:fine){.missionPanel .choiceGrid .choiceBtn:hover,.missionPanel .choiceGrid .choiceBtn:focus-visible{transform:translateY(-4px) scale(1.045)}}
 
+  /* Deep-space mission chamber */
+  .missionConfig>.missionPanel{
+    --space-rgb:82,229,255;
+    isolation:isolate;
+    border-color:rgba(var(--space-rgb),.38);
+    background:
+      radial-gradient(ellipse at 78% 12%,rgba(111,74,255,.25),transparent 29%),
+      radial-gradient(ellipse at 11% 82%,rgba(0,205,255,.17),transparent 34%),
+      radial-gradient(circle at 52% 50%,rgba(var(--space-rgb),.07),transparent 46%),
+      linear-gradient(145deg,rgba(3,22,39,.97),rgba(2,8,24,.98) 62%,rgba(14,5,35,.96));
+    box-shadow:inset 0 0 68px rgba(27,181,255,.08),inset 0 0 0 1px rgba(146,240,255,.025),0 0 28px rgba(31,204,255,.06)
+  }
+  .missionConfig>#settingsPanelLanguage{--space-rgb:108,255,205}.missionConfig>#difficultyField{--space-rgb:255,198,89}.missionConfig>#settingsPanelDuration{--space-rgb:171,124,255}.missionConfig>#settingsPanelVisual{--space-rgb:83,181,255}.missionConfig>#settingsPanelSpeech{--space-rgb:255,108,173}.missionConfig>.heroThemePanel{--space-rgb:255,193,81}
+  .missionConfig>.missionPanel::before{
+    content:"";position:absolute;z-index:0;inset:0;width:auto;height:auto;pointer-events:none;opacity:.72;
+    background-color:transparent;
+    background-image:
+      radial-gradient(circle,#fff 0 1px,transparent 1.4px),
+      radial-gradient(circle,rgba(112,232,255,.95) 0 1px,transparent 1.7px),
+      linear-gradient(118deg,transparent 0 47%,rgba(120,238,255,.32) 48%,transparent 49% 100%);
+    background-size:53px 47px,91px 83px,260px 260px;
+    background-position:7px 13px,24px 36px,-150px -116px;
+    box-shadow:inset 0 0 85px rgba(0,4,14,.74);
+    animation:missionStarCruise 18s linear infinite
+  }
+  .missionConfig>.missionPanel::after{
+    content:"";position:absolute;z-index:0;top:16px;right:21px;width:142px;aspect-ratio:1;border:1px solid rgba(var(--space-rgb),.2);border-radius:50%;pointer-events:none;opacity:.66;
+    background:
+      radial-gradient(circle,rgba(245,255,255,.96) 0 1.5%,rgba(var(--space-rgb),.9) 2% 4%,rgba(var(--space-rgb),.19) 5% 16%,transparent 17% 34%,rgba(var(--space-rgb),.42) 35% 36%,transparent 37% 52%,rgba(var(--space-rgb),.28) 53% 54%,transparent 55%),
+      conic-gradient(from 20deg,transparent 0 10%,rgba(var(--space-rgb),.9) 10% 11%,transparent 11% 28%,rgba(160,119,255,.78) 28% 29.5%,transparent 29.5% 63%,rgba(var(--space-rgb),.82) 63% 64%,transparent 64% 88%,rgba(255,255,255,.68) 88% 89%,transparent 89%);
+    box-shadow:0 0 38px rgba(var(--space-rgb),.15),inset 0 0 28px rgba(var(--space-rgb),.1);
+    filter:drop-shadow(0 0 9px rgba(var(--space-rgb),.35));
+    animation:missionPortalSpin 16s linear infinite
+  }
+  .missionConfig>.missionPanel>label,.missionConfig>.missionPanel>.choiceGrid,.missionConfig>.missionPanel>.themePreview{position:relative;z-index:2}
+  .missionConfig>.missionPanel>label{display:flex;align-items:center;width:100%;padding-bottom:10px;border-bottom:1px solid rgba(var(--space-rgb),.19);color:#f0fbff;text-shadow:0 0 14px rgba(var(--space-rgb),.3)}
+  .missionConfig>.missionPanel>label::after{content:"DEEP SPACE // ONLINE";margin-left:auto;color:rgba(var(--space-rgb),.72);font:800 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.13em;text-shadow:0 0 10px rgba(var(--space-rgb),.35)}
+  .missionConfig>#tenseField>label::after{display:none}
+  .missionConfig>.missionPanel .choiceBtn{border-color:rgba(var(--space-rgb),.21);background:radial-gradient(circle at 50% 0,rgba(var(--space-rgb),.08),transparent 47%),linear-gradient(145deg,rgba(5,26,43,.94),rgba(3,11,27,.96));box-shadow:inset 0 0 25px rgba(var(--space-rgb),.035),0 11px 26px rgba(0,0,0,.24)}
+  .missionConfig>.missionPanel .choiceBtn::before{content:"";position:absolute;z-index:-1;inset:-70% -45%;width:auto;height:auto;background:linear-gradient(112deg,transparent 42%,rgba(var(--space-rgb),.2) 49%,rgba(255,255,255,.25) 50%,transparent 57%);pointer-events:none;transform:translateX(-56%) rotate(4deg);opacity:0}
+  .missionConfig>.missionPanel .choiceBtn.active{border-color:rgba(var(--space-rgb),.92);box-shadow:inset 3px 0 rgba(var(--space-rgb),.95),inset 0 0 30px rgba(var(--space-rgb),.12),0 0 24px rgba(var(--space-rgb),.13)}
+  .missionConfig>.missionPanel .choiceBtn.active::before{opacity:1;animation:missionCardSweep 4.6s ease-in-out infinite}
+  .missionConfig>.missionPanel .choiceIcon{color:rgb(var(--space-rgb));filter:drop-shadow(0 0 10px rgba(var(--space-rgb),.65))}
+  @keyframes missionStarCruise{to{background-position:60px 107px,-67px 202px,110px 24px}}
+  @keyframes missionPortalSpin{to{transform:rotate(360deg)}}
+  @keyframes missionCardSweep{0%,22%{transform:translateX(-56%) rotate(4deg)}58%,100%{transform:translateX(56%) rotate(4deg)}}
+
   #help .modal,#result .modal{border-radius:22px;background:linear-gradient(145deg,rgba(5,24,40,.98),rgba(13,10,29,.98));border-color:rgba(103,231,255,.24)}
   #result .subBtns{flex-wrap:wrap}
   #result .subBtns button{min-width:160px}
@@ -536,6 +587,37 @@
   @media(max-width:640px){.filmBar{height:6px}.menuCinematic::before{display:none}.modal.menuModal{border-radius:2px}.menuHero{background:linear-gradient(150deg,rgba(7,40,59,.82),rgba(2,13,25,.58))}.menuModal .heroTitle::after{margin-top:11px}.aiBrief{grid-template-columns:auto 1fr;padding:8px}.signalBars{display:none}.aiBrief p{font-size:8.5px}.choiceBtn{min-height:44px}.themeThumb{height:auto;aspect-ratio:1.08}.menuFoot{display:none}}
   @media(max-width:960px){.menuModal .missionConfig{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto auto;min-height:0}.settingsRail{grid-column:1;grid-row:1;flex-direction:row;overflow-x:auto;padding:6px;scrollbar-width:thin;scroll-snap-type:x proximity}.settingsTab{flex:0 0 102px;scroll-snap-align:start;grid-template-columns:21px minmax(0,1fr);padding:7px 6px}.settingsTab span{width:20px;height:20px}.settingsTab i,.settingsRailHint{display:none}.settingsTab:hover,.settingsTab:focus-visible,.settingsTab.active{transform:translateY(-2px)}.missionConfig>.missionPanel{grid-column:1;grid-row:2;min-height:220px}.missionConfig>#tenseField{grid-row:3}.missionLaunch{grid-column:1;grid-row:4}}
   @media(max-width:640px){.settingsRail{margin-inline:-1px}.settingsTab{flex-basis:88px;min-height:39px}.settingsTab b{font-size:10.5px}.settingsTab small{font-size:6.5px}.missionConfig>.missionPanel{min-height:0;padding:13px 12px}.missionConfig>.missionPanel>label{margin-bottom:11px;font-size:13px}.missionConfig>.missionPanel .choiceBtn{min-height:62px}.missionConfig>#settingsPanelContent .choiceBtn{min-height:58px}.missionConfig>.heroThemePanel .themeThumb{height:auto}.missionConfig{gap:7px}}
+  @media(max-width:640px){.missionConfig>.missionPanel::before{opacity:.48}.missionConfig>.missionPanel::after{top:43px;right:-12px;width:94px;opacity:.38}.missionConfig>.missionPanel>label::after{display:none}.missionConfig>.missionPanel .choiceBtn{box-shadow:inset 0 0 18px rgba(var(--space-rgb),.035),0 7px 17px rgba(0,0,0,.2)}}
+  @media(max-height:500px){.missionConfig>.missionPanel::after{top:38px;right:-8px;width:86px;opacity:.32}.missionConfig>.missionPanel>label::after{display:none}}
+  /* Mobile-first play layout: large touch targets, safe positioning and no duplicate keyboard */
+  @media(max-width:640px){
+    #app{--mobile-safe-top:max(8px,env(safe-area-inset-top))}
+    .hud{left:6px;right:6px;top:var(--mobile-safe-top);gap:4px}.hudL,.hudR{display:flex;flex-wrap:nowrap;gap:4px;width:100%}.hudL .pill,.hudR .pill{flex:1 1 0;min-width:0;padding:5px 6px;border-radius:10px}.label{overflow:hidden;font-size:7px;letter-spacing:.035em;text-overflow:ellipsis;white-space:nowrap}.value{font-size:14px}.hudR{grid-column:1/-1}
+    .gameNav{left:6px;right:6px;top:calc(var(--mobile-safe-top) + 101px);gap:5px}.navBtn{min-height:36px;padding:5px 7px}.navIcon{width:22px;height:22px}.liveVisualSwitch{padding:2px}.liveVisualBtn{min-height:29px;padding:4px 7px}
+    #arena{top:calc(var(--mobile-safe-top) + 142px);bottom:96px}
+    #arena .target,#arena .target.sentence{left:50%!important;top:19%!important;width:auto;min-width:min(165px,calc(100vw - 28px));max-width:calc(100vw - 28px);padding:14px 16px}
+    #arena .target.sentence{width:calc(100vw - 28px)}#arena .target-word{font-size:clamp(25px,9vw,36px);line-height:1.14;overflow-wrap:anywhere;word-break:break-word}#arena .target.sentence .target-word{font-size:clamp(20px,6.3vw,28px);line-height:1.3}.target-sub{font-size:9px}.target-reading{font-size:13px}
+    #app.visual-space .faceRig{width:170px;height:225px;transform:translateY(8vh);opacity:.82}
+    #app.visual-camera #faceLayer{align-items:flex-start;padding:260px 6px 0 0}#app.visual-camera .faceRig{width:110px;height:158px;opacity:.58}#app.visual-camera #arena .target{left:42%!important;max-width:56vw}#app.visual-camera #arena .target.sentence{left:35%!important;width:68vw;max-width:68vw}.cameraAura{opacity:.72}
+    #app>.bottom{bottom:max(7px,env(safe-area-inset-bottom));width:calc(100% - 12px)}#keyboard{display:none}.typebox{grid-template-columns:minmax(0,1fr) 44px 44px;gap:6px;padding:8px;border-radius:14px}#typingInput{min-width:0;padding:11px 10px;font-size:18px}.typebox .iconBtn{display:grid;place-items:center;width:44px;min-width:44px;height:48px;padding:0;border-radius:12px}
+    .voiceChallenge{bottom:calc(100% + 8px);grid-template-columns:auto minmax(0,1fr) auto;padding:9px;gap:7px;border-radius:14px}.voiceOrb{width:36px;height:36px;font-size:17px}.voiceExpected{font-size:18px}.voicePrompt>span{font-size:7px}.voicePrompt small,.voiceDetected{font-size:9px}.voiceScoreBox{min-width:48px}.voiceScoreBox b{font-size:22px}.voiceActions{grid-column:1/-1;gap:5px}.voiceAction{flex:1;min-height:40px;padding:7px 5px;font-size:8.5px}
+    #translationCard{top:40%;width:calc(100% - 18px);padding:18px 14px 16px;border-radius:18px}#trTitle{font-size:8px}#trMain{margin-top:6px;font-size:clamp(35px,12vw,52px);line-height:1.04}#trSub{font-size:13px}#trReading{margin-top:9px;padding:7px 8px;gap:5px 7px}#trReading span{font-size:7px}#trPhonetic{font-size:16px}#englishSpeakBtn{padding:5px 7px;font-size:8px}.speakingLine{margin-top:8px;font-size:8px}
+    #menu{padding:6px}.modal.menuModal{max-height:calc(100dvh - 12px)}.menuHero{padding:17px}.menuControls{padding:16px}.menuModal .heroSub{overflow-wrap:anywhere;font-size:11.5px}.settingsTab{min-height:44px}.controlHead h2{font-size:23px}.menuModal .subBtns{gap:6px}.menuModal .miniBtn{min-height:39px;padding:7px 4px;font-size:8.5px}
+    #help,#result{padding:6px}#help .modal,#result .modal{width:100%;max-height:calc(100dvh - 12px);padding:18px}.statgrid{gap:7px}.statcard{padding:10px 7px}.statcard b{font-size:21px}.statcard span{font-size:9px}
+  }
+  @media(max-width:640px) and (max-height:600px){
+    .hud,.gameNav{opacity:0;pointer-events:none;transform:translateY(-120%)}#arena{top:8px;bottom:78px}#faceLayer{opacity:.32}#app.visual-camera .faceRig{display:none}#translationCard{top:38%}
+  }
+  @media(max-width:370px){.voiceOrb{display:none}.voiceChallenge{grid-template-columns:minmax(0,1fr) auto}.menuModal .heroTitle{font-size:33px}.menuControls{padding:14px}.missionConfig>.missionPanel{padding-inline:9px}.missionConfig>.missionPanel .choiceBtn b{font-size:13px}}
+  @media(max-width:900px) and (max-height:500px) and (orientation:landscape){
+    #menu{padding:4px}#menu .menuHero{display:none}.modal.menuModal{grid-template-columns:1fr;width:calc(100% - 8px);height:calc(100dvh - 8px);max-height:calc(100dvh - 8px)}.menuControls{padding:12px 14px;overflow-y:auto}.controlHead{padding-bottom:7px;margin-bottom:7px}.controlHead h2{font-size:21px}.aiBrief{display:none}.settingsRail{min-height:48px}.missionConfig>.missionPanel{min-height:155px;padding:10px 13px}.missionConfig>.missionPanel>label{margin-bottom:8px}.missionConfig>.missionPanel .choiceBtn{min-height:58px}.missionConfig>#settingsPanelContent .choiceBtn{min-height:58px}.missionConfig>.heroThemePanel .themeThumb{height:76px}.menuModal .subBtns{margin-top:6px}.menuFoot{display:none}
+    #app>.bottom{bottom:max(5px,env(safe-area-inset-bottom));width:calc(100% - 12px)}#keyboard{display:none}.typebox{grid-template-columns:auto minmax(0,1fr) 46px 46px;gap:7px;padding:7px 9px}#typingInput{min-width:0;padding:10px 12px;font-size:18px}.typebox .iconBtn{width:46px;height:46px;padding:0}
+    #arena{top:88px;bottom:74px}#app.visual-space #faceLayer{justify-content:flex-start;padding-left:17%}#app.visual-space .faceRig{width:180px;height:230px;transform:none;opacity:.76}#app.visual-space #arena .target{left:72%!important;top:52%!important;max-width:46vw}#app.visual-space #arena .target.sentence{width:46vw}#app.visual-camera #arena .target{left:26%!important;top:52%!important;max-width:46vw}#app.visual-camera #arena .target.sentence{width:46vw}#app.visual-camera #faceLayer{padding-top:102px}
+    #translationCard{top:35%;width:min(520px,62vw);padding:13px 18px 12px}#trMain{font-size:clamp(32px,7vw,48px)}#trReading{margin-top:6px;padding:5px 8px}.speakingLine{margin-top:6px}.voiceChallenge{bottom:calc(100% + 6px);padding:8px 10px;gap:7px}.voiceOrb{width:36px;height:36px}.voiceExpected{font-size:17px}.voiceActions{gap:4px}.voiceAction{min-height:36px;padding:6px 7px}
+  }
+  @media(min-width:641px) and (max-width:900px) and (max-height:500px) and (orientation:landscape){
+    .hud{left:6px;right:6px;top:5px;grid-template-columns:1fr 1fr;gap:8px}.brand{display:none}.hudL,.hudR{flex-wrap:nowrap;gap:4px}.hudR{grid-column:auto}.hudL .pill,.hudR .pill{flex:1 1 0;min-width:0;padding:4px 7px}.label{font-size:7px}.value{font-size:14px}.gameNav{left:6px;right:6px;top:51px;gap:5px}.handStatus{display:none}.navBtn{min-height:33px;padding:4px 7px}.navBtn span:last-child,.liveVisualBtn b{display:none}.navIcon{width:21px;height:21px}.liveVisualBtn{min-height:27px;padding:3px 7px}.soundBtn{margin-left:auto}
+  }
   @media(min-width:961px) and (min-height:721px) and (max-height:850px){.menuModal .heroSub{padding-block:6px;font-size:12px;line-height:1.5}.heroVisual{min-height:245px;margin-top:8px}.selectedHelmet{width:min(160px,42%)}.aiIdentity{display:none}}
   @media(min-width:961px) and (max-height:720px){.menuModal .heroSub{padding-block:5px;font-size:11.5px;line-height:1.45}.selectedHelmet{width:min(100px,30%)}.aiIdentity{display:none}}
   @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
@@ -591,7 +673,7 @@
     <div class="brand glass"><strong>AR HERO TYPING QUEST</strong><small>พิมพ์ไว • แปลได้ • ใส่หน้ากากฮีโร่ • สนุกสุดพลัง</small></div>
     <div class="hudR">
       <div class="pill glass"><div class="label">เลเวล</div><div class="value" id="level">1</div></div>
-      <div class="pill glass"><div class="label">เวลา</div><div class="value" id="time">120</div></div>
+      <div class="pill glass"><div class="label" id="timeLabel">เวลา</div><div class="value" id="time">120</div></div>
       <div class="pill glass"><div class="label">พลัง</div><div class="value" id="hearts">❤️❤️❤️</div></div>
       <div class="pill glass"><div class="label">ความแม่น</div><div class="value" id="accuracy">100%</div></div>
     </div>
@@ -601,6 +683,9 @@
   <nav class="gameNav" aria-label="เมนูระหว่างเล่น">
     <button class="navBtn" id="homeBtn" type="button" title="กลับหน้าเมนูหลัก">
       <span class="navIcon" aria-hidden="true">⌂</span><span>หน้าแรก</span>
+    </button>
+    <button class="navBtn finishBtn" id="finishBtn" type="button" title="จบภารกิจและดูผล" hidden>
+      <span class="navIcon" aria-hidden="true">■</span><span>จบภารกิจ</span>
     </button>
     <div class="handStatus" id="handStatus" data-state="idle" role="status" aria-live="polite">
       <i aria-hidden="true"></i><span>พลังมือ · รอเริ่มภารกิจ</span>
@@ -776,15 +861,17 @@
           </div>
           <div class="field missionPanel" id="settingsPanelDuration" data-settings-panel="duration" role="tabpanel" aria-labelledby="settingsTabDuration">
             <label id="durationLabel"><span>04</span> เวลาเล่น</label>
-            <div class="choiceGrid three" data-select="duration" role="group" aria-labelledby="durationLabel">
+            <div class="choiceGrid four" data-select="duration" role="group" aria-labelledby="durationLabel">
               <button type="button" class="choiceBtn" data-value="60" aria-pressed="false"><span><b>1 นาที</b><small>QUICK</small></span></button>
               <button type="button" class="choiceBtn active" data-value="120" aria-pressed="true"><span><b>2 นาที</b><small>STANDARD</small></span></button>
               <button type="button" class="choiceBtn" data-value="180" aria-pressed="false"><span><b>3 นาที</b><small>ENDURANCE</small></span></button>
+              <button type="button" class="choiceBtn" data-value="0" aria-pressed="false"><span><b>ไม่จับเวลา</b><small>FREE PLAY · ∞</small></span></button>
             </div>
             <select id="duration" class="settingValue" tabindex="-1" aria-hidden="true">
               <option value="60">1 นาที</option>
               <option value="120" selected>2 นาที</option>
               <option value="180">3 นาที</option>
+              <option value="0">ไม่จับเวลา · เล่นอิสระ</option>
             </select>
           </div>
           <div class="field missionPanel" id="settingsPanelVisual" data-settings-panel="visual" role="tabpanel" aria-labelledby="settingsTabVisual">
@@ -847,7 +934,7 @@
       <div style="text-align:right"><button class="iconBtn" id="closeHelp">✕</button></div>
       <h2>วิธีเล่น</h2>
       <div class="helpText">
-        1) กดเลือกฝึกคำศัพท์ ศัพท์สอบ บทสนทนา หรือ <b>12 Tenses</b> แล้วเลือกภาษา เวลา และธีมฮีโร่<br>
+        1) กดเลือกฝึกคำศัพท์ ศัพท์สอบ บทสนทนา หรือ <b>12 Tenses</b> แล้วเลือกภาษา เวลา หรือ <b>ไม่จับเวลา</b> และธีมฮีโร่<br>
         2) พิมพ์คำหรือประโยคที่ลอยอยู่บนหน้าจอให้ถูก แล้วกด <b>Enter</b><br>
         3) ถ้าเปิด <b>พิมพ์แล้วพูดตาม</b> ระบบจะแสดงข้อความอังกฤษกับคำอ่าน IPA จากนั้นจึงเปิดปุ่มไมค์<br>
         4) กดไมค์ พูดตาม ระบบจะถอดเสียงและให้คะแนนความตรง แล้วกด <b>คำถัดไป</b> (หรือข้ามเสียงได้)<br>
@@ -856,7 +943,8 @@
         7) ทุก ๆ 5 คำ จะเลเวลอัป และบางช่วงจะเข้าสู่ <b>Boss Round</b><br>
         8) เปิด <b>คลังการเรียนรู้</b> เพื่อดูคะแนนเสียง ค้นหาคำเดิม ติดดาว และทบทวน<br>
         9) ระหว่างเล่น กด <b>◉ ใช้กล้อง</b> หรือ <b>✦ ไม่ใช้กล้อง</b> ที่แถบด้านบนเพื่อสลับโหมดได้ทันที<br>
-        10) กดปุ่ม <b>🎭</b> ระหว่างเล่น เพื่อสลับหน้ากาก AR อย่างรวดเร็ว<br><br>
+        10) ในโหมด <b>ไม่จับเวลา</b> กด <b>■ จบภารกิจ</b> เมื่อต้องการดูผลสรุปและ WPM จากเวลาที่ฝึกจริง<br>
+        11) กดปุ่ม <b>🎭</b> ระหว่างเล่น เพื่อสลับหน้ากาก AR อย่างรวดเร็ว<br><br>
         <small>หมายเหตุ: คะแนนเสียงวัดจากความตรงของข้อความที่เบราว์เซอร์รู้จำ จึงใช้ฝึกความชัดเจนได้ แต่ไม่ใช่คะแนนสำเนียงหรือหน่วยเสียงแบบห้องสอบ</small>
       </div>
     </div>
@@ -1028,14 +1116,14 @@
 
   const ui = {
     app: $('#app'), menu: $('#menu'), help: $('#help'), result: $('#result'), library: $('#library'),
-    score: $('#score'), combo: $('#combo'), level: $('#level'), time: $('#time'),
+    score: $('#score'), combo: $('#combo'), level: $('#level'), time: $('#time'), timeLabel: $('#timeLabel'),
     hearts: $('#hearts'), accuracy: $('#accuracy'), langMode: $('#langMode'),
     toast: $('#toast'), translationCard: $('#translationCard'), trTitle: $('#trTitle'),
     trMain: $('#trMain'), trSub: $('#trSub'), trReading: $('#trReading'), trPhonetic: $('#trPhonetic'),
     englishSpeakBtn: $('#englishSpeakBtn'), bossBadge: $('#bossBadge'), bossBar: $('#bossBar'),
     finalScore: $('#finalScore'), resultMessage: $('#resultMessage'),
     rWpm: $('#rWpm'), rAcc: $('#rAcc'), rBest: $('#rBest'), rWords: $('#rWords'), rSpeech: $('#rSpeech'), bestText: $('#bestText'),
-    handStatus: $('#handStatus'), voiceBtn: $('#voiceBtn'), selectedHelmet: $('#selectedHelmet'),
+    handStatus: $('#handStatus'), voiceBtn: $('#voiceBtn'), finishBtn: $('#finishBtn'), selectedHelmet: $('#selectedHelmet'),
     voiceChallenge: $('#voiceChallenge'), voicePhaseLabel: $('#voicePhaseLabel'), voiceExpected: $('#voiceExpected'), voiceExpectedIpa: $('#voiceExpectedIpa'),
     voiceDetected: $('#voiceDetected'), voiceScore: $('#voiceScore'), voiceMicBtn: $('#voiceMicBtn'),
     voiceListenBtn: $('#voiceListenBtn'), voiceSkipBtn: $('#voiceSkipBtn'),
@@ -1045,7 +1133,7 @@
 
   let state = {
     running:false, paused:false, score:0, combo:1, bestCombo:1, level:1, hearts:3,
-    remain:120, duration:120, correctChars:0, wrongChars:0, words:0, target:null,
+    remain:120, duration:120, elapsed:0, correctChars:0, wrongChars:0, words:0, target:null,
     timer:null, boss:false, bossHits:0, language:'th', difficulty:'normal', contentType:'words', tenseType:'present_simple', theme:'armor', visualMode:'camera',
     lastPair:null, reviewPool:null, stream:null, audioCtx:null, visualRequest:0,
     speechEnabled:localStorage.getItem('arHeroVoice') !== 'off',
@@ -2013,7 +2101,10 @@
     ui.score.textContent = state.score.toLocaleString();
     ui.combo.textContent = 'x' + state.combo;
     ui.level.textContent = state.level;
-    ui.time.textContent = state.remain;
+    const untimed = state.duration === 0;
+    ui.time.textContent = untimed ? '∞' : state.remain;
+    ui.time.classList.toggle('untimed', untimed);
+    ui.timeLabel.textContent = untimed ? 'ไม่จับเวลา' : 'เวลา';
     ui.hearts.textContent = '❤️'.repeat(Math.max(0, state.hearts)) || '💔';
     const total = state.correctChars + state.wrongChars;
     ui.accuracy.textContent = (total ? Math.round(state.correctChars/total*100) : 100) + '%';
@@ -2138,6 +2229,7 @@
     ui.library.style.display = 'none';
     ui.result.style.display = 'none';
     ui.bossBadge.style.display = 'none';
+    ui.finishBtn.hidden = true;
     ui.menu.style.display = 'grid';
     stopMedia();
     camera.style.display = 'none';
@@ -2149,6 +2241,7 @@
     if(!state.running) return;
     state.running = false;
     clearInterval(state.timer);
+    state.timer = null;
     if(state.target){ state.target.remove(); state.target = null; }
     clearTransientFX();
     ui.voiceChallenge.hidden = true;
@@ -2156,7 +2249,8 @@
 
     const total = state.correctChars + state.wrongChars;
     const acc = total ? Math.round(state.correctChars/total*100) : 0;
-    const minutes = Math.max(1/60, state.duration/60);
+    const elapsedSeconds = Math.max(1, state.elapsed);
+    const minutes = elapsedSeconds / 60;
     const wpm = Math.round((state.correctChars/5) / minutes);
 
     ui.finalScore.textContent = state.score.toLocaleString();
@@ -2166,11 +2260,16 @@
     ui.rWords.textContent = state.words;
     ui.rSpeech.textContent = state.speechScoreCount ? Math.round(state.speechScoreTotal/state.speechScoreCount) : '--';
 
-    ui.resultMessage.textContent =
+    const gradeMessage =
       acc >= 95 ? '🌟 สุดยอดฮีโร่นักพิมพ์!' :
       acc >= 85 ? '🚀 เก่งมาก! เร็วและแม่นแล้ว' :
       acc >= 70 ? '💪 ดีมาก ฝึกอีกหน่อยจะเทพกว่าเดิม' :
       '🎯 เน้นความแม่นก่อน แล้วความเร็วจะตามมา';
+    const sessionTime = elapsedSeconds >= 60
+      ? `${Math.floor(elapsedSeconds/60)} นาที${elapsedSeconds % 60 ? ` ${elapsedSeconds % 60} วินาที` : ''}`
+      : `${elapsedSeconds} วินาที`;
+    ui.resultMessage.textContent = `${gradeMessage} · ฝึก ${sessionTime}`;
+    ui.finishBtn.hidden = true;
 
     const best = Math.max(Number(localStorage.getItem('arHeroTypingBest') || 0), state.score);
     localStorage.setItem('arHeroTypingBest', best);
@@ -2190,11 +2289,12 @@
   function exportCSV(){
     const total = state.correctChars + state.wrongChars;
     const acc = total ? Math.round(state.correctChars/total*100) : 0;
-    const minutes = Math.max(1/60, state.duration/60);
+    const elapsedSeconds = Math.max(1, state.elapsed);
+    const minutes = elapsedSeconds / 60;
     const wpm = Math.round((state.correctChars/5) / minutes);
     const rows = [
       ['date','content_type','tense_type','language_mode','difficulty','theme','duration_sec','score','items','wpm','accuracy','best_combo','voice_score'],
-      [new Date().toLocaleString('th-TH'), state.contentType, state.contentType === 'tenses' ? state.tenseType : '', state.language, state.difficulty, state.theme, state.duration, state.score, state.words, wpm, acc, state.bestCombo, state.speechScoreCount ? Math.round(state.speechScoreTotal/state.speechScoreCount) : '']
+      [new Date().toLocaleString('th-TH'), state.contentType, state.contentType === 'tenses' ? state.tenseType : '', state.language, state.difficulty, state.theme, elapsedSeconds, state.score, state.words, wpm, acc, state.bestCombo, state.speechScoreCount ? Math.round(state.speechScoreTotal/state.speechScoreCount) : '']
     ];
     const csv = '\ufeff' + rows.map(r => r.map(v => `"${String(v).replaceAll('"','""')}"`).join(',')).join('\n');
     const a = document.createElement('a');
@@ -2215,6 +2315,7 @@
     state.correctChars = 0;
     state.wrongChars = 0;
     state.words = 0;
+    state.elapsed = 0;
     state.speechScoreTotal = 0;
     state.speechScoreCount = 0;
     state.boss = false;
@@ -2232,6 +2333,7 @@
     localStorage.setItem('arHeroSpeechPractice', state.speechPractice ? 'on' : 'off');
     state.duration = demo ? 30 : Number($('#duration').value);
     state.remain = state.duration;
+    ui.finishBtn.hidden = state.duration !== 0;
     setTheme($('#heroTheme').value);
 
     ui.menu.style.display = 'none';
@@ -2248,9 +2350,13 @@
     clearInterval(state.timer);
     state.timer = setInterval(() => {
       if(!state.running || state.paused) return;
-      state.remain--;
+      state.elapsed++;
+      if(state.duration > 0) state.remain--;
       updateHUD();
-      if(state.remain <= 0) endGame();
+      if(state.duration > 0 && state.remain <= 0){
+        endGame();
+        return;
+      }
       if(Math.random() < .55) droneSpawner();
     }, 1000);
   }
@@ -2408,6 +2514,7 @@
   $('#againBtn').onclick = goHome;
   $('#resultHomeBtn').onclick = goHome;
   $('#homeBtn').onclick = goHome;
+  ui.finishBtn.onclick = endGame;
   document.querySelectorAll('[data-live-visual]').forEach(button => {
     button.addEventListener('click', async () => {
       if(!state.running || button.dataset.liveVisual === state.visualMode) return;
