@@ -230,7 +230,7 @@
 
   #menu,#help,#result,#library{
     position:absolute;inset:0;z-index:40;display:grid;place-items:center;padding:16px;
-    background:rgba(1,9,18,.58);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)
+    background:rgba(1,9,18,.58);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision
   }
   #help,#result,#library{display:none}
   .modal{
@@ -313,6 +313,36 @@
   .faceRig .heroPart,.faceRig .crown,.faceRig .earL,.faceRig .earR,.faceRig .chinPlate,.faceRig .webLines,.faceRig .halo,.faceRig .hornL,.faceRig .hornR,.faceRig .visor,.faceRig .mouthGrid,.faceRig .cheekL,.faceRig .cheekR,.faceRig .sideArcs{opacity:.1}
   .faceRig .sparkAura{z-index:1}
 
+  /* Camera mode: keep the face clear and surround the player with energy */
+  #app{--hero-energy:73,229,255;--hero-core:218,253,255}
+  #app[data-hero-theme="armor"]{--hero-energy:255,177,66;--hero-core:255,244,190}
+  #app[data-hero-theme="web"]{--hero-energy:255,61,104;--hero-core:255,230,239}
+  #app[data-hero-theme="thunder"]{--hero-energy:52,196,255;--hero-core:224,252,255}
+  #app[data-hero-theme="cosmic"]{--hero-energy:185,91,255;--hero-core:255,228,255}
+  #app[data-hero-theme="robot"]{--hero-energy:54,232,255;--hero-core:211,255,247}
+  #app.visual-camera #faceLayer{justify-content:flex-end;padding-right:clamp(18px,3.7vw,74px)}
+  #app.visual-camera .faceRig{width:min(28vw,258px);height:min(40vw,355px);transform:translateY(1vh);opacity:.86;filter:drop-shadow(0 18px 32px rgba(0,0,0,.55));animation:sideHeroFloat 3.8s ease-in-out infinite}
+  #app.visual-camera .faceRig::after{top:11%;width:78%;height:64%;filter:saturate(1.2) contrast(1.12) drop-shadow(0 0 20px rgba(var(--hero-energy),.52))}
+  #app.visual-camera .faceGuide{inset:8% 10%;border-color:rgba(var(--hero-energy),.24);box-shadow:0 0 34px rgba(var(--hero-energy),.12) inset}
+  #app.visual-camera .sparkAura{inset:2%;background:radial-gradient(circle,rgba(var(--hero-energy),.3),transparent 66%);filter:blur(15px)}
+  .sideHeroBadge{display:none}
+  #app.visual-camera .sideHeroBadge{position:absolute;z-index:12;right:1%;bottom:8%;display:grid;gap:3px;width:max-content;padding:7px 9px;border-left:2px solid rgba(var(--hero-energy),.78);background:linear-gradient(90deg,rgba(2,18,29,.88),rgba(3,14,25,.2));color:rgba(var(--hero-core),.96);font:800 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.13em;text-align:right;box-shadow:-10px 0 24px rgba(var(--hero-energy),.08)}
+  #app.visual-camera .sideHeroBadge span{color:rgba(var(--hero-energy),.95)}#app.visual-camera .sideHeroBadge b{font-size:6px;color:#7e9eab}
+  @keyframes sideHeroFloat{50%{transform:translateY(calc(1vh - 7px));filter:drop-shadow(0 24px 38px rgba(0,0,0,.58)) drop-shadow(0 0 16px rgba(var(--hero-energy),.18))}}
+
+  .cameraAura{position:absolute;inset:0;z-index:6;display:none;pointer-events:none;overflow:hidden;mix-blend-mode:screen}
+  #app.visual-camera .cameraAura{display:block}
+  .auraHead{position:absolute;left:50%;top:28%;width:clamp(150px,15vw,245px);aspect-ratio:.86;transform:translate(-50%,-50%);border:1px solid rgba(var(--hero-energy),.28);border-radius:48% 48% 46% 46%/42% 42% 56% 56%;box-shadow:0 0 24px rgba(var(--hero-energy),.12),inset 0 0 28px rgba(var(--hero-energy),.07);animation:auraBreathe 2.4s ease-in-out infinite alternate}
+  .auraHead::before,.auraHead::after{content:"";position:absolute;border-radius:inherit;pointer-events:none}.auraHead::before{inset:-13px;background:conic-gradient(from 20deg,transparent 0 13%,rgba(var(--hero-core),.7) 14% 15%,transparent 16% 38%,rgba(var(--hero-energy),.62) 39% 40%,transparent 41% 73%,rgba(var(--hero-core),.58) 74% 75%,transparent 76%);-webkit-mask:radial-gradient(transparent 65%,#000 67%);mask:radial-gradient(transparent 65%,#000 67%);filter:drop-shadow(0 0 7px rgba(var(--hero-energy),.48));animation:auraSpin 8s linear infinite}.auraHead::after{inset:-26px;border:1px dashed rgba(var(--hero-energy),.18);animation:auraSpin 15s linear infinite reverse}
+  .auraBody{position:absolute;left:50%;top:62%;width:clamp(300px,39vw,670px);height:clamp(300px,56vh,560px);transform:translate(-50%,-50%);border:1px solid rgba(var(--hero-energy),.17);border-top-color:rgba(var(--hero-core),.38);border-radius:48% 48% 34% 34%/28% 28% 62% 62%;background:radial-gradient(ellipse at 50% 38%,transparent 46%,rgba(var(--hero-energy),.035) 70%,transparent 73%);box-shadow:0 0 45px rgba(var(--hero-energy),.08),inset 0 0 42px rgba(var(--hero-energy),.035);animation:bodyAuraPulse 2.7s ease-in-out infinite alternate}
+  .auraBody::before,.auraBody::after{content:"";position:absolute;top:18%;bottom:15%;width:2px;background:linear-gradient(transparent,rgba(var(--hero-core),.55),rgba(var(--hero-energy),.12),transparent);box-shadow:0 0 13px rgba(var(--hero-energy),.52);animation:energyRise 1.8s ease-in-out infinite}.auraBody::before{left:-4px}.auraBody::after{right:-4px;animation-delay:-.85s}
+  .auraOrbit{position:absolute;left:50%;top:46%;width:clamp(250px,31vw,520px);height:clamp(76px,11vw,160px);border:1px solid rgba(var(--hero-energy),.22);border-radius:50%;transform:translate(-50%,-50%) rotate(-7deg);box-shadow:0 0 18px rgba(var(--hero-energy),.08);animation:auraOrbitSpin 7s linear infinite}.auraOrbitTwo{top:62%;width:clamp(320px,43vw,720px);height:clamp(90px,14vw,190px);border-style:dashed;opacity:.62;animation-duration:11s;animation-direction:reverse}
+  .auraBolt{position:absolute;top:31%;width:18px;height:28%;background:linear-gradient(180deg,rgba(var(--hero-core),.88),rgba(var(--hero-energy),.18));clip-path:polygon(60% 0,28% 39%,57% 39%,12% 100%,43% 54%,22% 54%);filter:drop-shadow(0 0 8px rgba(var(--hero-energy),.78));opacity:.55;animation:boltFlicker 1.1s steps(2,end) infinite}.boltOne{left:calc(50% - min(24vw,390px));transform:rotate(-7deg)}.boltTwo{right:calc(50% - min(24vw,390px));transform:scaleX(-1) rotate(-7deg);animation-delay:-.52s}
+  .auraParticle{position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(var(--hero-core),.95);box-shadow:0 0 13px 3px rgba(var(--hero-energy),.66);animation:auraParticle 3.4s ease-in-out infinite}.particleOne{left:31%;top:38%}.particleTwo{left:68%;top:31%;animation-delay:-.6s}.particleThree{left:24%;top:61%;animation-delay:-1.2s}.particleFour{left:74%;top:68%;animation-delay:-1.8s}.particleFive{left:40%;top:78%;animation-delay:-2.4s}.particleSix{left:61%;top:48%;animation-delay:-3s}
+  @keyframes auraSpin{to{transform:rotate(360deg)}}@keyframes auraBreathe{to{opacity:.62;transform:translate(-50%,-50%) scale(1.07)}}@keyframes bodyAuraPulse{to{opacity:.58;transform:translate(-50%,-50%) scale(1.025)}}@keyframes auraOrbitSpin{to{transform:translate(-50%,-50%) rotate(353deg)}}@keyframes energyRise{50%{transform:translateY(-18px);opacity:.35}}@keyframes boltFlicker{0%,18%,24%,78%,100%{opacity:.16}20%,25%,75%{opacity:.74}}@keyframes auraParticle{0%,100%{opacity:.18;transform:translateY(18px) scale(.6)}50%{opacity:1;transform:translateY(-28px) scale(1.35)}}
+
+  @media(max-width:720px){#app.visual-camera #faceLayer{align-items:flex-start;padding:175px 9px 0 0}#app.visual-camera .faceRig{width:132px;height:190px;transform:none;opacity:.68}#app.visual-camera .sideHeroBadge{display:none}.auraHead{top:31%;width:135px}.auraBody{top:59%;width:82vw;height:48vh}.auraOrbit{top:45%;width:66vw}.auraOrbitTwo{top:61%;width:90vw}.auraBolt{display:none}}
+
   #translationCard{top:47%;z-index:32;width:min(760px,92vw);min-width:0;padding:28px 32px 24px;overflow:hidden;border-radius:26px;background:linear-gradient(145deg,rgba(3,21,38,.96),rgba(19,12,39,.94));border:1px solid rgba(101,238,255,.5);box-shadow:0 0 0 1px rgba(101,238,255,.08),0 24px 90px rgba(0,0,0,.52),inset 0 0 46px rgba(63,205,255,.08)}
   #translationCard::before,#translationCard::after{content:"";position:absolute;width:66px;height:20px;border-color:rgba(103,239,255,.72);pointer-events:none}
   #translationCard::before{left:12px;top:12px;border-left:2px solid;border-top:2px solid}
@@ -357,13 +387,14 @@
   .featureRail{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:4px}
   .featureRail span{padding:8px 5px;border-top:1px solid rgba(107,224,255,.2);color:#7e9da9;font:700 8px/1.3 ui-monospace,Consolas,monospace;letter-spacing:.06em}.featureRail b{color:#61e9ff;margin-right:3px}
 
-  .menuControls{position:relative;min-width:0;padding:30px;overflow:auto;background:linear-gradient(180deg,rgba(3,13,24,.73),rgba(3,11,21,.94));scrollbar-width:thin;scrollbar-color:rgba(94,225,255,.35) transparent}
+  .menuControls{position:relative;min-width:0;padding:30px;overflow-x:hidden;overflow-y:auto;background:linear-gradient(180deg,rgba(3,13,24,.73),rgba(3,11,21,.94));scrollbar-width:thin;scrollbar-color:rgba(94,225,255,.35) transparent}
   .controlHead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:14px}.controlHead small{color:#64e9ff;font:800 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.18em}.controlHead h2{margin:5px 0 0;font-size:23px}.readyLight{display:flex;align-items:center;gap:7px;padding:6px 9px;border-radius:8px;border:1px solid rgba(98,255,194,.2);color:#9be8c8;background:rgba(98,255,194,.05);font-size:9px}
   .menuModal .chips{margin:0 0 12px}.menuModal .chip{padding:5px 8px;border-radius:5px;color:#9cbecc;background:rgba(80,220,255,.035);border-color:rgba(93,225,255,.13);font:700 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.1em}
-  .menuModal .config{gap:9px}.menuModal .wide{min-width:0}.menuModal .field{position:relative;padding:10px 11px;border-radius:12px;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018));border-color:rgba(111,221,255,.13);transition:.2s ease}.menuModal .field:focus-within{border-color:rgba(79,231,255,.55);box-shadow:inset 0 0 20px rgba(60,217,255,.06)}
+  .menuModal .config{gap:7px}.menuModal .wide{min-width:0}.menuModal .field{position:relative;padding:10px 11px;border-radius:12px;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018));border-color:rgba(111,221,255,.13);transition:.2s ease}.menuModal .field:focus-within{border-color:rgba(79,231,255,.55);box-shadow:inset 0 0 20px rgba(60,217,255,.06)}
   .menuModal .field label{margin-bottom:8px;color:#c1d8e2;font-size:12px;font-weight:800;letter-spacing:.02em}.menuModal .field label span{margin-right:6px;color:#59e6ff;font:900 8px/1 ui-monospace,Consolas,monospace}
   .settingValue{display:none!important}
-  .choiceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.choiceGrid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .choiceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.choiceGrid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.choiceGrid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+  #tenseField[hidden]{display:none!important}.tenseGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.tenseGrid .choiceBtn{justify-content:flex-start;min-height:50px}.tenseGrid .choiceBtn b{font-size:10px}.tenseGrid .choiceBtn small{font-size:6.5px;letter-spacing:0;white-space:normal;line-height:1.2}
   .choiceBtn{position:relative;display:flex;align-items:center;justify-content:center;gap:7px;min-width:0;min-height:44px;padding:7px 8px;border:1px solid rgba(112,218,243,.13);border-radius:9px;background:rgba(4,18,30,.76);color:#87a5b3;text-align:left;cursor:pointer;transform-origin:50% 100%;transition:transform .22s cubic-bezier(.2,.8,.2,1),opacity .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease}
   .choiceBtn:hover,.choiceBtn:focus-visible{border-color:rgba(89,230,255,.52);color:#e9fbff;transform:translateY(-1px);outline:none}.choiceBtn.active{border-color:#5ce9ff;color:#fff;background:linear-gradient(145deg,rgba(36,196,229,.22),rgba(93,255,191,.07));box-shadow:inset 0 0 18px rgba(50,221,255,.08),0 5px 18px rgba(11,196,226,.09)}
   .choiceBtn .choiceIcon{flex:0 0 auto;color:#66eaff;font-size:17px;filter:drop-shadow(0 0 6px rgba(78,230,255,.42))}.choiceBtn b,.choiceBtn small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.choiceBtn b{font-size:12px;line-height:1.2}.choiceBtn small{margin-top:3px;color:#7294a2;font:800 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.04em}.choiceBtn.active small{color:#a8e8f2}
@@ -390,6 +421,59 @@
   .menuModal .subBtns{margin-top:8px}.menuModal .miniBtn{padding:9px;border-radius:9px;color:#aec6d1;border-color:rgba(106,220,248,.13);background:rgba(255,255,255,.025);font-size:10px}.menuModal .miniBtn:hover{color:#fff;border-color:rgba(87,229,255,.45)}
   .menuFoot{display:flex;justify-content:space-between;gap:10px;margin-top:12px;color:#456776;font:700 6.5px/1.3 ui-monospace,Consolas,monospace;letter-spacing:.1em}
 
+  /* Cinematic AI command center */
+  #menu{padding:24px;background:#01060b}
+  #menu::before{inset:-3%;background:linear-gradient(90deg,rgba(0,7,15,.18),rgba(1,9,20,.56)),url("assets/hero-command-center.png") center/cover no-repeat;filter:saturate(1.28) contrast(1.12) brightness(.8);animation:menuDrift 18s ease-in-out infinite alternate}
+  #menu::after{background:radial-gradient(circle at 24% 49%,rgba(43,224,255,.14),transparent 24%),radial-gradient(circle at 82% 15%,rgba(117,91,255,.1),transparent 22%),linear-gradient(180deg,rgba(0,4,10,.28),rgba(0,6,14,.24) 52%,rgba(0,3,9,.88));box-shadow:inset 0 0 180px rgba(0,0,0,.9)}
+  .menuCinematic{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .menuCinematic::before{content:"";position:absolute;left:7%;top:-45%;width:42%;height:160%;background:linear-gradient(105deg,transparent 28%,rgba(79,227,255,.08) 49%,transparent 68%);transform:rotate(-8deg);filter:blur(8px);animation:cinemaBeam 9s ease-in-out infinite alternate}
+  .menuCinematic::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(255,255,255,.018) 0,rgba(255,255,255,.018) 1px,transparent 1px,transparent 5px);opacity:.36;mix-blend-mode:screen}
+  .filmBar{position:absolute;left:0;right:0;height:10px;background:#000;box-shadow:0 0 22px rgba(0,0,0,.9)}.filmBar.top{top:0}.filmBar.bottom{bottom:0}
+  .neuralGrid{position:absolute;left:-12%;right:-12%;bottom:-26%;height:58%;background-image:linear-gradient(rgba(50,222,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(50,222,255,.12) 1px,transparent 1px);background-size:48px 36px;transform:perspective(420px) rotateX(64deg);transform-origin:50% 100%;opacity:.24;mask-image:linear-gradient(transparent,#000 35%);animation:gridFlow 7s linear infinite}
+  .cinemaTelemetry{position:absolute;display:grid;gap:4px;color:#527887;font:700 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.16em}.cinemaTelemetry span{color:#64dff1}.cinemaTelemetry b{font-weight:700}.cinemaTelemetry.topLeft{left:28px;top:25px}.cinemaTelemetry.topRight{right:28px;top:25px;text-align:right}.cinemaTelemetry.bottomLeft{left:28px;bottom:25px}.cinemaTelemetry.bottomRight{right:28px;bottom:25px;text-align:right}
+  @keyframes cinemaBeam{to{transform:translateX(38vw) rotate(-2deg);opacity:.35}}@keyframes gridFlow{to{background-position:0 36px,48px 0}}
+
+  .modal.menuModal{position:relative;z-index:2;grid-template-columns:minmax(390px,.92fr) minmax(540px,1.08fr);width:min(1260px,94vw);height:min(820px,90vh);max-height:90vh;border:1px solid rgba(100,232,255,.38);border-radius:4px;clip-path:polygon(0 20px,20px 0,calc(100% - 20px) 0,100% 20px,100% calc(100% - 20px),calc(100% - 20px) 100%,20px 100%,0 calc(100% - 20px));background:linear-gradient(118deg,rgba(2,18,31,.89),rgba(3,10,21,.96));box-shadow:0 40px 150px rgba(0,0,0,.82),0 0 70px rgba(39,206,255,.09),inset 0 0 80px rgba(25,163,207,.035)}
+  .menuModal::before{inset:8px;border-color:rgba(112,235,255,.11);clip-path:polygon(0 0,110px 0,110px 1px,calc(100% - 110px) 1px,calc(100% - 110px) 0,100% 0,100% 100%,calc(100% - 110px) 100%,calc(100% - 110px) calc(100% - 1px),110px calc(100% - 1px),110px 100%,0 100%)}
+  .menuModal::after{left:20px;right:20px;top:0;height:2px;background:linear-gradient(90deg,transparent,#65eaff 22%,#fff 50%,#65eaff 78%,transparent);opacity:.66;box-shadow:0 0 18px rgba(80,230,255,.8);animation:panelPulse 3.6s ease-in-out infinite alternate}
+  @keyframes panelPulse{to{opacity:.2;filter:blur(.7px)}}
+
+  .menuHero{padding:32px 32px 24px;border-right:1px solid rgba(92,226,255,.25);background:radial-gradient(circle at 50% 64%,rgba(23,191,230,.14),transparent 34%),linear-gradient(150deg,rgba(7,40,59,.72),rgba(2,13,25,.38));isolation:isolate}
+  .menuHero::before{content:"";position:absolute;z-index:-1;inset:0;background-image:linear-gradient(rgba(78,222,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(78,222,255,.035) 1px,transparent 1px);background-size:28px 28px;mask-image:linear-gradient(#000,transparent 78%)}
+  .menuHero::after{content:"";position:absolute;z-index:8;left:0;right:0;height:1px;top:16%;background:linear-gradient(90deg,transparent,rgba(111,242,255,.72),transparent);box-shadow:0 0 13px #52eaff;opacity:.38;animation:heroScan 5.5s linear infinite;pointer-events:none}
+  @keyframes heroScan{from{top:10%}to{top:92%}}
+  .systemBadge{padding:7px 11px;border-radius:3px;border-color:rgba(100,255,205,.38);background:linear-gradient(90deg,rgba(60,255,190,.09),transparent);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));box-shadow:inset 0 0 14px rgba(74,255,198,.05)}
+  .eyebrow{margin-top:24px;color:#70ecff;text-shadow:0 0 15px rgba(74,230,255,.38)}
+  .menuModal .heroTitle{font-size:clamp(42px,4.6vw,70px);line-height:.86;letter-spacing:-.045em;text-transform:uppercase;background:linear-gradient(96deg,#fff 5%,#9bf5ff 48%,#4dddf9 92%);-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 9px 28px rgba(0,0,0,.48))}
+  .menuModal .heroTitle::after{content:"";display:block;width:72px;height:3px;margin-top:18px;background:linear-gradient(90deg,#6af0ff,transparent);box-shadow:0 0 14px #48dcff}
+  .menuModal .heroTitle span{font-size:.68em;letter-spacing:.075em;color:#8cf2ff;-webkit-text-fill-color:#8cf2ff;text-shadow:0 0 28px rgba(78,226,255,.25)}
+  .menuModal .heroSub{position:relative;z-index:12;max-width:490px;margin-top:13px;padding:8px 11px;border-left:2px solid rgba(100,235,255,.58);background:linear-gradient(90deg,rgba(2,18,31,.78),rgba(2,18,31,.24) 78%,transparent);color:#d9edf3;font-size:13px;font-weight:650;line-height:1.72;text-shadow:0 1px 4px rgba(0,0,0,.95)}
+
+  .heroVisual{min-height:385px;margin-top:12px;overflow:hidden;border-top:1px solid rgba(92,226,255,.1);background:radial-gradient(circle at 50% 54%,rgba(51,229,255,.1),transparent 44%)}
+  .selectedHelmet{z-index:6;bottom:2px;width:min(248px,61%);filter:saturate(1.2) contrast(1.12) drop-shadow(0 18px 33px rgba(0,0,0,.72)) drop-shadow(0 0 16px rgba(55,221,255,.15));animation:helmetHover 4s ease-in-out infinite}
+  @keyframes helmetHover{50%{transform:translateX(-50%) translateY(-5px);filter:saturate(1.28) contrast(1.13) drop-shadow(0 23px 38px rgba(0,0,0,.72)) drop-shadow(0 0 24px rgba(55,221,255,.23))}}
+  .aiCoreRing{position:absolute;z-index:2;left:50%;top:52%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}.ringOuter{width:88%;border:1px solid rgba(82,230,255,.2);background:conic-gradient(from 20deg,transparent 0 10%,rgba(80,227,255,.6) 10% 11%,transparent 11% 35%,rgba(126,100,255,.5) 35% 36%,transparent 36% 72%,rgba(77,231,255,.45) 72% 73%,transparent 73%);animation:coreRotate 18s linear infinite}.ringMid{width:65%;border:1px dashed rgba(105,239,255,.36);box-shadow:inset 0 0 35px rgba(55,215,255,.06);animation:coreRotate 11s linear infinite reverse}.ringInner{width:43%;border:1px solid rgba(104,241,255,.28);box-shadow:0 0 26px rgba(48,223,255,.12);animation:coreBreathe 2.8s ease-in-out infinite alternate}
+  @keyframes coreRotate{to{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes coreBreathe{to{transform:translate(-50%,-50%) scale(1.1);opacity:.45}}
+  .aiScanBeam{position:absolute;z-index:7;left:12%;right:12%;top:24%;height:26%;border-top:1px solid rgba(84,235,255,.65);background:linear-gradient(180deg,rgba(62,226,255,.12),transparent);filter:drop-shadow(0 0 8px rgba(60,224,255,.55));animation:avatarScan 3.4s ease-in-out infinite alternate;pointer-events:none}
+  @keyframes avatarScan{to{top:66%;opacity:.25}}
+  .holoOrbit{z-index:3;top:58%;border-color:rgba(82,232,255,.38)}.orbitOne{width:92%;height:68%}.orbitTwo{width:68%;height:48%}.holoFloor{z-index:5;bottom:0;width:84%;background:radial-gradient(ellipse,rgba(70,235,255,.54),rgba(55,221,255,.07) 50%,transparent 72%)}
+  .scanLabel{z-index:9;top:46%;border-top-color:rgba(113,237,255,.55);color:#a8eaf5;font-size:7.5px;text-shadow:0 1px 4px #000}
+  .aiIdentity{position:absolute;z-index:10;right:4px;top:14px;width:142px;padding:9px 10px;border-left:1px solid rgba(91,229,255,.58);background:linear-gradient(90deg,rgba(3,24,39,.92),rgba(3,24,39,.22));color:#a2c2cd;font:750 7px/1.5 ui-monospace,Consolas,monospace;letter-spacing:.08em;text-shadow:0 1px 4px #000}.aiIdentity span,.aiIdentity b,.aiIdentity small{display:block}.aiIdentity span{color:#7aeeff}.aiIdentity b{margin:3px 0;color:#f1fdff;font-size:8px}.aiIdentity small{font-size:6.5px}
+  .neuralMeter{position:absolute;z-index:10;left:3px;top:12px;display:flex;align-items:flex-end;gap:3px;height:25px}.neuralMeter i{display:block;width:2px;height:25%;background:#69eaff;box-shadow:0 0 6px #69eaff;animation:neuralBars .8s ease-in-out infinite alternate}.neuralMeter i:nth-child(2),.neuralMeter i:nth-child(6){height:55%;animation-delay:-.3s}.neuralMeter i:nth-child(3),.neuralMeter i:nth-child(7){height:90%;animation-delay:-.55s}.neuralMeter i:nth-child(4){height:42%;animation-delay:-.15s}.neuralMeter i:nth-child(5),.neuralMeter i:nth-child(8){height:70%;animation-delay:-.7s}@keyframes neuralBars{to{height:18%;opacity:.35}}
+  .featureRail{position:relative;z-index:10;gap:0;margin-top:2px;border-top:1px solid rgba(93,225,255,.25);border-bottom:1px solid rgba(93,225,255,.12)}.featureRail span{padding:10px 7px;border-top:0;border-right:1px solid rgba(93,225,255,.14);background:rgba(2,18,31,.62);color:#b0cbd4;font-size:8.5px;text-shadow:0 1px 4px #000}.featureRail span:last-child{border-right:0}
+
+  .menuControls{padding:27px 29px 24px;background:linear-gradient(180deg,rgba(2,12,23,.82),rgba(2,8,17,.96));isolation:isolate}
+  .menuControls::before{content:"";position:absolute;z-index:-1;inset:0;background-image:linear-gradient(rgba(71,211,238,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(71,211,238,.025) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(#000,transparent 78%)}
+  .controlHead{padding-bottom:12px;margin-bottom:10px;border-bottom:1px solid rgba(87,226,255,.16)}.controlHead small{color:#92f2ff;font-size:8.5px;text-shadow:0 0 10px rgba(78,226,255,.45)}.controlHead h2{font-size:25px;letter-spacing:-.02em;color:#f3fbff;text-shadow:0 2px 10px rgba(0,0,0,.9)}.readyLight{border-radius:3px;border-color:rgba(97,255,195,.42);background:rgba(72,255,191,.085);color:#c4ffe8;font-weight:800;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px))}
+  .menuModal .chips{gap:5px;margin-bottom:9px}.menuModal .chip{border-radius:2px;border-color:rgba(91,225,255,.25);background:rgba(46,207,239,.07);color:#afd4df;font-size:7.5px;text-shadow:0 1px 3px #000}
+  .aiBrief{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;margin:0 0 10px;padding:8px 10px;border:1px solid rgba(93,231,255,.24);clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));background:linear-gradient(90deg,rgba(40,210,241,.12),rgba(83,87,255,.05));box-shadow:inset 3px 0 #56eaff}.aiBrief>div:nth-child(2)>span{display:block;color:#8eefff;font:900 7.5px/1 ui-monospace,Consolas,monospace;letter-spacing:.16em;text-shadow:0 0 8px rgba(72,225,255,.35)}.aiBrief p{margin:4px 0 0;color:#c1d7de;font-size:9.5px;font-weight:600;line-height:1.4;text-shadow:0 1px 3px #000}.aiAvatar{position:relative;width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(102,236,255,.52);border-radius:50%;color:#d0fbff;font:900 9px/1 ui-monospace,Consolas,monospace;box-shadow:inset 0 0 16px rgba(64,219,255,.16),0 0 14px rgba(64,219,255,.1)}.aiAvatar i{position:absolute;inset:4px;border:1px dashed rgba(111,233,255,.42);border-radius:50%;animation:coreRotate 6s linear infinite}.signalBars{display:flex;align-items:flex-end;gap:2px;height:20px}.signalBars i{width:2px;background:#6deaff;box-shadow:0 0 5px #6deaff;animation:neuralBars .65s ease-in-out infinite alternate}.signalBars i:nth-child(1){height:25%}.signalBars i:nth-child(2){height:50%;animation-delay:-.2s}.signalBars i:nth-child(3){height:90%;animation-delay:-.4s}.signalBars i:nth-child(4){height:65%;animation-delay:-.1s}.signalBars i:nth-child(5){height:35%;animation-delay:-.5s}
+  .menuModal .field{padding:8px 10px;border-radius:3px;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));background:linear-gradient(145deg,rgba(9,30,44,.92),rgba(4,16,28,.82));border-color:rgba(98,224,250,.22)}.menuModal .field::before{content:"";position:absolute;left:0;top:0;width:28px;height:1px;background:#63eaff;box-shadow:0 0 8px #63eaff;opacity:.65}.menuModal .field:focus-within{border-color:rgba(84,235,255,.64);box-shadow:inset 0 0 24px rgba(57,222,255,.075),0 0 15px rgba(57,222,255,.045)}.menuModal .field label{margin-bottom:6px;color:#e1f0f4;font-size:12.5px;text-shadow:0 1px 4px #000}
+  .choiceBtn{min-height:40px;border-radius:2px;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px));background:linear-gradient(145deg,rgba(4,21,34,.98),rgba(4,13,24,.96));color:#b8d0d8}.choiceBtn b{color:#eef9fc;text-shadow:0 1px 4px #000}.choiceBtn small{color:#93b4c0}.choiceBtn.active{border-color:#62ecff;color:#fff;background:linear-gradient(135deg,rgba(39,209,238,.28),rgba(83,117,255,.11));box-shadow:inset 3px 0 #64edff,inset 0 0 22px rgba(50,221,255,.09),0 8px 22px rgba(11,196,226,.08)}.choiceBtn.active b{color:#fff}.choiceBtn.active small{color:#c8f6fb}
+  .themeCard{border-radius:2px;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));background:#04111d}.themeCard b{color:#f4fcff;text-shadow:0 1px 4px #000}.themeCard small{color:#94b7c3}.themeThumb{height:78px;aspect-ratio:auto;border-radius:1px 1px 0 0}.themeCard.active{border-color:#68edff;box-shadow:inset 0 -2px #64eaff,0 0 22px rgba(50,221,255,.1)}
+  .menuModal .startBtn{overflow:hidden;min-height:52px;border-radius:2px;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));background:linear-gradient(100deg,#4ce4ff,#6dfbc5 62%,#c9ffe5);box-shadow:0 15px 42px rgba(45,221,255,.22)}.menuModal .startBtn::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.7) 48%,transparent 72%);transform:translateX(-120%);animation:launchSweep 3.2s ease-in-out infinite}.menuModal .startBtn span,.menuModal .startBtn b,.menuModal .startBtn i{position:relative}.menuModal .startBtn b{color:#17404a}.menuModal .startBtn i{width:25px;height:25px;display:grid;place-items:center;border:1px solid rgba(4,34,42,.28);border-radius:50%}@keyframes launchSweep{55%,100%{transform:translateX(120%)}}
+  .menuModal .miniBtn{border-radius:2px;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));background:rgba(6,24,37,.82)}
+  .menuFoot{padding-top:7px;border-top:1px solid rgba(84,218,246,.12);color:#78a7b4;font-size:7px;text-shadow:0 1px 3px #000}
+
   #help .modal,#result .modal{border-radius:22px;background:linear-gradient(145deg,rgba(5,24,40,.98),rgba(13,10,29,.98));border-color:rgba(103,231,255,.24)}
   #result .subBtns{flex-wrap:wrap}
   #result .subBtns button{min-width:160px}
@@ -410,13 +494,12 @@
   .studyTop{display:flex;align-items:flex-start;gap:8px}.studyType{padding:4px 6px;border-radius:5px;background:rgba(72,222,255,.08);color:#70dff1;font:800 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.08em}.favoriteBtn{margin-left:auto;padding:1px 3px;border:0;background:transparent;color:#587483;font-size:19px;line-height:1}.favoriteBtn.active{color:#ffd86b;filter:drop-shadow(0 0 7px rgba(255,216,91,.4))}.studyEn{margin:10px 0 1px;color:#fff;font-size:clamp(18px,2vw,25px);line-height:1.14;overflow-wrap:anywhere}.studyIpa{min-height:18px;color:#65ddf1;font-size:12px;overflow-wrap:anywhere}.studyTh{margin:6px 0;color:#b9ced8;font-size:13px;line-height:1.35;min-height:18px}.studyTags{display:flex;flex-wrap:wrap;gap:4px;min-height:18px}.examTag{padding:3px 5px;border-radius:4px;background:rgba(161,116,255,.09);color:#c4a9ff;font:800 7px/1 ui-monospace,Consolas,monospace}.studyMeta{display:flex;justify-content:space-between;gap:8px;margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.055);color:#6e909f;font-size:9px}.studyMeta .due{color:#ffd46d}.studyMeta .mastered{color:#70f4bc}.studyActions{display:flex;gap:6px;margin-top:8px}.studyAction{flex:1;padding:7px 8px;border:1px solid rgba(98,223,249,.15);border-radius:8px;background:rgba(255,255,255,.025);color:#a9c8d3;font-size:9px;font-weight:850}.studyAction:hover{border-color:#56e7ff;color:#fff;background:rgba(74,220,255,.1)}
   .libraryEmpty{grid-column:1/-1;padding:50px 20px;text-align:center;color:#7896a6}.loadMore{display:none;width:100%;margin-top:12px;padding:11px;border:1px solid rgba(98,224,250,.16);border-radius:10px;background:rgba(255,255,255,.025);color:#a9c7d2;font-weight:850}.libraryNote{margin:14px 2px 0;color:#587a89;font-size:9px;line-height:1.5}
 
-  /* Speak-first pronunciation challenge */
-  .voiceChallenge{position:relative;display:grid;grid-template-columns:auto minmax(150px,1fr) auto auto;align-items:center;gap:10px;margin-bottom:8px;padding:10px 12px;border-radius:18px;overflow:hidden}
-  .voiceChallenge[hidden]{display:none}.voiceChallenge::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 8% 50%,rgba(90,238,255,.12),transparent 26%);pointer-events:none}.voiceOrb{position:relative;width:45px;height:45px;display:grid;place-items:center;border:1px solid rgba(91,235,255,.35);border-radius:50%;background:rgba(36,203,237,.08);color:#7ceeff;font-size:21px;box-shadow:inset 0 0 18px rgba(66,226,255,.1),0 0 18px rgba(66,226,255,.08)}.voiceChallenge.listening .voiceOrb{color:#ff719e;border-color:#ff719e;box-shadow:0 0 24px rgba(255,80,137,.35);animation:voiceOrbPulse .7s ease-in-out infinite alternate}.voiceChallenge.listening .voiceOrb::after{content:"";position:absolute;inset:-7px;border:1px solid rgba(255,103,155,.35);border-radius:50%;animation:voiceRing 1s ease-out infinite}
-  .voicePrompt{position:relative;min-width:0}.voicePrompt>span{display:block;color:#66dced;font:800 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em}.voiceExpected{display:block;margin-top:3px;color:#fff;font-size:clamp(16px,2vw,23px);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.voicePrompt small{display:block;margin-top:2px;color:#81a7b5;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.voiceDetected{margin-top:4px;color:#8baab6;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.voiceDetected b{color:#d9f8ff}
+  /* Type-first pronunciation challenge */
+  .voiceChallenge{position:absolute;z-index:48;left:0;right:0;bottom:calc(100% + 12px);display:grid;grid-template-columns:auto minmax(150px,1fr) auto auto;align-items:center;gap:10px;margin:0;padding:12px 14px;border:1px solid rgba(101,232,255,.34);border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(4,28,46,.97),rgba(10,14,35,.97));box-shadow:0 24px 70px rgba(0,0,0,.7),0 0 34px rgba(58,221,255,.14),inset 0 1px rgba(255,255,255,.07);animation:voicePopupIn .3s cubic-bezier(.18,.82,.2,1) both}
+  .voiceChallenge[hidden]{display:none}.voiceChallenge::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 8% 50%,rgba(90,238,255,.16),transparent 27%);pointer-events:none}.voiceChallenge::after{content:"";position:absolute;left:14px;right:14px;top:0;height:1px;background:linear-gradient(90deg,transparent,#80f2ff,transparent);box-shadow:0 0 14px #59e8ff;pointer-events:none}@keyframes voicePopupIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}.voiceOrb{position:relative;width:45px;height:45px;display:grid;place-items:center;border:1px solid rgba(91,235,255,.35);border-radius:50%;background:rgba(36,203,237,.08);color:#7ceeff;font-size:21px;box-shadow:inset 0 0 18px rgba(66,226,255,.1),0 0 18px rgba(66,226,255,.08)}.voiceChallenge.listening .voiceOrb{color:#ff719e;border-color:#ff719e;box-shadow:0 0 24px rgba(255,80,137,.35);animation:voiceOrbPulse .7s ease-in-out infinite alternate}.voiceChallenge.listening .voiceOrb::after{content:"";position:absolute;inset:-7px;border:1px solid rgba(255,103,155,.35);border-radius:50%;animation:voiceRing 1s ease-out infinite}
+  .voicePrompt{position:relative;min-width:0}.voicePrompt>span{display:block;color:#66dced;font:800 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em}.voiceExpected{display:block;margin-top:3px;color:#fff;font-size:clamp(16px,2vw,23px);line-height:1.15;white-space:normal;overflow-wrap:anywhere}.voicePrompt small{display:block;margin-top:3px;color:#81a7b5;font-size:10px;line-height:1.25;white-space:normal;overflow-wrap:anywhere}.voiceDetected{margin-top:4px;color:#8baab6;font-size:10px;line-height:1.25;white-space:normal;overflow-wrap:anywhere}.voiceDetected b{color:#d9f8ff}
   .voiceScoreBox{position:relative;min-width:62px;text-align:center}.voiceScoreBox b{display:block;color:#a4bdc7;font-size:27px;line-height:1}.voiceScoreBox span{color:#668493;font:800 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.1em}.voiceChallenge.score-great .voiceScoreBox b{color:#70ffc0;text-shadow:0 0 18px rgba(88,255,185,.4)}.voiceChallenge.score-good .voiceScoreBox b{color:#ffe06f}.voiceChallenge.score-retry .voiceScoreBox b{color:#ff7898}
   .voiceActions{position:relative;display:flex;gap:6px}.voiceAction{min-height:37px;padding:7px 9px;border:1px solid rgba(102,226,251,.18);border-radius:9px;background:rgba(255,255,255,.04);color:#b9d3dc;font-size:9px;font-weight:900;white-space:nowrap}.voiceAction:hover,.voiceAction:focus-visible{border-color:#63eaff;color:#fff;outline:none}.voiceMicBtn{border-color:rgba(255,104,154,.3);background:rgba(255,77,135,.09);color:#ffb0c8}.voiceChallenge.listening .voiceMicBtn{background:#ff578a;color:#fff}.voiceSkipBtn{opacity:.7}.voiceAction:disabled{opacity:.38;cursor:not-allowed}#typingInput:disabled{opacity:.48;cursor:not-allowed;border-color:rgba(255,205,92,.3)}
-  #app.speech-active #arena{bottom:266px}
   @keyframes voiceOrbPulse{to{transform:scale(1.1)}}@keyframes voiceRing{to{opacity:0;transform:scale(1.25)}}
   .target{border-radius:18px;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px);background:linear-gradient(140deg,rgba(4,29,47,.93),rgba(17,12,42,.9));box-shadow:0 0 0 1px rgba(72,237,255,.08),0 0 46px rgba(72,237,255,.22),inset 0 0 28px rgba(68,221,255,.06)}
   .target.sentence{width:min(78vw,720px);max-width:720px}.target.sentence .target-word{font-size:clamp(22px,3.2vw,38px);line-height:1.35;overflow-wrap:anywhere}.target-reading{margin:7px auto 1px;color:#83eaff;font-size:clamp(13px,1.7vw,19px);font-weight:800;line-height:1.25;overflow-wrap:anywhere;text-align:center;text-shadow:0 0 15px rgba(84,229,255,.32)}.target-reading span{margin-right:6px;color:#7e9eac;font:800 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.1em}.sentenceTranslation{font-size:clamp(30px,5.4vw,58px)!important;line-height:1.2!important}
@@ -430,8 +513,12 @@
     #menu{padding:8px}.modal.menuModal{width:100%;max-width:100%;max-height:98vh;border-radius:17px}.menuHero{min-height:0;padding:20px}.heroVisual,.featureRail{display:none}.menuModal .heroSub{max-width:none;margin-bottom:2px}.menuControls{min-width:0;padding:19px}.controlHead{margin-bottom:10px}.readyLight{display:none}.themePreview{width:100%;min-width:0;grid-template-columns:repeat(5,72px);overflow-x:auto;overscroll-behavior-x:contain;padding:2px 0 7px;scroll-snap-type:x mandatory}.themeCard{scroll-snap-align:start}.menuModal .config{min-width:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.choiceBtn{padding-inline:5px}.choiceBtn .choiceIcon{display:none}.menuModal .heroTitle{font-size:37px}.systemBadge{font-size:6px}.eyebrow{margin-top:18px}.gameNav{top:122px}.handStatus{display:none}.navBtn span:last-child{display:none}.liveVisualBtn{padding-inline:8px}.liveVisualBtn b{display:none}.soundBtn{margin-left:0}.hud{gap:6px}.hudL,.hudR{gap:5px}.pill{min-width:74px;padding:6px 8px}.value{font-size:15px}.label{font-size:8px}#arena{inset:160px 0 150px}.bottom{bottom:7px;width:calc(100% - 12px)}#keyboard{overflow-x:auto}.key{min-width:25px;height:28px;padding:0 4px}#translationCard{padding:24px 18px}#trMain{font-size:clamp(43px,15vw,72px)}
   }
   @media(max-width:900px){.libraryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.libraryStats{grid-template-columns:repeat(3,1fr)}}
-  @media(max-width:600px){#library{padding:7px}.libraryModal{width:100%;height:98vh;max-height:98vh;border-radius:16px}.libraryHead{padding:17px 16px 13px}.libraryHead p{display:none}.libraryBody{height:calc(100% - 79px);padding:12px}.libraryStats{grid-template-columns:repeat(2,1fr)}.libraryTools{grid-template-columns:1fr}.libraryGrid{grid-template-columns:1fr}.studyCard:hover{transform:none}.voiceChallenge{grid-template-columns:auto minmax(0,1fr) auto;padding:8px;gap:7px}.voiceOrb{width:38px;height:38px}.voiceActions{grid-column:1/-1}.voiceAction{flex:1}.voiceScoreBox{min-width:52px}#app.speech-active #arena{bottom:276px}}
-  @media(max-height:720px){.modal.menuModal{max-height:97vh}.menuHero{padding-top:20px}.heroVisual{min-height:155px}.menuControls{padding-top:20px;padding-bottom:18px}#keyboard{display:none}#arena{bottom:92px}#app.speech-active #arena{bottom:180px}.voiceChallenge{padding-block:7px}}
+  @media(max-width:600px){#library{padding:7px}.libraryModal{width:100%;height:98vh;max-height:98vh;border-radius:16px}.libraryHead{padding:17px 16px 13px}.libraryHead p{display:none}.libraryBody{height:calc(100% - 79px);padding:12px}.libraryStats{grid-template-columns:repeat(2,1fr)}.libraryTools{grid-template-columns:1fr}.libraryGrid{grid-template-columns:1fr}.studyCard:hover{transform:none}.choiceGrid.four,.tenseGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.voiceChallenge{grid-template-columns:auto minmax(0,1fr) auto;padding:10px;gap:7px}.voiceOrb{width:38px;height:38px}.voiceActions{grid-column:1/-1}.voiceAction{flex:1}.voiceScoreBox{min-width:52px}}
+  @media(max-height:720px){.modal.menuModal{max-height:97vh}.menuHero{padding-top:20px}.heroVisual{min-height:155px}.menuControls{padding-top:20px;padding-bottom:18px}#keyboard{display:none}#arena{bottom:92px}.voiceChallenge{padding-block:8px}}
+  @media(max-width:960px){.cinemaTelemetry{display:none}.menuCinematic::before{opacity:.55}.modal.menuModal{overflow-x:hidden;overflow-y:auto;border-radius:3px;clip-path:polygon(0 14px,14px 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px))}.aiIdentity,.neuralMeter{display:none}.menuHero::after{opacity:.18}.aiBrief{margin-top:2px}}
+  @media(max-width:640px){.filmBar{height:6px}.menuCinematic::before{display:none}.modal.menuModal{border-radius:2px}.menuHero{background:linear-gradient(150deg,rgba(7,40,59,.82),rgba(2,13,25,.58))}.menuModal .heroTitle::after{margin-top:11px}.aiBrief{grid-template-columns:auto 1fr;padding:8px}.signalBars{display:none}.aiBrief p{font-size:8.5px}.choiceBtn{min-height:44px}.themeThumb{height:auto;aspect-ratio:1.08}.menuFoot{display:none}}
+  @media(min-width:961px) and (min-height:721px) and (max-height:850px){.menuModal .heroSub{padding-block:6px;font-size:12px;line-height:1.5}.heroVisual{min-height:245px;margin-top:8px}.selectedHelmet{width:min(160px,42%)}.aiIdentity{display:none}}
+  @media(min-width:961px) and (max-height:720px){.menuModal .heroSub{padding-block:5px;font-size:11.5px;line-height:1.45}.selectedHelmet{width:min(100px,30%)}.aiIdentity{display:none}}
   @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -444,6 +531,17 @@
   <div class="scan"></div>
   <div class="vignette"></div>
   <canvas id="energyCanvas" aria-hidden="true"></canvas>
+
+  <div class="cameraAura" id="cameraAura" aria-hidden="true">
+    <div class="auraHead"></div>
+    <div class="auraBody"></div>
+    <div class="auraOrbit auraOrbitOne"></div>
+    <div class="auraOrbit auraOrbitTwo"></div>
+    <i class="auraBolt boltOne"></i><i class="auraBolt boltTwo"></i>
+    <i class="auraParticle particleOne"></i><i class="auraParticle particleTwo"></i>
+    <i class="auraParticle particleThree"></i><i class="auraParticle particleFour"></i>
+    <i class="auraParticle particleFive"></i><i class="auraParticle particleSix"></i>
+  </div>
 
   <div id="faceLayer">
     <div id="faceRig" class="faceRig theme-armor">
@@ -461,6 +559,7 @@
       <div class="mouthGrid"></div>
       <div class="cheekL"></div><div class="cheekR"></div>
       <div class="sideArcs"></div>
+      <div class="sideHeroBadge"><span>AI COMPANION</span><b>FACE CLEAR MODE</b></div>
     </div>
   </div>
 
@@ -511,7 +610,7 @@
     <div class="voiceChallenge glass" id="voiceChallenge" role="status" aria-live="polite" hidden>
       <div class="voiceOrb" aria-hidden="true">🎙</div>
       <div class="voicePrompt">
-        <span>SAY IN ENGLISH · พูดก่อนพิมพ์</span>
+        <span id="voicePhaseLabel">TYPE FIRST · พิมพ์ก่อนแล้วพูดตาม</span>
         <b class="voiceExpected" id="voiceExpected">school</b>
         <small id="voiceExpectedIpa">/skuːl/</small>
         <div class="voiceDetected" id="voiceDetected">กดไมค์ แล้วพูดให้ชัดเจน</div>
@@ -520,7 +619,7 @@
       <div class="voiceActions">
         <button class="voiceAction" id="voiceListenBtn" type="button">🔊 ฟังตัวอย่าง</button>
         <button class="voiceAction voiceMicBtn" id="voiceMicBtn" type="button">🎙 เริ่มพูด</button>
-        <button class="voiceAction voiceSkipBtn" id="voiceSkipBtn" type="button">ข้าม</button>
+        <button class="voiceAction voiceSkipBtn" id="voiceSkipBtn" type="button">ข้ามเสียง →</button>
       </div>
     </div>
     <div class="typebox glass">
@@ -533,48 +632,104 @@
   </div>
 
   <div id="menu">
+    <div class="menuCinematic" aria-hidden="true">
+      <div class="filmBar top"></div><div class="filmBar bottom"></div>
+      <div class="neuralGrid"></div>
+      <div class="cinemaTelemetry topLeft"><span>NEURAL LINK</span><b>STABLE // 99.8%</b></div>
+      <div class="cinemaTelemetry topRight"><span>LOCAL NODE · BKK</span><b id="menuClock">00:00:00</b></div>
+      <div class="cinemaTelemetry bottomLeft"><span>AION LANGUAGE CORE</span><b>ADAPTIVE LEARNING ONLINE</b></div>
+      <div class="cinemaTelemetry bottomRight"><span>AR-HERO // BUILD 06</span><b>ALL SYSTEMS NOMINAL</b></div>
+    </div>
     <div class="modal menuModal">
       <section class="menuHero" aria-labelledby="gameTitle">
-        <div class="systemBadge"><i></i> AR LEARNING SYSTEM · ONLINE</div>
-        <p class="eyebrow">HOLOGRAPHIC TYPING ACADEMY</p>
+        <div class="systemBadge"><i></i> AION NEURAL SYSTEM · ONLINE</div>
+        <p class="eyebrow">AI-POWERED LANGUAGE COMMAND</p>
         <h1 class="heroTitle" id="gameTitle">AR HERO<br><span>TYPING QUEST</span></h1>
-        <p class="heroSub">เปลี่ยนทุกคำให้เป็นภารกิจ พูดอังกฤษให้ชัด รับคะแนนเสียง แล้วพิมพ์ให้แม่น พร้อมปลดปล่อยพลังที่ฝ่ามือ</p>
+        <p class="heroSub">เชื่อมต่อระบบฝึกภาษาอัจฉริยะ พิมพ์ให้แม่น พูดตามให้ชัด และให้ AI จดจำพัฒนาการของคุณในทุกภารกิจ</p>
         <div class="heroVisual" aria-hidden="true">
+          <div class="aiCoreRing ringOuter"></div><div class="aiCoreRing ringMid"></div><div class="aiCoreRing ringInner"></div>
+          <div class="aiScanBeam"></div>
           <div class="holoOrbit orbitOne"></div><div class="holoOrbit orbitTwo"></div>
           <div id="selectedHelmet" class="selectedHelmet theme-armor"></div>
           <div class="holoFloor"></div>
-          <span class="scanLabel left">PALM ENERGY</span><span class="scanLabel right">VOICE LINK</span>
+          <div class="aiIdentity"><span>AION // AVATAR CORE</span><b>NEURAL PILOT READY</b><small>VOICE · VISION · MEMORY</small></div>
+          <div class="neuralMeter"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <span class="scanLabel left">HAND ENERGY</span><span class="scanLabel right">VOICE LINK</span>
         </div>
         <div class="featureRail">
-          <span><b>01</b> HAND FX</span><span><b>02</b> BILINGUAL</span><span><b>03</b> VOICE AI</span>
+          <span><b>01</b> AI VOICE</span><span><b>02</b> NEURAL REVIEW</span><span><b>03</b> AR HAND FX</span>
         </div>
       </section>
 
       <section class="menuControls">
         <div class="controlHead">
-          <div><small>MISSION CONTROL</small><h2>ตั้งค่าภารกิจ</h2></div>
-          <div class="readyLight"><i></i> พร้อมปฏิบัติการ</div>
+          <div><small>MISSION CONTROL // AION-07</small><h2>ตั้งค่าภารกิจ</h2></div>
+          <div class="readyLight"><i></i> AI พร้อมปฏิบัติการ</div>
         </div>
         <div class="chips">
-          <span class="chip">2,500 WORDS</span><span class="chip">1,000 EXAM WORDS</span><span class="chip">500 CONVERSATIONS</span>
+          <span class="chip">2,500 WORDS</span><span class="chip">1,000 EXAM WORDS</span><span class="chip">500 CONVERSATIONS</span><span class="chip">3,600 TENSE SENTENCES</span>
           <span class="chip">PALM POWER</span><span class="chip">VOICE SCORE</span>
         </div>
 
-        <div class="config">
-          <div class="field wide">
+        <div class="aiBrief" role="note">
+          <div class="aiAvatar" aria-hidden="true"><i></i><span>AI</span></div>
+          <div><span>AION BRIEFING</span><p id="aiBriefText">เลือกรูปแบบการฝึก ระบบจะปรับภารกิจ เสียง และการทบทวนให้เข้ากับคุณ</p></div>
+          <div class="signalBars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+
+        <div class="config missionConfig">
+          <nav class="settingsRail" role="tablist" aria-label="หมวดตั้งค่าภารกิจ" aria-orientation="vertical">
+            <button type="button" class="settingsTab active" id="settingsTabContent" data-settings-tab="content" role="tab" aria-selected="true" aria-controls="settingsPanelContent"><span>01</span><b>เนื้อหา</b><small data-settings-summary="contentType">คำศัพท์</small><i>›</i></button>
+            <button type="button" class="settingsTab" id="settingsTabLanguage" data-settings-tab="language" role="tab" aria-selected="false" aria-controls="settingsPanelLanguage"><span>02</span><b>ภาษา</b><small data-settings-summary="language">ภาษาไทย</small><i>›</i></button>
+            <button type="button" class="settingsTab" id="settingsTabDifficulty" data-settings-tab="difficulty" role="tab" aria-selected="false" aria-controls="settingsPanelDifficulty"><span>03</span><b>ระดับ</b><small data-settings-summary="gradeLevel">ทั่วไป</small><i>›</i></button>
+            <button type="button" class="settingsTab" id="settingsTabDuration" data-settings-tab="duration" role="tab" aria-selected="false" aria-controls="settingsPanelDuration"><span>04</span><b>เวลา</b><small data-settings-summary="duration">2 นาที</small><i>›</i></button>
+            <button type="button" class="settingsTab" id="settingsTabVisual" data-settings-tab="visual" role="tab" aria-selected="false" aria-controls="settingsPanelVisual"><span>05</span><b>ภาพ</b><small data-settings-summary="visualMode">AR Camera</small><i>›</i></button>
+            <button type="button" class="settingsTab" id="settingsTabSpeech" data-settings-tab="speech" role="tab" aria-selected="false" aria-controls="settingsPanelSpeech"><span>06</span><b>เสียง</b><small data-settings-summary="speechPractice">พูดตาม</small><i>›</i></button>
+            <button type="button" class="settingsTab" id="settingsTabTheme" data-settings-tab="theme" role="tab" aria-selected="false" aria-controls="settingsPanelTheme"><span>07</span><b>ชุดพลัง</b><small data-settings-summary="heroTheme">Solar</small><i>›</i></button>
+            <div class="settingsRailHint"><span>HOVER</span> หรือกดเพื่อเลือกหมวด</div>
+          </nav>
+
+          <div class="field wide missionPanel is-panel-active" id="settingsPanelContent" data-settings-panel="content" role="tabpanel" aria-labelledby="settingsTabContent">
             <label id="contentTypeLabel"><span>01</span> เนื้อหาภารกิจ</label>
-            <div class="choiceGrid three" data-select="contentType" role="group" aria-labelledby="contentTypeLabel">
+            <div class="choiceGrid four" data-select="contentType" role="group" aria-labelledby="contentTypeLabel">
               <button type="button" class="choiceBtn active" data-value="words" aria-pressed="true"><span class="choiceIcon">Aa</span><span><b>คำศัพท์</b><small>1,500 คำ</small></span></button>
               <button type="button" class="choiceBtn" data-value="exam" aria-pressed="false"><span class="choiceIcon">◎</span><span><b>ศัพท์สอบ</b><small>1,000 คำ</small></span></button>
               <button type="button" class="choiceBtn" data-value="conversations" aria-pressed="false"><span class="choiceIcon">◌◌</span><span><b>บทสนทนา</b><small>500 ประโยค</small></span></button>
+              <button type="button" class="choiceBtn" data-value="tenses" aria-pressed="false"><span class="choiceIcon">T</span><span><b>12 Tenses</b><small>3,600 ประโยค</small></span></button>
             </div>
             <select id="contentType" class="settingValue" tabindex="-1" aria-hidden="true">
               <option value="words" selected>คำศัพท์ 1,500 คำ</option>
               <option value="exam">ศัพท์สอบ TOEFL · TOEIC · IELTS · KKU-AELT 1,000 คำ</option>
               <option value="conversations">บทสนทนา 500 ประโยค</option>
+              <option value="tenses">12 Tenses · 3,600 ประโยค</option>
             </select>
           </div>
-          <div class="field wide">
+          <div class="field wide missionPanel missionSubPanel is-panel-active" data-settings-panel="content" id="tenseField" hidden>
+            <label id="tenseTypeLabel"><span>T</span> เลือก Tense ที่ต้องการฝึก · Tense ละ 300 ประโยค</label>
+            <div class="choiceGrid tenseGrid" data-select="tenseType" role="group" aria-labelledby="tenseTypeLabel">
+              <button type="button" class="choiceBtn active" data-value="present_simple" aria-pressed="true"><span><b>Present Simple</b><small>S + V1(s/es)</small></span></button>
+              <button type="button" class="choiceBtn" data-value="present_continuous" aria-pressed="false"><span><b>Present Continuous</b><small>S + am/is/are + V-ing</small></span></button>
+              <button type="button" class="choiceBtn" data-value="present_perfect" aria-pressed="false"><span><b>Present Perfect</b><small>S + have/has + V3</small></span></button>
+              <button type="button" class="choiceBtn" data-value="present_perfect_continuous" aria-pressed="false"><span><b>Present Perfect Continuous</b><small>S + have/has been + V-ing</small></span></button>
+              <button type="button" class="choiceBtn" data-value="past_simple" aria-pressed="false"><span><b>Past Simple</b><small>S + V2</small></span></button>
+              <button type="button" class="choiceBtn" data-value="past_continuous" aria-pressed="false"><span><b>Past Continuous</b><small>S + was/were + V-ing</small></span></button>
+              <button type="button" class="choiceBtn" data-value="past_perfect" aria-pressed="false"><span><b>Past Perfect</b><small>S + had + V3</small></span></button>
+              <button type="button" class="choiceBtn" data-value="past_perfect_continuous" aria-pressed="false"><span><b>Past Perfect Continuous</b><small>S + had been + V-ing</small></span></button>
+              <button type="button" class="choiceBtn" data-value="future_simple" aria-pressed="false"><span><b>Future Simple</b><small>S + will + V1</small></span></button>
+              <button type="button" class="choiceBtn" data-value="future_continuous" aria-pressed="false"><span><b>Future Continuous</b><small>S + will be + V-ing</small></span></button>
+              <button type="button" class="choiceBtn" data-value="future_perfect" aria-pressed="false"><span><b>Future Perfect</b><small>S + will have + V3</small></span></button>
+              <button type="button" class="choiceBtn" data-value="future_perfect_continuous" aria-pressed="false"><span><b>Future Perfect Continuous</b><small>S + will have been + V-ing</small></span></button>
+            </div>
+            <select id="tenseType" class="settingValue" tabindex="-1" aria-hidden="true">
+              <option value="present_simple" selected>Present Simple</option><option value="present_continuous">Present Continuous</option>
+              <option value="present_perfect">Present Perfect</option><option value="present_perfect_continuous">Present Perfect Continuous</option>
+              <option value="past_simple">Past Simple</option><option value="past_continuous">Past Continuous</option>
+              <option value="past_perfect">Past Perfect</option><option value="past_perfect_continuous">Past Perfect Continuous</option>
+              <option value="future_simple">Future Simple</option><option value="future_continuous">Future Continuous</option>
+              <option value="future_perfect">Future Perfect</option><option value="future_perfect_continuous">Future Perfect Continuous</option>
+            </select>
+          </div>
+          <div class="field wide missionPanel" id="settingsPanelLanguage" data-settings-panel="language" role="tabpanel" aria-labelledby="settingsTabLanguage">
             <label id="languageLabel"><span>02</span> ภาษาเป้าหมาย</label>
             <div class="choiceGrid three" data-select="language" role="group" aria-labelledby="languageLabel">
               <button type="button" class="choiceBtn active" data-value="th" aria-pressed="true"><span class="choiceIcon">ก</span><span><b>ภาษาไทย</b><small>ไทย → EN</small></span></button>
@@ -587,7 +742,7 @@
               <option value="mix">ผสม ไทย + English</option>
             </select>
           </div>
-          <div class="field wide">
+          <div class="field wide missionPanel" id="difficultyField" data-settings-panel="difficulty" role="tabpanel" aria-labelledby="settingsTabDifficulty">
             <label id="gradeLevelLabel"><span>03</span> ระดับความยาก</label>
             <div class="choiceGrid three" data-select="gradeLevel" role="group" aria-labelledby="gradeLevelLabel">
               <button type="button" class="choiceBtn" data-value="easy" aria-pressed="false"><span class="choiceIcon">Ⅰ</span><span><b>เริ่มต้น</b><small>ป.1–ป.3</small></span></button>
@@ -600,7 +755,7 @@
               <option value="pro">HERO PRO · คำท้าทาย</option>
             </select>
           </div>
-          <div class="field">
+          <div class="field missionPanel" id="settingsPanelDuration" data-settings-panel="duration" role="tabpanel" aria-labelledby="settingsTabDuration">
             <label id="durationLabel"><span>04</span> เวลาเล่น</label>
             <div class="choiceGrid three" data-select="duration" role="group" aria-labelledby="durationLabel">
               <button type="button" class="choiceBtn" data-value="60" aria-pressed="false"><span><b>1 นาที</b><small>QUICK</small></span></button>
@@ -613,7 +768,7 @@
               <option value="180">3 นาที</option>
             </select>
           </div>
-          <div class="field">
+          <div class="field missionPanel" id="settingsPanelVisual" data-settings-panel="visual" role="tabpanel" aria-labelledby="settingsTabVisual">
             <label id="visualModeLabel"><span>05</span> โหมดภาพ</label>
             <div class="choiceGrid" data-select="visualMode" role="group" aria-labelledby="visualModeLabel">
               <button type="button" class="choiceBtn active" data-value="camera" aria-pressed="true"><span class="choiceIcon">◉</span><span><b>AR Camera</b><small>พลังมือ</small></span></button>
@@ -624,14 +779,14 @@
               <option value="space">Cyber Space · ไม่ใช้กล้อง</option>
             </select>
           </div>
-          <div class="field wide">
+          <div class="field wide missionPanel" id="settingsPanelSpeech" data-settings-panel="speech" role="tabpanel" aria-labelledby="settingsTabSpeech">
             <label id="speechPracticeLabel"><span>06</span> ฝึกออกเสียงภาษาอังกฤษ</label>
             <div class="choiceGrid" data-select="speechPractice" role="group" aria-labelledby="speechPracticeLabel">
-              <button type="button" class="choiceBtn active" data-value="on" aria-pressed="true"><span class="choiceIcon">🎙</span><span><b>พูดก่อนพิมพ์</b><small>ตรวจเสียง + ให้คะแนน</small></span></button>
+              <button type="button" class="choiceBtn active" data-value="on" aria-pressed="true"><span class="choiceIcon">🎙</span><span><b>พิมพ์แล้วพูดตาม</b><small>พิมพ์ก่อน · ตรวจเสียง</small></span></button>
               <button type="button" class="choiceBtn" data-value="off" aria-pressed="false"><span class="choiceIcon">⌨</span><span><b>พิมพ์อย่างเดียว</b><small>ไม่ใช้ไมโครโฟน</small></span></button>
             </div>
             <select id="speechPractice" class="settingValue" tabindex="-1" aria-hidden="true">
-              <option value="on" selected>พูดก่อนพิมพ์</option>
+              <option value="on" selected>พิมพ์ก่อน แล้วพูดตาม</option>
               <option value="off">พิมพ์อย่างเดียว</option>
             </select>
           </div>
@@ -645,7 +800,8 @@
               <option value="robot">Cyber Ranger · หุ่นพิทักษ์</option>
             </select>
           </div>
-          <div class="wide">
+          <div class="field wide missionPanel heroThemePanel" id="settingsPanelTheme" data-settings-panel="theme" role="tabpanel" aria-labelledby="settingsTabTheme">
+            <label><span>07</span> เลือกชุดพลัง AR</label>
             <div class="themePreview" role="group" aria-label="ชุดพลัง AR">
               <button type="button" class="themeCard active" data-theme="armor"><span class="themeThumb"></span><b>Solar</b><small>ARMOR</small></button>
               <button type="button" class="themeCard" data-theme="web"><span class="themeThumb"></span><b>Crimson</b><small>PULSE</small></button>
@@ -654,7 +810,7 @@
               <button type="button" class="themeCard" data-theme="robot"><span class="themeThumb"></span><b>Cyber</b><small>RANGER</small></button>
             </div>
           </div>
-          <div class="wide"><button class="startBtn" id="startBtn"><span>เริ่มภารกิจ</span><b>LAUNCH</b><i aria-hidden="true">→</i></button></div>
+          <div class="wide missionLaunch"><button class="startBtn" id="startBtn"><span>เริ่มภารกิจกับ AI</span><b>INITIALIZE</b><i aria-hidden="true">→</i></button></div>
         </div>
 
         <div class="subBtns">
@@ -662,7 +818,7 @@
           <button class="miniBtn" id="helpBtn" type="button">คู่มือการเล่น</button>
           <button class="miniBtn" id="demoBtn" type="button">ทดลอง 30 วินาที</button>
         </div>
-        <div class="menuFoot"><span>ORIGINAL HERO SYSTEM</span><span>CAMERA LOCAL · VOICE RECOGNITION BY BROWSER</span></div>
+        <div class="menuFoot"><span>AION NEURAL LANGUAGE ENGINE</span><span>LOCAL CAMERA · PRIVATE VOICE LINK</span></div>
       </section>
     </div>
   </div>
@@ -672,11 +828,11 @@
       <div style="text-align:right"><button class="iconBtn" id="closeHelp">✕</button></div>
       <h2>วิธีเล่น</h2>
       <div class="helpText">
-        1) กดเลือกฝึกคำศัพท์ ศัพท์สอบ หรือบทสนทนา แล้วเลือกภาษา ระดับ เวลา และธีมฮีโร่<br>
-        2) หากเปิด <b>พูดก่อนพิมพ์</b> ให้กดไมค์ อนุญาตใช้งาน แล้วพูดข้อความอังกฤษที่แสดง<br>
-        3) ระบบจะถอดเสียง ให้คะแนนความตรง และปลดล็อกช่องพิมพ์ (กดข้ามได้หากเบราว์เซอร์ไม่รองรับ)<br>
-        4) พิมพ์คำหรือประโยคที่ลอยอยู่บนหน้าจอ แล้วกด <b>Enter</b><br>
-        5) ถ้าพิมพ์ถูก เกมจะแสดง <b>คำแปล คำอ่าน IPA และเสียงภาษาอังกฤษ</b> ทันที<br>
+        1) กดเลือกฝึกคำศัพท์ ศัพท์สอบ บทสนทนา หรือ <b>12 Tenses</b> แล้วเลือกภาษา เวลา และธีมฮีโร่<br>
+        2) พิมพ์คำหรือประโยคที่ลอยอยู่บนหน้าจอให้ถูก แล้วกด <b>Enter</b><br>
+        3) ถ้าเปิด <b>พิมพ์แล้วพูดตาม</b> ระบบจะแสดงข้อความอังกฤษกับคำอ่าน IPA จากนั้นจึงเปิดปุ่มไมค์<br>
+        4) กดไมค์ พูดตาม ระบบจะถอดเสียงและให้คะแนนความตรง แล้วกด <b>คำถัดไป</b> (หรือข้ามเสียงได้)<br>
+        5) เมื่อพิมพ์ถูก เกมจะแสดง <b>คำแปลตัวใหญ่ คำอ่าน IPA และเสียงคำแปล</b> ทันที<br>
         6) ถ้าพิมพ์ถูกต่อเนื่อง จะได้คอมโบและคะแนนเพิ่มขึ้น<br>
         7) ทุก ๆ 5 คำ จะเลเวลอัป และบางช่วงจะเข้าสู่ <b>Boss Round</b><br>
         8) เปิด <b>คลังการเรียนรู้</b> เพื่อดูคะแนนเสียง ค้นหาคำเดิม ติดดาว และทบทวน<br>
@@ -699,7 +855,7 @@
       </div>
       <div class="libraryBody">
         <div class="libraryStats">
-          <div class="libraryStat"><b id="libTotal">3,000</b><span>รายการทั้งหมด</span></div>
+          <div class="libraryStat"><b id="libTotal">6,600</b><span>รายการทั้งหมด</span></div>
           <div class="libraryStat"><b id="libSeen">0</b><span>เคยฝึกแล้ว</span></div>
           <div class="libraryStat"><b id="libDue">0</b><span>ถึงเวลาทบทวน</span></div>
           <div class="libraryStat"><b id="libMastered">0</b><span>จำได้แล้ว</span></div>
@@ -723,11 +879,12 @@
           <button class="filterBtn" data-filter="IELTS" type="button">IELTS</button>
           <button class="filterBtn" data-filter="KKU-AELT" type="button">KKU-AELT</button>
           <button class="filterBtn" data-filter="conversation" type="button">บทสนทนา</button>
+          <button class="filterBtn" data-filter="tense" type="button">12 Tenses</button>
         </div>
         <div class="librarySummary"><span id="libraryResultText">กำลังเตรียมคลัง...</span><span><b>1 · 3 · 7 · 14 · 30</b> วัน</span></div>
         <div class="libraryGrid" id="libraryGrid"></div>
         <button class="loadMore" id="libraryMore" type="button">แสดงเพิ่ม</button>
-        <div class="libraryNote">ชุดศัพท์สอบ 1,000 คำเป็นชุดเตรียมสอบที่คัดสรร ไม่ใช่รายการทางการจากเจ้าของข้อสอบ · คะแนนเสียงประเมินจากผลรู้จำคำพูดของเบราว์เซอร์และความตรงกับข้อความเป้าหมาย</div>
+        <div class="libraryNote">คลังรวม 6,600 รายการ: คำศัพท์และศัพท์สอบ 2,500 คำ บทสนทนา 500 ประโยค และแบบฝึก 12 Tenses 3,600 ประโยค · คะแนนเสียงประเมินจากผลรู้จำคำพูดของเบราว์เซอร์และความตรงกับข้อความเป้าหมาย</div>
       </div>
     </div>
   </div>
@@ -758,8 +915,10 @@
 <script src="data/learning-bank.js"></script>
 <script src="data/translation-fixes.js"></script>
 <script src="data/exam-bank.js"></script>
+<script src="data/tense-bank.js"></script>
 <script src="data/pronunciation-bank.js"></script>
 <script src="data/exam-pronunciation-bank.js"></script>
+<script src="data/tense-pronunciation-bank.js"></script>
 <script>
 (() => {
   const $ = s => document.querySelector(s);
@@ -792,6 +951,8 @@
   const vocab = window.AR_TYPING_BANK?.vocabulary || fallbackVocab;
   const examVocab = window.AR_EXAM_BANK?.vocabulary || {easy:[],normal:[],pro:[]};
   const conversations = window.AR_TYPING_BANK?.conversations || fallbackVocab;
+  const tenseBank = window.AR_TENSE_BANK?.sentences || {};
+  const tenseInfo = window.AR_TENSE_BANK?.tenseInfo || {};
 
   function flattenStudyBank(bank, kind, typeLabel, defaultTags=[]){
     return Object.entries(bank).flatMap(([difficulty,items]) => items.map(item => ({
@@ -804,10 +965,23 @@
     })));
   }
 
+  function flattenTenseBank(bank){
+    return Object.entries(bank).flatMap(([tenseId,items]) => items.map(item => ({
+      ...item,
+      kind:'tense',
+      difficulty:tenseId,
+      categoryLabel:item.tenseTh,
+      typeLabel:item.tense,
+      tags:['TENSE',item.tense,item.tenseTh,item.formula],
+      studyKey:`tense|${tenseId}|${item.en}`
+    })));
+  }
+
   const allStudyItems = [
     ...flattenStudyBank(vocab, 'word', 'คำทั่วไป', ['CORE']),
     ...flattenStudyBank(examVocab, 'exam', 'ศัพท์สอบ'),
-    ...flattenStudyBank(conversations, 'conversation', 'บทสนทนา', ['CONVERSATION'])
+    ...flattenStudyBank(conversations, 'conversation', 'บทสนทนา', ['CONVERSATION']),
+    ...flattenTenseBank(tenseBank)
   ];
   const studyItemMap = new Map(allStudyItems.map(item => [item.studyKey, item]));
 
@@ -843,7 +1017,7 @@
     finalScore: $('#finalScore'), resultMessage: $('#resultMessage'),
     rWpm: $('#rWpm'), rAcc: $('#rAcc'), rBest: $('#rBest'), rWords: $('#rWords'), rSpeech: $('#rSpeech'), bestText: $('#bestText'),
     handStatus: $('#handStatus'), voiceBtn: $('#voiceBtn'), selectedHelmet: $('#selectedHelmet'),
-    voiceChallenge: $('#voiceChallenge'), voiceExpected: $('#voiceExpected'), voiceExpectedIpa: $('#voiceExpectedIpa'),
+    voiceChallenge: $('#voiceChallenge'), voicePhaseLabel: $('#voicePhaseLabel'), voiceExpected: $('#voiceExpected'), voiceExpectedIpa: $('#voiceExpectedIpa'),
     voiceDetected: $('#voiceDetected'), voiceScore: $('#voiceScore'), voiceMicBtn: $('#voiceMicBtn'),
     voiceListenBtn: $('#voiceListenBtn'), voiceSkipBtn: $('#voiceSkipBtn'),
     libraryGrid: $('#libraryGrid'), libraryResultText: $('#libraryResultText'), libraryMore: $('#libraryMore'),
@@ -853,11 +1027,11 @@
   let state = {
     running:false, paused:false, score:0, combo:1, bestCombo:1, level:1, hearts:3,
     remain:120, duration:120, correctChars:0, wrongChars:0, words:0, target:null,
-    timer:null, boss:false, bossHits:0, language:'th', difficulty:'normal', contentType:'words', theme:'armor', visualMode:'camera',
+    timer:null, boss:false, bossHits:0, language:'th', difficulty:'normal', contentType:'words', tenseType:'present_simple', theme:'armor', visualMode:'camera',
     lastPair:null, reviewPool:null, stream:null, audioCtx:null, visualRequest:0,
     speechEnabled:localStorage.getItem('arHeroVoice') !== 'off',
     speechPractice:localStorage.getItem('arHeroSpeechPractice') !== 'off', speechRecognition:null,
-    speechToken:0, speechListening:false, speechComplete:false, speechScoreTotal:0, speechScoreCount:0
+    speechToken:0, speechListening:false, speechComplete:false, voicePhase:'typing', speechScoreTotal:0, speechScoreCount:0
   };
 
   function beep(freq=720, dur=.07, type='sine', gain=.04){
@@ -974,12 +1148,22 @@
     }
   }
 
-  function unlockTypingAfterSpeech(message='พร้อมพิมพ์แล้ว'){
-    state.speechComplete = true;
-    input.disabled = false;
-    input.placeholder = state.contentType === 'conversations' ? 'พิมพ์ประโยคที่เห็น แล้วกด Enter...' : 'พิมพ์คำที่เห็น แล้วกด Enter...';
-    if(message) ui.voiceDetected.textContent = message;
-    input.focus();
+  function typingPlaceholder(){
+    return state.contentType === 'conversations' || state.contentType === 'tenses' || state.target?.dataset.kind === 'tense'
+      ? 'พิมพ์ประโยคที่เห็น แล้วกด Enter...'
+      : 'พิมพ์คำที่เห็น แล้วกด Enter...';
+  }
+
+  function advanceAfterSpeech(){
+    if(!state.running || state.voicePhase === 'typing') return;
+    stopSpeechRecognition();
+    state.voicePhase = 'advancing';
+    ui.voiceChallenge.hidden = true;
+    ui.app.classList.remove('speech-active');
+    ui.voiceMicBtn.disabled = true;
+    ui.voiceListenBtn.disabled = true;
+    ui.voiceSkipBtn.disabled = true;
+    setTimeout(spawnTarget,220);
   }
 
   function finishSpeechAttempt(transcript,confidence,expected,studyKey){
@@ -990,8 +1174,12 @@
     ui.voiceDetected.innerHTML = `ได้ยินว่า <b>${escapeHTML(transcript || '—')}</b> · ${feedback}`;
     ui.voiceChallenge.classList.remove('score-great','score-good','score-retry');
     ui.voiceChallenge.classList.add(score >= 90 ? 'score-great' : score >= 65 ? 'score-good' : 'score-retry');
+    state.voicePhase = 'scored';
+    state.speechComplete = true;
     ui.voiceMicBtn.disabled = false;
     ui.voiceMicBtn.textContent = '🎙 ลองอีกครั้ง';
+    ui.voiceSkipBtn.disabled = false;
+    ui.voiceSkipBtn.textContent = 'คำถัดไป →';
     recordSpeechScore(studyKey,score,transcript,confidence);
     if(state.target && !state.target.dataset.voiceAwarded){
       state.target.dataset.voiceAwarded = 'true';
@@ -1001,15 +1189,17 @@
       updateHUD();
     }
     beep(score >= 75 ? 880 : 330,.1,score >= 75 ? 'sine' : 'triangle',.035);
-    unlockTypingAfterSpeech('');
   }
 
   function startSpeechRecognition(){
-    if(!state.running || !state.target || state.speechListening) return;
+    if(!state.running || !state.target || state.speechListening || !['speaking','scored'].includes(state.voicePhase)) return;
     const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if(!Recognition){
-      ui.voiceDetected.textContent = 'เบราว์เซอร์นี้ยังไม่รองรับการตรวจเสียง — ปลดล็อกการพิมพ์แล้ว';
-      unlockTypingAfterSpeech('เบราว์เซอร์นี้ยังไม่รองรับการตรวจเสียง — ปลดล็อกการพิมพ์แล้ว');
+      state.voicePhase = 'scored';
+      ui.voiceDetected.textContent = 'เบราว์เซอร์นี้ยังไม่รองรับการตรวจเสียง — กดคำถัดไปได้เลย';
+      ui.voiceMicBtn.disabled = true;
+      ui.voiceSkipBtn.disabled = false;
+      ui.voiceSkipBtn.textContent = 'คำถัดไป →';
       return;
     }
     stopSpeechRecognition();
@@ -1056,7 +1246,11 @@
       const blocked = event.error === 'not-allowed' || event.error === 'service-not-allowed';
       const messages = {'no-speech':'ยังไม่ได้ยินเสียง ลองพูดใกล้ไมค์ขึ้น',network:'บริการตรวจเสียงเชื่อมต่อไม่ได้','audio-capture':'ไม่พบไมโครโฟน','not-allowed':'ไม่ได้รับอนุญาตใช้ไมโครโฟน','service-not-allowed':'เบราว์เซอร์ปิดกั้นบริการตรวจเสียง'};
       ui.voiceDetected.textContent = messages[event.error] || 'ตรวจเสียงไม่สำเร็จ ลองอีกครั้งหรือกดข้าม';
-      if(blocked || event.error === 'audio-capture') unlockTypingAfterSpeech(ui.voiceDetected.textContent + ' — ปลดล็อกการพิมพ์แล้ว');
+      if(blocked || event.error === 'audio-capture'){
+        state.voicePhase = 'scored';
+        ui.voiceMicBtn.disabled = true;
+        ui.voiceSkipBtn.textContent = 'คำถัดไป →';
+      }
     };
     recognition.onend = () => {
       if(token !== state.speechToken || receivedFinal) return;
@@ -1079,28 +1273,52 @@
   function prepareSpeechChallenge(item,englishReading){
     stopSpeechRecognition();
     state.speechComplete = !state.speechPractice;
+    state.voicePhase = 'typing';
     ui.voiceChallenge.classList.remove('listening','score-great','score-good','score-retry');
-    ui.voiceExpected.textContent = item.en;
-    ui.voiceExpectedIpa.textContent = englishReading ? `/${englishReading}/` : 'พูดข้อความภาษาอังกฤษให้ชัดเจน';
-    ui.voiceDetected.textContent = 'กดไมค์ แล้วพูดให้ชัดเจน';
+    ui.voicePhaseLabel.textContent = 'TYPE FIRST · พิมพ์ก่อนแล้วพูดตาม';
+    ui.voiceExpected.textContent = 'พิมพ์ข้อความให้ถูกก่อน';
+    ui.voiceExpectedIpa.textContent = 'คำอ่านและปุ่มไมค์จะเปิดหลังพิมพ์ถูก';
+    ui.voiceDetected.textContent = 'ขั้นที่ 1 · พิมพ์คำหรือประโยคด้านบน แล้วกด Enter';
     ui.voiceScore.textContent = '--';
-    ui.voiceMicBtn.disabled = false;
-    ui.voiceMicBtn.textContent = '🎙 เริ่มพูด';
-    ui.voiceChallenge.hidden = !state.speechPractice;
-    ui.app.classList.toggle('speech-active',state.speechPractice);
-    input.disabled = state.speechPractice;
-    if(state.speechPractice){
-      input.placeholder = 'พูดภาษาอังกฤษก่อน แล้วจึงพิมพ์...';
-      const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if(!Recognition){
-        ui.voiceMicBtn.disabled = true;
-        unlockTypingAfterSpeech('เบราว์เซอร์นี้ไม่รองรับการตรวจเสียง กดพิมพ์ต่อได้เลย');
-      }
+    ui.voiceMicBtn.disabled = true;
+    ui.voiceListenBtn.disabled = true;
+    ui.voiceSkipBtn.disabled = true;
+    ui.voiceMicBtn.textContent = '🎙 รอพิมพ์';
+    ui.voiceSkipBtn.textContent = 'ข้ามเสียง →';
+    ui.voiceChallenge.hidden = true;
+    ui.app.classList.remove('speech-active');
+    input.disabled = false;
+    input.placeholder = typingPlaceholder();
+  }
+
+  function activateSpeechAfterTyping(){
+    if(!state.speechPractice || !state.target) return false;
+    state.voicePhase = 'speaking';
+    state.speechComplete = false;
+    input.disabled = true;
+    ui.voiceChallenge.hidden = false;
+    ui.voicePhaseLabel.textContent = 'SPEAK AFTER TYPING · พูดตามภาษาอังกฤษ';
+    ui.voiceExpected.textContent = state.target.dataset.english;
+    ui.voiceExpectedIpa.textContent = state.target.dataset.reading ? `/${state.target.dataset.reading}/` : 'ฟังตัวอย่างแล้วพูดตาม';
+    ui.voiceDetected.textContent = 'ขั้นที่ 2 · ฟังตัวอย่าง แล้วกดไมค์เพื่อพูดตาม';
+    ui.voiceScore.textContent = '--';
+    ui.voiceListenBtn.disabled = false;
+    ui.voiceSkipBtn.disabled = false;
+    ui.voiceSkipBtn.textContent = 'ข้ามเสียง →';
+    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    ui.voiceMicBtn.disabled = !Recognition;
+    ui.voiceMicBtn.textContent = Recognition ? '🎙 เริ่มพูด' : 'ไม่รองรับไมค์';
+    if(!Recognition){
+      state.voicePhase = 'scored';
+      ui.voiceDetected.textContent = 'เบราว์เซอร์นี้ไม่รองรับการตรวจเสียง แต่ยังฟังตัวอย่างและกดคำถัดไปได้';
+      ui.voiceSkipBtn.textContent = 'คำถัดไป →';
     }
+    return true;
   }
 
   function setTheme(theme){
     state.theme = theme;
+    ui.app.dataset.heroTheme = theme;
     faceRig.className = 'faceRig theme-' + theme;
     ui.selectedHelmet.className = 'selectedHelmet theme-' + theme;
     document.querySelectorAll('.themeCard').forEach(card => {
@@ -1121,6 +1339,8 @@
 
   function syncVisualModeUI(mode,busy=false){
     const selectedMode = mode === 'camera' ? 'camera' : 'space';
+    ui.app.classList.toggle('visual-camera',selectedMode === 'camera');
+    ui.app.classList.toggle('visual-space',selectedMode === 'space');
     const menuSelect = $('#visualMode');
     if(menuSelect) menuSelect.value = selectedMode;
     document.querySelectorAll('[data-select="visualMode"] .choiceBtn').forEach(button => {
@@ -1347,6 +1567,87 @@
     }
   }
 
+  function drawBodyEnergy(now){
+    const palette=energyPalettes[state.theme] || energyPalettes.robot;
+    const compact=innerWidth < 720;
+    const cx=innerWidth*.5;
+    const headY=innerHeight*(compact ? .31 : .29);
+    const headRx=Math.max(66,Math.min(compact ? 88 : 132,innerWidth*.082));
+    const headRy=headRx*1.14;
+    const bodyY=innerHeight*(compact ? .59 : .58);
+    const bodyRx=Math.max(145,Math.min(compact ? innerWidth*.41 : 330,innerWidth*.205));
+    const bodyRy=Math.max(180,Math.min(compact ? innerHeight*.25 : 290,innerHeight*.31));
+    const pulse=1+Math.sin(now*.0032)*.025;
+    energyCtx.save();
+    energyCtx.globalCompositeOperation='lighter';
+
+    const headGlow=energyCtx.createRadialGradient(cx,headY,headRx*.68,cx,headY,headRx*1.55);
+    headGlow.addColorStop(0,`rgba(${palette.glow},0)`);
+    headGlow.addColorStop(.56,`rgba(${palette.glow},.025)`);
+    headGlow.addColorStop(.76,`rgba(${palette.edge},.09)`);
+    headGlow.addColorStop(1,`rgba(${palette.glow},0)`);
+    energyCtx.fillStyle=headGlow;
+    energyCtx.beginPath();energyCtx.ellipse(cx,headY,headRx*1.55,headRy*1.52,0,0,Math.PI*2);energyCtx.fill();
+
+    for(let ring=0;ring<3;ring++){
+      energyCtx.save();
+      energyCtx.translate(cx,headY);
+      energyCtx.rotate(now*.00018*(ring%2 ? -1 : 1)+ring*.72);
+      energyCtx.strokeStyle=`rgba(${ring===0?palette.core:palette.edge},${.25-ring*.055})`;
+      energyCtx.lineWidth=ring===0?1.35:.75;
+      energyCtx.setLineDash(ring===0?[18,13]:ring===1?[4,11]:[2,18]);
+      energyCtx.lineDashOffset=-now*.018*(ring+1);
+      energyCtx.beginPath();
+      energyCtx.ellipse(0,0,headRx*(1+ring*.13)*pulse,headRy*(1+ring*.1)*pulse,0,0,Math.PI*2);
+      energyCtx.stroke();
+      energyCtx.restore();
+    }
+
+    energyCtx.save();
+    energyCtx.translate(cx,bodyY);
+    energyCtx.strokeStyle=`rgba(${palette.edge},.13)`;
+    energyCtx.lineWidth=1;
+    energyCtx.setLineDash([24,20]);
+    energyCtx.lineDashOffset=now*.026;
+    energyCtx.beginPath();energyCtx.ellipse(0,0,bodyRx*pulse,bodyRy*pulse,0,0,Math.PI*2);energyCtx.stroke();
+    energyCtx.strokeStyle=`rgba(${palette.glow},.075)`;
+    energyCtx.lineWidth=9;
+    energyCtx.setLineDash([55,38]);
+    energyCtx.beginPath();energyCtx.ellipse(0,0,bodyRx*.94,bodyRy*.96,0,0,Math.PI*2);energyCtx.stroke();
+    energyCtx.restore();
+
+    const ellipsePoint=(centerX,centerY,radiusX,radiusY,angle)=>({x:centerX+Math.cos(angle)*radiusX,y:centerY+Math.sin(angle)*radiusY});
+    energyCtx.setLineDash([]);
+    [-1,1].forEach((side,sideIndex)=>{
+      const start=side < 0 ? Math.PI*.61 : -Math.PI*.39;
+      const points=Array.from({length:7},(_,index)=>ellipsePoint(cx,bodyY,bodyRx,bodyRy,start+index*Math.PI*.13));
+      for(let index=0;index<points.length-1;index++){
+        if((index+Math.floor(now/280)+sideIndex)%3!==1) drawElectricArc(points[index],points[index+1],palette,.34,now+index*97+sideIndex*211);
+      }
+    });
+    for(let index=0;index<18;index++){
+      const angle=now*.00024+index*Math.PI*2/18;
+      const aroundHead=index%2===0;
+      const orbitX=aroundHead?headRx*1.23:bodyRx*.98;
+      const orbitY=aroundHead?headRy*1.18:bodyRy*.94;
+      const centerY=aroundHead?headY:bodyY;
+      const x=cx+Math.cos(angle)*orbitX;
+      const y=centerY+Math.sin(angle)*orbitY;
+      const size=aroundHead?1.7:2.2;
+      energyCtx.fillStyle=`rgba(${index%3?palette.edge:palette.core},${.24+(index%4)*.09})`;
+      energyCtx.beginPath();energyCtx.arc(x,y,size,0,Math.PI*2);energyCtx.fill();
+    }
+
+    if(energySystem.palms.length){
+      const shoulders=[{x:cx-bodyRx*.58,y:bodyY-bodyRy*.43},{x:cx+bodyRx*.58,y:bodyY-bodyRy*.43}];
+      energySystem.palms.slice(0,2).forEach((palm,index)=>{
+        const anchor=shoulders.reduce((best,point)=>Math.abs(point.x-palm.x)<Math.abs(best.x-palm.x)?point:best,shoulders[0]);
+        drawElectricArc(anchor,palm,palette,.24,now+index*313);
+      });
+    }
+    energyCtx.restore();
+  }
+
   function drawEnergyFrame(now){
     energyCtx.clearRect(0,0,innerWidth,innerHeight);
     energySystem.palms=[];
@@ -1362,6 +1663,7 @@
           drawPalmEnergy({x:innerWidth*.73,y:innerHeight*.64},1,now,true);
         }
       }
+      if(state.visualMode==='camera') drawBodyEnergy(now);
     }
     requestAnimationFrame(drawEnergyFrame);
   }
@@ -1373,6 +1675,7 @@
 
   function getPool(){
     if(state.reviewPool?.length) return state.reviewPool;
+    if(state.contentType === 'tenses') return tenseBank[state.tenseType] || tenseBank.present_simple || [];
     const bank = state.contentType === 'conversations' ? conversations : state.contentType === 'exam' ? examVocab : vocab;
     return bank[state.difficulty] || bank.normal;
   }
@@ -1392,17 +1695,18 @@
   }
 
   function createTargetText(item){
-    const isSentence = item.kind === 'conversation' || state.contentType === 'conversations';
+    const isSentence = item.kind === 'conversation' || item.kind === 'tense' || state.contentType === 'conversations' || state.contentType === 'tenses';
+    const tenseTitle = item.kind === 'tense' ? `${item.tense} · ${item.formula}` : '';
     if(state.language === 'th'){
-      return {show:item.th, answer:item.th, title:isSentence ? 'พิมพ์ประโยคภาษาไทย' : 'พิมพ์คำไทย', opposite:item.en, direction:'ไทย → English', lang:'th'};
+      return {show:item.th, answer:item.th, title:tenseTitle || (isSentence ? 'พิมพ์ประโยคภาษาไทย' : 'พิมพ์คำไทย'), opposite:item.en, direction:'ไทย → English', lang:'th'};
     }
     if(state.language === 'en'){
-      return {show:item.en, answer:item.en, title:isSentence ? 'Type the English sentence' : 'Type the English word', opposite:item.th, direction:'English → ไทย', lang:'en'};
+      return {show:item.en, answer:item.en, title:tenseTitle || (isSentence ? 'Type the English sentence' : 'Type the English word'), opposite:item.th, direction:'English → ไทย', lang:'en'};
     }
     const thaiFirst = Math.random() < .5;
     return thaiFirst
-      ? {show:item.th, answer:item.th, title:isSentence ? 'พิมพ์ประโยคภาษาไทย' : 'พิมพ์คำไทย', opposite:item.en, direction:'ไทย → English', lang:'th'}
-      : {show:item.en, answer:item.en, title:isSentence ? 'Type the English sentence' : 'Type the English word', opposite:item.th, direction:'English → ไทย', lang:'en'};
+      ? {show:item.th, answer:item.th, title:tenseTitle || (isSentence ? 'พิมพ์ประโยคภาษาไทย' : 'พิมพ์คำไทย'), opposite:item.en, direction:'ไทย → English', lang:'th'}
+      : {show:item.en, answer:item.en, title:tenseTitle || (isSentence ? 'Type the English sentence' : 'Type the English word'), opposite:item.th, direction:'English → ไทย', lang:'en'};
   }
 
   function spawnTarget(){
@@ -1413,7 +1717,7 @@
     const meta = createTargetText(item);
     const englishReading = window.AR_PRONUNCIATIONS?.[item.en] || '';
     const target = document.createElement('div');
-    const isSentence = item.kind === 'conversation' || state.contentType === 'conversations';
+    const isSentence = item.kind === 'conversation' || item.kind === 'tense' || state.contentType === 'conversations' || state.contentType === 'tenses';
     target.className = 'target' + (isSentence ? ' sentence' : '');
 
     const x = 18 + Math.random() * 64;
@@ -1426,9 +1730,12 @@
     target.dataset.lang = meta.lang;
     target.dataset.opposite = meta.opposite;
     target.dataset.direction = meta.direction;
+    target.dataset.kind = item.kind || (state.contentType === 'tenses' ? 'tense' : 'word');
     target.dataset.english = item.en;
     target.dataset.reading = englishReading;
-    target.dataset.studyKey = item.reviewKey || `${state.contentType === 'conversations' ? 'conversation' : state.contentType === 'exam' ? 'exam' : 'word'}|${item.en}`;
+    target.dataset.studyKey = item.reviewKey || (state.contentType === 'tenses'
+      ? `tense|${item.tenseId || state.tenseType}|${item.en}`
+      : `${state.contentType === 'conversations' ? 'conversation' : state.contentType === 'exam' ? 'exam' : 'word'}|${item.en}`);
 
     target.innerHTML = `
       <div class="target-word"></div>
@@ -1515,6 +1822,7 @@
         case 'mastered': return status === 'mastered';
         case 'favorites': return studyMemory.favorites.has(item.studyKey);
         case 'conversation': return item.kind === 'conversation';
+        case 'tense': return item.kind === 'tense';
         case 'TOEFL': case 'TOEIC': case 'IELTS': case 'KKU-AELT':
           return item.tags.includes(libraryState.filter);
         default: return true;
@@ -1556,7 +1864,7 @@
       const tags = item.tags.map(tag => `<span class="examTag">${escapeHTML(tag)}</span>`).join('');
       const favorite = studyMemory.favorites.has(item.studyKey);
       return `<article class="studyCard is-${status}" data-key="${escapeHTML(item.studyKey)}">
-        <div class="studyTop"><span class="studyType">${escapeHTML(item.typeLabel)} · ${escapeHTML(item.difficulty.toUpperCase())}</span><button class="favoriteBtn${favorite?' active':''}" type="button" data-action="favorite" aria-label="${favorite?'เลิกติดดาว':'ติดดาว'}">★</button></div>
+        <div class="studyTop"><span class="studyType">${escapeHTML(item.typeLabel)} · ${escapeHTML(item.categoryLabel || item.difficulty.toUpperCase())}</span><button class="favoriteBtn${favorite?' active':''}" type="button" data-action="favorite" aria-label="${favorite?'เลิกติดดาว':'ติดดาว'}">★</button></div>
         <h3 class="studyEn">${escapeHTML(item.en)}</h3>
         <div class="studyIpa">${ipa ? '/' + escapeHTML(ipa) + '/' : '&nbsp;'}</div>
         <div class="studyTh">${escapeHTML(item.th)}</div>
@@ -1758,7 +2066,7 @@
       }
 
       updateHUD();
-      setTimeout(spawnTarget, 1500);
+      if(!activateSpeechAfterTyping()) setTimeout(spawnTarget, 1500);
     }else{
       recordStudyResult(state.target.dataset.studyKey, false);
       state.wrongChars += Math.max(1, Math.max(answer.length, typed.length));
@@ -1821,6 +2129,8 @@
     clearInterval(state.timer);
     if(state.target){ state.target.remove(); state.target = null; }
     clearTransientFX();
+    ui.voiceChallenge.hidden = true;
+    ui.app.classList.remove('speech-active');
 
     const total = state.correctChars + state.wrongChars;
     const acc = total ? Math.round(state.correctChars/total*100) : 0;
@@ -1861,8 +2171,8 @@
     const minutes = Math.max(1/60, state.duration/60);
     const wpm = Math.round((state.correctChars/5) / minutes);
     const rows = [
-      ['date','content_type','language_mode','difficulty','theme','duration_sec','score','items','wpm','accuracy','best_combo','voice_score'],
-      [new Date().toLocaleString('th-TH'), state.contentType, state.language, state.difficulty, state.theme, state.duration, state.score, state.words, wpm, acc, state.bestCombo, state.speechScoreCount ? Math.round(state.speechScoreTotal/state.speechScoreCount) : '']
+      ['date','content_type','tense_type','language_mode','difficulty','theme','duration_sec','score','items','wpm','accuracy','best_combo','voice_score'],
+      [new Date().toLocaleString('th-TH'), state.contentType, state.contentType === 'tenses' ? state.tenseType : '', state.language, state.difficulty, state.theme, state.duration, state.score, state.words, wpm, acc, state.bestCombo, state.speechScoreCount ? Math.round(state.speechScoreTotal/state.speechScoreCount) : '']
     ];
     const csv = '\ufeff' + rows.map(r => r.map(v => `"${String(v).replaceAll('"','""')}"`).join(',')).join('\n');
     const a = document.createElement('a');
@@ -1894,6 +2204,7 @@
     state.reviewPool = reviewItems?.length ? reviewItems : null;
     state.language = $('#language').value;
     state.difficulty = $('#gradeLevel').value;
+    state.tenseType = $('#tenseType').value;
     state.contentType = state.reviewPool ? 'review' : $('#contentType').value;
     state.speechPractice = $('#speechPractice').value === 'on';
     localStorage.setItem('arHeroSpeechPractice', state.speechPractice ? 'on' : 'off');
@@ -1958,9 +2269,19 @@
         item.setAttribute('aria-pressed', String(active));
       });
       if(select.id === 'contentType'){
-        input.placeholder = select.value === 'conversations'
+        const usesSentences = select.value === 'conversations' || select.value === 'tenses';
+        input.placeholder = usesSentences
           ? 'พิมพ์ประโยคที่เห็น แล้วกด Enter...'
           : 'พิมพ์คำที่เห็น แล้วกด Enter...';
+        $('#tenseField').hidden = select.value !== 'tenses';
+        $('#difficultyField').hidden = select.value === 'tenses';
+        const briefings = {
+          words:'AI จะสุ่มคำศัพท์ตามระดับ และวางแผนทบทวนคำที่คุณยังจำไม่แม่น',
+          exam:'เปิดคลังศัพท์ TOEFL · TOEIC · IELTS · KKU-AELT พร้อมติดตามความแม่นยำ',
+          conversations:'ฝึกประโยคสนทนาที่ใช้จริง พิมพ์ให้ถูก แล้วพูดตามเพื่อรับคะแนนเสียง',
+          tenses:'เลือกหนึ่งใน 12 Tenses แล้วฝึกจากสถานการณ์ชีวิตประจำวัน Tense ละ 300 ประโยค'
+        };
+        $('#aiBriefText').textContent = briefings[select.value] || briefings.words;
       }
       select.dispatchEvent(new Event('change', {bubbles:true}));
     };
@@ -2050,19 +2371,14 @@
   };
   ui.voiceMicBtn.onclick = startSpeechRecognition;
   ui.voiceListenBtn.onclick = () => {
-    if(!state.target) return;
+    if(!state.target || state.voicePhase === 'typing' || state.voicePhase === 'advancing') return;
     stopSpeechRecognition();
-    ui.voiceMicBtn.disabled = false;
+    ui.voiceMicBtn.disabled = !(window.SpeechRecognition || window.webkitSpeechRecognition);
     ui.voiceMicBtn.textContent = '🎙 เริ่มพูด';
     ui.voiceDetected.textContent = 'ฟังตัวอย่าง แล้วกดไมค์เพื่อพูดตาม';
     speakTranslation(state.target.dataset.english, 'en', true);
   };
-  ui.voiceSkipBtn.onclick = () => {
-    stopSpeechRecognition();
-    ui.voiceMicBtn.disabled = false;
-    ui.voiceMicBtn.textContent = '🎙 เริ่มพูด';
-    unlockTypingAfterSpeech('ข้ามการตรวจเสียงครั้งนี้ · พร้อมพิมพ์แล้ว');
-  };
+  ui.voiceSkipBtn.onclick = advanceAfterSpeech;
   $('#speechPractice').addEventListener('change', event => {
     localStorage.setItem('arHeroSpeechPractice', event.target.value);
   });
@@ -2095,8 +2411,15 @@
     stopMedia();
   });
 
+  function updateMenuClock(){
+    const clock = $('#menuClock');
+    if(clock) clock.textContent = new Date().toLocaleTimeString('en-GB',{hour12:false});
+  }
+
   resizeEnergyCanvas();
   requestAnimationFrame(drawEnergyFrame);
+  updateMenuClock();
+  setInterval(updateMenuClock,1000);
   const savedSpeechPractice = localStorage.getItem('arHeroSpeechPractice') === 'off' ? 'off' : 'on';
   $('#speechPractice').value = savedSpeechPractice;
   document.querySelectorAll('[data-select="speechPractice"] .choiceBtn').forEach(button => {
@@ -2104,6 +2427,8 @@
     button.classList.toggle('active',active);
     button.setAttribute('aria-pressed',String(active));
   });
+  $('#tenseField').hidden = $('#contentType').value !== 'tenses';
+  $('#difficultyField').hidden = $('#contentType').value === 'tenses';
   setTheme('armor');
   syncVisualModeUI($('#visualMode').value,false);
   setVoiceUI();
