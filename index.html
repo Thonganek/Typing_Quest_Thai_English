@@ -479,6 +479,7 @@
   .missionConfig{display:grid!important;grid-template-columns:142px minmax(0,1fr);grid-template-rows:auto auto auto;gap:9px 11px;min-height:382px;align-items:stretch}
   .settingsRail{grid-column:1;grid-row:1/4;display:flex;flex-direction:column;gap:5px;min-width:0;padding:8px;border:1px solid rgba(93,228,255,.16);background:linear-gradient(180deg,rgba(7,31,46,.88),rgba(3,15,27,.9));clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px))}
   .settingsTab{position:relative;display:grid;grid-template-columns:25px minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:7px;min-height:42px;padding:7px 7px;border:1px solid transparent;background:rgba(255,255,255,.018);color:#8baab6;text-align:left;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,transform .18s ease,box-shadow .18s ease}
+  .settingsTab[hidden]{display:none!important}
   .settingsTab span{grid-row:1/3;display:grid;place-items:center;width:24px;height:24px;border:1px solid rgba(92,226,255,.15);border-radius:50%;color:#62dff1;font:900 7px/1 ui-monospace,Consolas,monospace}.settingsTab b{min-width:0;color:#c5d8df;font-size:11.5px;line-height:1.1}.settingsTab small{min-width:0;overflow:hidden;color:#698b98;font:800 7px/1.15 ui-monospace,Consolas,monospace;text-overflow:ellipsis;white-space:nowrap}.settingsTab i{grid-column:3;grid-row:1/3;color:#4f8290;font-size:18px;font-style:normal}
   .settingsTab:hover,.settingsTab:focus-visible,.settingsTab.active{z-index:2;border-color:rgba(92,232,255,.5);background:linear-gradient(100deg,rgba(38,210,241,.2),rgba(79,111,255,.06));color:#fff;outline:none;transform:translateX(4px);box-shadow:inset 3px 0 #63ebff,0 8px 22px rgba(0,0,0,.22)}.settingsTab:hover b,.settingsTab:focus-visible b,.settingsTab.active b{color:#fff}.settingsTab:hover small,.settingsTab:focus-visible small,.settingsTab.active small{color:#bceff6}.settingsTab:hover span,.settingsTab:focus-visible span,.settingsTab.active span{border-color:#6bedff;color:#d4fbff;box-shadow:0 0 13px rgba(67,224,255,.24)}.settingsTab:hover i,.settingsTab:focus-visible i,.settingsTab.active i{color:#7ef0ff}
   .settingsRailHint{margin-top:auto;padding:8px 4px 2px;color:#688894;font-size:8px;line-height:1.35;text-align:center}.settingsRailHint span{color:#69eaff;font:900 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.12em}
@@ -1344,6 +1345,9 @@
       card.classList.toggle('active', active);
       card.setAttribute('aria-pressed', String(active));
     });
+    const themeSummary = document.querySelector('[data-settings-summary="heroTheme"]');
+    const activeThemeCard = document.querySelector(`.themeCard[data-theme="${theme}"] b`);
+    if(themeSummary && activeThemeCard) themeSummary.textContent = activeThemeCard.textContent.trim();
   }
 
   function cycleTheme(){
@@ -2276,6 +2280,45 @@
     button.dataset.popup = detail ? `${title} · ${detail}` : title;
   });
 
+  const settingsTabs = [...document.querySelectorAll('[data-settings-tab]')];
+  const settingsPanels = [...document.querySelectorAll('[data-settings-panel]')];
+  function activateSettingsPanel(panelName,focusTab=false){
+    settingsTabs.forEach(tab => {
+      const active = tab.dataset.settingsTab === panelName;
+      tab.classList.toggle('active',active);
+      tab.setAttribute('aria-selected',String(active));
+      tab.tabIndex = active ? 0 : -1;
+      if(active && focusTab) tab.focus();
+    });
+    settingsPanels.forEach(panel => {
+      const active = panel.dataset.settingsPanel === panelName;
+      panel.classList.toggle('is-panel-active',active);
+      panel.setAttribute('aria-hidden',String(!active));
+      panel.inert = !active;
+    });
+  }
+  function updateSettingsSummary(selectId,button){
+    const summaryId = selectId === 'tenseType' ? 'contentType' : selectId;
+    const summary = document.querySelector(`[data-settings-summary="${summaryId}"]`);
+    const label = button?.querySelector('b')?.textContent.trim();
+    if(summary && label) summary.textContent = label;
+  }
+  settingsTabs.forEach(tab => {
+    const activate = () => activateSettingsPanel(tab.dataset.settingsTab);
+    tab.addEventListener('mouseenter',activate);
+    tab.addEventListener('focus',activate);
+    tab.addEventListener('click',activate);
+    tab.addEventListener('keydown',event => {
+      if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+      event.preventDefault();
+      const available = settingsTabs.filter(item => !item.hidden);
+      const current = available.indexOf(tab);
+      const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? available.length - 1 : (current + (['ArrowDown','ArrowRight'].includes(event.key) ? 1 : -1) + available.length) % available.length;
+      activateSettingsPanel(available[nextIndex].dataset.settingsTab,true);
+    });
+  });
+  activateSettingsPanel('content');
+
   document.querySelectorAll('.choiceGrid[data-select]').forEach(group => {
     const select = document.getElementById(group.dataset.select);
     const buttons = [...group.querySelectorAll('.choiceBtn')];
@@ -2286,6 +2329,7 @@
         item.classList.toggle('active', active);
         item.setAttribute('aria-pressed', String(active));
       });
+      updateSettingsSummary(select.id,button);
       if(select.id === 'contentType'){
         const usesSentences = select.value === 'conversations' || select.value === 'tenses';
         input.placeholder = usesSentences
@@ -2293,6 +2337,8 @@
           : 'พิมพ์คำที่เห็น แล้วกด Enter...';
         $('#tenseField').hidden = select.value !== 'tenses';
         $('#difficultyField').hidden = select.value === 'tenses';
+        const difficultyTab = document.querySelector('[data-settings-tab="difficulty"]');
+        if(difficultyTab) difficultyTab.hidden = select.value === 'tenses';
         const briefings = {
           words:'AI จะสุ่มคำศัพท์ตามระดับ และวางแผนทบทวนคำที่คุณยังจำไม่แม่น',
           exam:'เปิดคลังศัพท์ TOEFL · TOEIC · IELTS · KKU-AELT พร้อมติดตามความแม่นยำ',
@@ -2444,6 +2490,10 @@
     const active = button.dataset.value === savedSpeechPractice;
     button.classList.toggle('active',active);
     button.setAttribute('aria-pressed',String(active));
+  });
+  document.querySelectorAll('.choiceGrid[data-select]').forEach(group => {
+    if(group.dataset.select === 'tenseType' && $('#contentType').value !== 'tenses') return;
+    updateSettingsSummary(group.dataset.select,group.querySelector('.choiceBtn.active'));
   });
   $('#tenseField').hidden = $('#contentType').value !== 'tenses';
   $('#difficultyField').hidden = $('#contentType').value === 'tenses';
