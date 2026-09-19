@@ -38,16 +38,8 @@
       linear-gradient(140deg,#08192f,#08111d 55%,#180e2f);}
   .stars,.scan,.vignette,.energyFog{position:absolute;inset:0;pointer-events:none}
   .stars{
-      background-image:
-        radial-gradient(circle,rgba(255,255,255,.92) 1px,transparent 1.5px),
-        radial-gradient(circle,rgba(70,232,255,.7) 1px,transparent 1.5px),
-        radial-gradient(circle,rgba(255,217,95,.7) 1px,transparent 1.5px);
-      background-size:180px 180px,240px 240px,300px 300px;
-      background-position:0 0,80px 110px,140px 40px;
-      opacity:.18;
-      animation:drift 30s linear infinite;
+      display:none;
   }
-  @keyframes drift{from{transform:translateY(0)}to{transform:translateY(40px)}}
   .scan{
       opacity:.12;
       background:repeating-linear-gradient(to bottom,rgba(255,255,255,.035) 0,rgba(255,255,255,.035) 1px,transparent 1px,transparent 4px);
@@ -447,14 +439,14 @@
   .menuHero::after{content:"";position:absolute;z-index:8;left:0;right:0;height:1px;top:16%;background:linear-gradient(90deg,transparent,rgba(111,242,255,.72),transparent);box-shadow:0 0 13px #52eaff;opacity:.38;animation:heroScan 5.5s linear infinite;pointer-events:none}
   @keyframes heroScan{from{top:10%}to{top:92%}}
   .systemBadge{padding:7px 11px;border-radius:3px;border-color:rgba(100,255,205,.38);background:linear-gradient(90deg,rgba(60,255,190,.09),transparent);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));box-shadow:inset 0 0 14px rgba(74,255,198,.05)}
-  .eyebrow{margin-top:24px;color:#70ecff;text-shadow:0 0 15px rgba(74,230,255,.38)}
+  .eyebrow{margin-top:9px;color:#70ecff;text-shadow:0 0 15px rgba(74,230,255,.38)}
   .menuModal .heroTitle{font-size:clamp(42px,4.6vw,70px);line-height:.86;letter-spacing:-.045em;text-transform:uppercase;background:linear-gradient(96deg,#fff 5%,#9bf5ff 48%,#4dddf9 92%);-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 9px 28px rgba(0,0,0,.48))}
   .menuModal .heroTitle::after{content:"";display:block;width:72px;height:3px;margin-top:18px;background:linear-gradient(90deg,#6af0ff,transparent);box-shadow:0 0 14px #48dcff}
   .menuModal .heroTitle span{font-size:.68em;letter-spacing:.075em;color:#8cf2ff;-webkit-text-fill-color:#8cf2ff;text-shadow:0 0 28px rgba(78,226,255,.25)}
-  .menuModal .heroSub{position:relative;z-index:12;max-width:490px;margin-top:13px;padding:8px 11px;border-left:2px solid rgba(100,235,255,.58);background:linear-gradient(90deg,rgba(2,18,31,.78),rgba(2,18,31,.24) 78%,transparent);color:#d9edf3;font-size:13px;font-weight:650;line-height:1.72;text-shadow:0 1px 4px rgba(0,0,0,.95)}
+  .menuModal .heroSub{position:relative;z-index:12;max-width:490px;margin-top:2px;padding:8px 11px;border-left:2px solid rgba(100,235,255,.58);background:linear-gradient(90deg,rgba(2,18,31,.78),rgba(2,18,31,.24) 78%,transparent);color:#d9edf3;font-size:13px;font-weight:650;line-height:1.72;text-shadow:0 1px 4px rgba(0,0,0,.95)}
 
   .heroVisual{min-height:385px;margin-top:12px;overflow:hidden;border-top:1px solid rgba(92,226,255,.1);background:radial-gradient(circle at 50% 54%,rgba(51,229,255,.1),transparent 44%)}
-  .selectedHelmet{z-index:6;bottom:2px;width:min(248px,61%);filter:saturate(1.2) contrast(1.12) drop-shadow(0 18px 33px rgba(0,0,0,.72)) drop-shadow(0 0 16px rgba(55,221,255,.15));animation:helmetHover 4s ease-in-out infinite}
+  .selectedHelmet{z-index:6;bottom:6px;width:auto;height:min(94%,470px);filter:saturate(1.2) contrast(1.12) drop-shadow(0 18px 33px rgba(0,0,0,.72)) drop-shadow(0 0 16px rgba(55,221,255,.15));animation:helmetHover 4s ease-in-out infinite}
   @keyframes helmetHover{50%{transform:translateX(-50%) translateY(-5px);filter:saturate(1.28) contrast(1.13) drop-shadow(0 23px 38px rgba(0,0,0,.72)) drop-shadow(0 0 24px rgba(55,221,255,.23))}}
   .aiCoreRing{position:absolute;z-index:2;left:50%;top:52%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}.ringOuter{width:88%;border:1px solid rgba(82,230,255,.2);background:conic-gradient(from 20deg,transparent 0 10%,rgba(80,227,255,.6) 10% 11%,transparent 11% 35%,rgba(126,100,255,.5) 35% 36%,transparent 36% 72%,rgba(77,231,255,.45) 72% 73%,transparent 73%);animation:coreRotate 18s linear infinite}.ringMid{width:65%;border:1px dashed rgba(105,239,255,.36);box-shadow:inset 0 0 35px rgba(55,215,255,.06);animation:coreRotate 11s linear infinite reverse}.ringInner{width:43%;border:1px solid rgba(104,241,255,.28);box-shadow:0 0 26px rgba(48,223,255,.12);animation:coreBreathe 2.8s ease-in-out infinite alternate}
   @keyframes coreRotate{to{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes coreBreathe{to{transform:translate(-50%,-50%) scale(1.1);opacity:.45}}
@@ -466,7 +458,7 @@
   .neuralMeter{position:absolute;z-index:10;left:3px;top:12px;display:flex;align-items:flex-end;gap:3px;height:25px}.neuralMeter i{display:block;width:2px;height:25%;background:#69eaff;box-shadow:0 0 6px #69eaff;animation:neuralBars .8s ease-in-out infinite alternate}.neuralMeter i:nth-child(2),.neuralMeter i:nth-child(6){height:55%;animation-delay:-.3s}.neuralMeter i:nth-child(3),.neuralMeter i:nth-child(7){height:90%;animation-delay:-.55s}.neuralMeter i:nth-child(4){height:42%;animation-delay:-.15s}.neuralMeter i:nth-child(5),.neuralMeter i:nth-child(8){height:70%;animation-delay:-.7s}@keyframes neuralBars{to{height:18%;opacity:.35}}
   .featureRail{position:relative;z-index:10;gap:0;margin-top:2px;border-top:1px solid rgba(93,225,255,.25);border-bottom:1px solid rgba(93,225,255,.12)}.featureRail span{padding:10px 7px;border-top:0;border-right:1px solid rgba(93,225,255,.14);background:rgba(2,18,31,.62);color:#b0cbd4;font-size:8.5px;text-shadow:0 1px 4px #000}.featureRail span:last-child{border-right:0}
 
-  .menuControls{padding:27px 29px 24px;background:linear-gradient(180deg,rgba(2,12,23,.82),rgba(2,8,17,.96));isolation:isolate}
+  .menuControls{padding:18px 29px 20px;background:linear-gradient(180deg,rgba(2,12,23,.82),rgba(2,8,17,.96));isolation:isolate}
   .menuControls::before{content:"";position:absolute;z-index:-1;inset:0;background-image:linear-gradient(rgba(71,211,238,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(71,211,238,.025) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(#000,transparent 78%)}
   .controlHead{padding-bottom:12px;margin-bottom:10px;border-bottom:1px solid rgba(87,226,255,.16)}.controlHead small{color:#92f2ff;font-size:8.5px;text-shadow:0 0 10px rgba(78,226,255,.45)}.controlHead h2{font-size:25px;letter-spacing:-.02em;color:#f3fbff;text-shadow:0 2px 10px rgba(0,0,0,.9)}.readyLight{border-radius:3px;border-color:rgba(97,255,195,.42);background:rgba(72,255,191,.085);color:#c4ffe8;font-weight:800;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px))}
   .menuModal .chips{gap:5px;margin-bottom:9px}.menuModal .chip{border-radius:2px;border-color:rgba(91,225,255,.25);background:rgba(46,207,239,.07);color:#afd4df;font-size:7.5px;text-shadow:0 1px 3px #000}
@@ -476,6 +468,33 @@
   .themeCard{border-radius:2px;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));background:#04111d}.themeCard b{color:#f4fcff;text-shadow:0 1px 4px #000}.themeCard small{color:#94b7c3}.themeThumb{height:78px;aspect-ratio:auto;border-radius:1px 1px 0 0}.themeCard.active{border-color:#68edff;box-shadow:inset 0 -2px #64eaff,0 0 22px rgba(50,221,255,.1)}
   .menuModal .startBtn{overflow:hidden;min-height:52px;border-radius:2px;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));background:linear-gradient(100deg,#4ce4ff,#6dfbc5 62%,#c9ffe5);box-shadow:0 15px 42px rgba(45,221,255,.22)}.menuModal .startBtn::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.7) 48%,transparent 72%);transform:translateX(-120%);animation:launchSweep 3.2s ease-in-out infinite}.menuModal .startBtn span,.menuModal .startBtn b,.menuModal .startBtn i{position:relative}.menuModal .startBtn b{color:#17404a}.menuModal .startBtn i{width:25px;height:25px;display:grid;place-items:center;border:1px solid rgba(4,34,42,.28);border-radius:50%}@keyframes launchSweep{55%,100%{transform:translateX(120%)}}
   .menuModal .miniBtn{border-radius:2px;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));background:rgba(6,24,37,.82)}
+  /* Hover an English word in the exam to read its Thai meaning */
+  .glossWord{border-bottom:1px dotted rgba(125,235,255,.45);cursor:help}
+  .glossWord:hover{color:#8ff3ff;border-bottom-color:rgba(125,235,255,.9)}
+  .quizAnswer .glossWord{display:inline!important;place-items:normal!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;border:0!important;border-bottom:1px dotted rgba(125,235,255,.45)!important;border-radius:0!important;background:none!important;color:inherit!important;font:inherit!important}
+  .quizAnswer .glossWord:hover{color:#8ff3ff!important;border-bottom-color:rgba(125,235,255,.9)!important}
+  .glossTip{position:fixed;z-index:120;max-width:260px;padding:7px 11px;border:1px solid rgba(110,235,255,.42);border-radius:8px;background:rgba(4,20,34,.97);box-shadow:0 12px 30px rgba(0,0,0,.55),0 0 18px rgba(64,214,255,.16);color:#eaf9ff;font-size:14px;line-height:1.45;opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .14s ease,transform .14s ease}
+  .glossTip.show{opacity:1;transform:translateY(0)}
+  .glossTip::before{display:block;margin-bottom:2px;color:#6fe9ff;font:900 7.5px/1 ui-monospace,Consolas,monospace;letter-spacing:.16em;content:"TH"}
+  /* Power-suit picker sitting right under the helmet */
+  .heroThemeStrip{position:relative;z-index:11;margin:9px 0 0;padding-top:8px;border-top:1px solid rgba(92,222,255,.13)}
+  .heroThemeLabel{display:flex;align-items:center;gap:7px;margin:0 0 8px;color:#84bccb;font:900 7.5px/1 ui-monospace,Consolas,monospace;letter-spacing:.18em}
+  .heroThemeLabel::after{flex:1;height:1px;background:linear-gradient(90deg,rgba(94,226,255,.3),transparent);content:""}
+  .heroThemeRow{display:grid;grid-template-columns:repeat(auto-fit,minmax(52px,1fr));gap:5px}
+  .heroThemeChip{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;padding:5px 5px 6px;border:1px solid rgba(97,228,255,.16);border-radius:7px;background:linear-gradient(180deg,rgba(9,33,52,.9),rgba(4,17,29,.92));color:#9dbcc8;cursor:pointer;transition:border-color .2s,color .2s,background .2s,transform .2s,box-shadow .2s}
+  .heroThemeChip .themeThumb{width:100%;height:36px;aspect-ratio:auto;margin:0;border-radius:5px}
+  .heroThemeChip b{overflow:hidden;max-width:100%;font-size:8px;line-height:1.1;letter-spacing:.02em;text-overflow:ellipsis;white-space:nowrap}
+  .heroThemeChip:hover,.heroThemeChip:focus-visible{border-color:rgba(109,238,255,.55);background:linear-gradient(180deg,rgba(16,58,82,.95),rgba(6,24,40,.95));color:#fff;outline:none;transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.4)}
+  .heroThemeChip.active{border-color:#63ecff;background:linear-gradient(180deg,rgba(24,92,124,.5),rgba(6,26,42,.95));color:#fff;box-shadow:inset 0 0 20px rgba(72,226,255,.14),0 0 18px rgba(66,222,255,.2)}
+  .heroThemeChip.active::after{position:absolute;top:-1px;left:50%;width:26px;height:2px;border-radius:0 0 3px 3px;background:#6ff1ff;box-shadow:0 0 10px #6ff1ff;transform:translateX(-50%);content:""}
+  /* Rotating mission aphorisms shown in place of the wordmark */
+  .menuModal .heroTitle.heroQuote{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;min-height:4.6em;font-size:clamp(17px,1.95vw,26px);font-weight:900;line-height:1.4;letter-spacing:-.004em;text-transform:none;background:linear-gradient(100deg,#fff 0%,#e4fdff 22%,#63efff 46%,#fff 70%,#a6ecff 100%);background-size:230% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 3px 11px rgba(0,0,0,.6)) drop-shadow(0 0 22px rgba(84,226,255,.42));animation:heroQuoteSheen 9s ease-in-out infinite}
+  .heroQuote>b{display:block;font-weight:inherit}
+  .heroQuote>b::before{content:"“";margin-right:8px;color:#7df3ff;-webkit-text-fill-color:#7df3ff;font:900 1.5em/0 Georgia,serif;vertical-align:-.22em;opacity:.95}
+  .heroQuote>b::after{content:"”";margin-left:7px;color:#7df3ff;-webkit-text-fill-color:#7df3ff;font:900 1.5em/0 Georgia,serif;vertical-align:-.22em;opacity:.95}
+  .heroQuote.is-swap>b{animation:heroQuoteRise .55s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes heroQuoteRise{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes heroQuoteSheen{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
   .menuFoot{padding-top:7px;border-top:1px solid rgba(84,218,246,.12);color:#78a7b4;font-size:7px;text-shadow:0 1px 3px #000}
 
   /* Focused mission settings: compact rail + one large option panel */
@@ -490,7 +509,7 @@
   .missionConfig>.missionPanel{grid-column:2;grid-row:1;display:none;min-height:258px;margin:0;padding:17px 18px;justify-content:center;border-color:rgba(94,226,252,.22);background:radial-gradient(circle at 50% 42%,rgba(49,218,248,.08),transparent 45%),linear-gradient(145deg,rgba(8,31,46,.92),rgba(3,15,28,.88))}
   .missionConfig>.missionPanel.is-panel-active:not([hidden]){display:flex;flex-direction:column;animation:missionPanelIn .22s cubic-bezier(.2,.8,.2,1) both}
   .missionConfig>.missionPanel>label{margin-bottom:15px;font-size:14px}.missionConfig>.missionPanel .choiceBtn{min-height:82px;padding:12px 10px}.missionConfig>.missionPanel .choiceBtn .choiceIcon{font-size:25px}.missionConfig>.missionPanel .choiceBtn b{font-size:15px}.missionConfig>.missionPanel .choiceBtn small{margin-top:5px;font-size:9px}.missionConfig>.missionPanel .choiceGrid{gap:9px}
-  .missionConfig>#settingsPanelContent{min-height:126px}.missionConfig>#settingsPanelContent .choiceBtn{min-height:72px}.missionConfig>#tenseField{grid-row:2;min-height:0;padding-block:12px}.missionConfig>#tenseField .choiceBtn{min-height:52px;padding:8px}.missionConfig>#tenseField .choiceBtn b{font-size:10px}.missionConfig>#tenseField .choiceBtn small{font-size:7px}.missionConfig>.heroThemePanel{padding-inline:14px}.missionConfig>.heroThemePanel .themePreview{gap:8px}.missionConfig>.heroThemePanel .themeThumb{height:112px}.missionConfig>.heroThemePanel .themeCard b{font-size:13px}.missionConfig>.heroThemePanel .themeCard small{font-size:8px}
+  .missionConfig>#settingsPanelContent{min-height:126px;justify-content:flex-start}.missionConfig>#settingsPanelContent .choiceBtn{min-height:72px}.missionConfig>#tenseField{grid-row:2;min-height:0;padding-block:12px}.missionConfig>#tenseField .choiceBtn{min-height:52px;padding:8px}.missionConfig>#tenseField .choiceBtn b{font-size:10px}.missionConfig>#tenseField .choiceBtn small{font-size:7px}.missionConfig>.heroThemePanel{padding-inline:14px}.missionConfig>.heroThemePanel .themePreview{gap:8px}.missionConfig>.heroThemePanel .themeThumb{height:112px}.missionConfig>.heroThemePanel .themeCard b{font-size:13px}.missionConfig>.heroThemePanel .themeCard small{font-size:8px}
   .missionLaunch{grid-column:2;grid-row:3;align-self:end;min-width:0}.missionConfig>.missionLaunch .startBtn{margin-top:0}
   @keyframes missionPanelIn{from{opacity:0;transform:translateX(14px) scale(.985)}to{opacity:1;transform:translateX(0) scale(1)}}
   @media(hover:hover) and (pointer:fine){.missionPanel .choiceGrid .choiceBtn:hover,.missionPanel .choiceGrid .choiceBtn:focus-visible{transform:translateY(-4px) scale(1.045)}}
@@ -507,18 +526,15 @@
       linear-gradient(145deg,rgba(3,22,39,.97),rgba(2,8,24,.98) 62%,rgba(14,5,35,.96));
     box-shadow:inset 0 0 68px rgba(27,181,255,.08),inset 0 0 0 1px rgba(146,240,255,.025),0 0 28px rgba(31,204,255,.06)
   }
-  .missionConfig>#settingsPanelLanguage{--space-rgb:108,255,205}.missionConfig>#difficultyField{--space-rgb:255,198,89}.missionConfig>#settingsPanelDuration{--space-rgb:171,124,255}.missionConfig>#settingsPanelVisual{--space-rgb:83,181,255}.missionConfig>#settingsPanelSpeech{--space-rgb:255,108,173}.missionConfig>.heroThemePanel{--space-rgb:255,193,81}
+  .missionConfig>#settingsPanelLanguage{--space-rgb:108,255,205}.missionConfig>#difficultyField{--space-rgb:255,198,89}.missionConfig>#settingsPanelDuration{--space-rgb:171,124,255}.missionConfig>#settingsPanelSpeech{--space-rgb:255,108,173}.missionConfig>.heroThemePanel{--space-rgb:255,193,81}
   .missionConfig>.missionPanel::before{
-    content:"";position:absolute;z-index:0;inset:0;width:auto;height:auto;pointer-events:none;opacity:.72;
+    content:"";position:absolute;z-index:0;inset:0;width:auto;height:auto;pointer-events:none;opacity:.5;
     background-color:transparent;
-    background-image:
-      radial-gradient(circle,#fff 0 1px,transparent 1.4px),
-      radial-gradient(circle,rgba(112,232,255,.95) 0 1px,transparent 1.7px),
-      linear-gradient(118deg,transparent 0 47%,rgba(120,238,255,.32) 48%,transparent 49% 100%);
-    background-size:53px 47px,91px 83px,260px 260px;
-    background-position:7px 13px,24px 36px,-150px -116px;
-    box-shadow:inset 0 0 85px rgba(0,4,14,.74);
-    animation:missionStarCruise 18s linear infinite
+    background-image:linear-gradient(118deg,transparent 0 47%,rgba(120,238,255,.22) 48%,transparent 49% 100%);
+    background-size:260px 260px;
+    background-position:-150px -116px;
+    background-repeat:no-repeat;
+    box-shadow:inset 0 0 85px rgba(0,4,14,.74)
   }
   .missionConfig>.missionPanel::after{
     content:"";position:absolute;z-index:0;top:16px;right:21px;width:142px;aspect-ratio:1;border:1px solid rgba(var(--space-rgb),.2);border-radius:50%;pointer-events:none;opacity:.66;
@@ -538,7 +554,28 @@
   .missionConfig>.missionPanel .choiceBtn.active{border-color:rgba(var(--space-rgb),.92);box-shadow:inset 3px 0 rgba(var(--space-rgb),.95),inset 0 0 30px rgba(var(--space-rgb),.12),0 0 24px rgba(var(--space-rgb),.13)}
   .missionConfig>.missionPanel .choiceBtn.active::before{opacity:1;animation:missionCardSweep 4.6s ease-in-out infinite}
   .missionConfig>.missionPanel .choiceIcon{color:rgb(var(--space-rgb));filter:drop-shadow(0 0 10px rgba(var(--space-rgb),.65))}
-  @keyframes missionStarCruise{to{background-position:60px 107px,-67px 202px,110px 24px}}
+  .missionConfig>#settingsPanelContent .contentModeGrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .missionConfig>#settingsPanelContent .subjectCategoryGrid{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:10px}
+  .missionConfig>#settingsPanelContent .subjectCategoryGrid .choiceBtn{min-height:58px;padding-block:8px}.missionConfig>#settingsPanelContent .subjectCategoryGrid .choiceBtn small{line-height:1.2;white-space:normal}
+  .missionConfig>#settingsPanelContent .contentModeGrid .choiceBtn{min-height:62px}
+  .missionConfig>#settingsPanelContent .contentActivityLabel{margin-top:1px;margin-bottom:10px;padding-bottom:7px;color:#a9cbd6;font-size:11px}
+  .missionConfig>#settingsPanelContent .contentActivityLabel::after{content:"SELECT TRAINING MODE";font-size:6.5px}
+  .contentModeGrid .choiceBtn[hidden]{display:none!important}
+  .practiceModes{position:relative;z-index:2;margin-top:4px;padding-top:10px;border-top:1px solid rgba(94,226,252,.18)}.practiceModes[hidden]{display:none!important}.practiceModesHeader{display:grid;grid-template-columns:auto auto minmax(0,1fr);align-items:center;gap:8px;margin-bottom:8px;color:#e7fbff}.practiceModesHeader span{padding:4px 6px;border:1px solid rgba(98,234,255,.25);color:#62e9ff;background:rgba(80,224,255,.06);font:900 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.1em}.practiceModesHeader b{font-size:13px}.practiceModesHeader small{color:#7e9eaa;font-size:9px}.practiceModes .contentActivityLabel{margin-top:3px!important}
+  .missionConfig>#difficultyField{justify-content:flex-start}
+  .missionConfig>#difficultyField .learningPathGrid{grid-template-columns:repeat(5,minmax(0,1fr));width:100%}
+  .missionConfig>#difficultyField .learningPathGrid .choiceBtn{min-height:78px;flex-direction:column;gap:4px;padding:9px 5px;text-align:center}
+  .missionConfig>#difficultyField .learningPathGrid .choiceBtn>span:last-child{width:100%;min-width:0}
+  .missionConfig>#difficultyField .learningPathGrid .choiceIcon{font-size:15px}
+  .missionConfig>#difficultyField .learningPathGrid .choiceBtn b{font-size:11px;white-space:normal}
+  .missionConfig>#difficultyField .learningPathGrid .choiceBtn small{font-size:7px;line-height:1.25;white-space:normal}
+  .missionConfig>.quizSetupPanel{grid-row:2;min-height:0;padding:12px 14px;justify-content:flex-start}
+  .quizSetupGrid{position:relative;z-index:2;display:grid;grid-template-columns:1.35fr .65fr;gap:12px;width:100%}
+  .quizSetupGrid.englishSetup{grid-template-columns:1fr}
+  .quizSetupGrid.mathSetup{grid-template-columns:1.25fr 1fr .55fr}
+  .quizOptionGroup{min-width:0}.quizOptionGroup>label{display:block;margin:0 0 7px;color:#a8cbd6;font-size:10px;font-weight:850}.quizOptionGroup>label span{color:#66eaff;font:900 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.08em}
+  .quizSetupPanel .choiceGrid{gap:5px}.quizSetupPanel .choiceBtn{min-height:43px!important;padding:6px!important}.quizSetupPanel .choiceBtn b{font-size:10.5px!important}.quizSetupPanel .choiceBtn small{font-size:6.5px!important}
+  .englishExamGrid{grid-template-columns:repeat(5,minmax(0,1fr))}.englishExamGrid .choiceBtn small{line-height:1.15;white-space:normal}.englishSetup .quizCountGrid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:260px}.quizGradeGrid{grid-template-columns:repeat(4,minmax(0,1fr))}.quizGradeGrid .choiceBtn{min-height:52px!important}.quizGradeGrid .choiceBtn small{font-size:9px!important;line-height:1.2;white-space:normal}.quizTrackGrid{grid-template-columns:1fr}.quizCountGrid{grid-template-columns:1fr}
   @keyframes missionPortalSpin{to{transform:rotate(360deg)}}
   @keyframes missionCardSweep{0%,22%{transform:translateX(-56%) rotate(4deg)}58%,100%{transform:translateX(56%) rotate(4deg)}}
 
@@ -574,6 +611,18 @@
   .target::before,.target::after{border-radius:22px}
   .bottom{z-index:27}.typebox{border-radius:16px}.iconBtn,.miniBtn{transition:.2s ease}
 
+  /* Multiple-choice English and mathematics exams */
+  #quizPanel[hidden]{display:none!important}
+  #quizPanel{position:absolute;z-index:24;left:50%;top:52%;display:flex;flex-direction:column;width:min(920px,calc(100% - 34px));max-height:calc(100% - 24px);padding:22px;overflow:auto;border:1px solid rgba(101,234,255,.45);clip-path:polygon(0 16px,16px 0,calc(100% - 16px) 0,100% 16px,100% calc(100% - 16px),calc(100% - 16px) 100%,16px 100%,0 calc(100% - 16px));background:radial-gradient(circle at 86% 0,rgba(111,75,255,.2),transparent 31%),linear-gradient(145deg,rgba(4,25,43,.97),rgba(5,8,25,.98));box-shadow:0 28px 90px rgba(0,0,0,.7),0 0 42px rgba(62,220,255,.15),inset 0 0 50px rgba(58,211,255,.055);transform:translate(-50%,-50%);animation:quizPanelIn .32s cubic-bezier(.18,.82,.2,1) both}
+  #quizPanel::before{display:none}
+  .quizTop,.quizQuestion,.quizAnswers,.quizFeedback,.quizActions{position:relative;z-index:2}
+  .quizTop{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px 16px;align-items:end;padding-bottom:13px;border-bottom:1px solid rgba(102,230,255,.18)}.quizEyebrow{display:block;color:#72edff;font:900 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.15em}.quizTitle{display:block;margin-top:5px;color:#f4fdff;font-size:18px}.quizCounter{color:#c8f7ff;font:900 15px/1 ui-monospace,Consolas,monospace}.quizCounter span{color:#69eaff;font-size:23px}.quizProgress{grid-column:1/-1;height:5px;overflow:hidden;border-radius:99px;background:rgba(255,255,255,.06)}.quizProgress i{display:block;width:0;height:100%;background:linear-gradient(90deg,#54e6ff,#7bffc1);box-shadow:0 0 13px #52e7ff;transition:width .25s ease}
+  .quizQuestion{margin:18px 0 15px;color:#fff;font-size:clamp(18px,2.3vw,28px);font-weight:850;line-height:1.42;white-space:pre-line;text-wrap:balance;text-shadow:0 2px 12px #000}
+  .quizAnswers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.quizAnswer{position:relative;min-height:62px;padding:12px 14px;border:1px solid rgba(107,222,248,.2);background:linear-gradient(145deg,rgba(8,35,53,.94),rgba(5,16,31,.94));color:#d9edf4;text-align:left;font-size:14px;font-weight:750;line-height:1.35;transition:.18s ease}.quizAnswer span{display:inline-grid;place-items:center;width:25px;height:25px;margin-right:9px;border:1px solid rgba(100,230,255,.28);border-radius:50%;color:#68e9ff;font:900 9px/1 ui-monospace,Consolas,monospace}.quizAnswer:hover:not(:disabled),.quizAnswer:focus-visible:not(:disabled){border-color:#6eeeff;background:rgba(30,124,153,.38);transform:translateY(-2px);outline:none;box-shadow:0 10px 24px rgba(0,0,0,.28),0 0 18px rgba(73,225,255,.1)}.quizAnswer.correct{border-color:#68ffc0;background:rgba(42,199,134,.18);color:#eafff6;box-shadow:inset 3px 0 #67ffc0}.quizAnswer.wrong{border-color:#ff718e;background:rgba(214,49,94,.16);color:#ffe7ed;box-shadow:inset 3px 0 #ff718e}.quizAnswer:disabled{cursor:default}
+  .quizFeedback{min-height:45px;margin-top:12px;padding:9px 11px;border-left:2px solid rgba(95,226,255,.4);background:rgba(3,17,31,.7);color:#9bbac5;font-size:11px;line-height:1.45}.quizFeedback strong{color:#fff}.quizFeedback.good{border-left-color:#68ffc0;color:#b8f7d9}.quizFeedback.bad{border-left-color:#ff718e;color:#ffc0cf}
+  .quizActions{display:flex;justify-content:flex-end;margin-top:10px}.quizNext{min-width:150px;min-height:42px;padding:9px 15px;border:0;background:linear-gradient(90deg,#57e7ff,#76ffc1);color:#06151e;font-size:12px;font-weight:1000}.quizNext[hidden]{display:none}.quiz-active #arena{bottom:18px}.quiz-active>.bottom{display:none}.quiz-active #faceLayer{opacity:.16}.quiz-active #energyCanvas{z-index:7;opacity:.34}.quiz-active #translationCard{display:none}.quiz-active .soundBtn{display:none}
+  @keyframes quizPanelIn{from{opacity:0;transform:translate(-50%,-46%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+
   @media(max-width:960px){
     .modal.menuModal{grid-template-columns:1fr;width:min(720px,96vw);height:auto;max-height:95vh;overflow:auto}.menuHero{min-height:250px;padding:25px;border-right:0;border-bottom:1px solid rgba(111,229,255,.15)}.heroVisual{position:absolute;right:10px;bottom:3px;width:42%;height:78%;min-height:0;opacity:.48}.menuModal .heroSub{max-width:57%}.featureRail{width:55%;margin-top:auto}.menuControls{overflow:visible;padding:24px}.menuModal .heroTitle{font-size:42px}
   }
@@ -581,13 +630,14 @@
     #menu{padding:8px}.modal.menuModal{width:100%;max-width:100%;max-height:98vh;border-radius:17px}.menuHero{min-height:0;padding:20px}.heroVisual,.featureRail{display:none}.menuModal .heroSub{max-width:none;margin-bottom:2px}.menuControls{min-width:0;padding:19px}.controlHead{margin-bottom:10px}.readyLight{display:none}.themePreview{width:100%;min-width:0;grid-template-columns:repeat(5,72px);overflow-x:auto;overscroll-behavior-x:contain;padding:2px 0 7px;scroll-snap-type:x mandatory}.themeCard{scroll-snap-align:start}.menuModal .config{min-width:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.choiceBtn{padding-inline:5px}.choiceBtn .choiceIcon{display:none}.menuModal .heroTitle{font-size:37px}.systemBadge{font-size:6px}.eyebrow{margin-top:18px}.gameNav{top:122px}.handStatus{display:none}.navBtn span:last-child{display:none}.liveVisualBtn{padding-inline:8px}.liveVisualBtn b{display:none}.soundBtn{margin-left:0}.hud{gap:6px}.hudL,.hudR{gap:5px}.pill{min-width:74px;padding:6px 8px}.value{font-size:15px}.label{font-size:8px}#arena{inset:160px 0 150px}.bottom{bottom:7px;width:calc(100% - 12px)}#keyboard{overflow-x:auto}.key{min-width:25px;height:28px;padding:0 4px}#translationCard{padding:24px 18px}#trMain{font-size:clamp(43px,15vw,72px)}
   }
   @media(max-width:900px){.libraryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.libraryStats{grid-template-columns:repeat(3,1fr)}}
-  @media(max-width:600px){#library{padding:7px}.libraryModal{width:100%;height:98vh;max-height:98vh;border-radius:16px}.libraryHead{padding:17px 16px 13px}.libraryHead p{display:none}.libraryBody{height:calc(100% - 79px);padding:12px}.libraryStats{grid-template-columns:repeat(2,1fr)}.libraryTools{grid-template-columns:1fr}.libraryGrid{grid-template-columns:1fr}.studyCard:hover{transform:none}.choiceGrid.four,.tenseGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.voiceChallenge{grid-template-columns:auto minmax(0,1fr) auto;padding:10px;gap:7px}.voiceOrb{width:38px;height:38px}.voiceActions{grid-column:1/-1}.voiceAction{flex:1}.voiceScoreBox{min-width:52px}}
+  @media(max-width:600px){#library{padding:7px}.libraryModal{width:100%;height:98vh;max-height:98vh;border-radius:16px}.libraryHead{padding:17px 16px 13px}.libraryHead p{display:none}.libraryBody{height:calc(100% - 79px);padding:12px}.libraryStats{grid-template-columns:repeat(2,1fr)}.libraryTools{grid-template-columns:1fr}.libraryGrid{grid-template-columns:1fr}.studyCard:hover{transform:none}.choiceGrid.four,.tenseGrid,.missionConfig>#settingsPanelContent .contentModeGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.missionConfig>#settingsPanelContent .subjectCategoryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.missionConfig>#difficultyField .learningPathGrid,.englishExamGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.voiceChallenge{grid-template-columns:auto minmax(0,1fr) auto;padding:10px;gap:7px}.voiceOrb{width:38px;height:38px}.voiceActions{grid-column:1/-1}.voiceAction{flex:1}.voiceScoreBox{min-width:52px}.quizSetupGrid,.quizSetupGrid.mathSetup{grid-template-columns:1fr}.quizGradeGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.quizTrackGrid,.quizCountGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-height:720px){.modal.menuModal{max-height:97vh}.menuHero{padding-top:20px}.heroVisual{min-height:155px}.menuControls{padding-top:20px;padding-bottom:18px}#keyboard{display:none}#arena{bottom:92px}.voiceChallenge{padding-block:8px}}
   @media(max-width:960px){.cinemaTelemetry{display:none}.menuCinematic::before{opacity:.55}.modal.menuModal{overflow-x:hidden;overflow-y:auto;border-radius:3px;clip-path:polygon(0 14px,14px 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px))}.aiIdentity,.neuralMeter{display:none}.menuHero::after{opacity:.18}.aiBrief{margin-top:2px}}
   @media(max-width:640px){.filmBar{height:6px}.menuCinematic::before{display:none}.modal.menuModal{border-radius:2px}.menuHero{background:linear-gradient(150deg,rgba(7,40,59,.82),rgba(2,13,25,.58))}.menuModal .heroTitle::after{margin-top:11px}.aiBrief{grid-template-columns:auto 1fr;padding:8px}.signalBars{display:none}.aiBrief p{font-size:8.5px}.choiceBtn{min-height:44px}.themeThumb{height:auto;aspect-ratio:1.08}.menuFoot{display:none}}
-  @media(max-width:960px){.menuModal .missionConfig{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto auto;min-height:0}.settingsRail{grid-column:1;grid-row:1;flex-direction:row;overflow-x:auto;padding:6px;scrollbar-width:thin;scroll-snap-type:x proximity}.settingsTab{flex:0 0 102px;scroll-snap-align:start;grid-template-columns:21px minmax(0,1fr);padding:7px 6px}.settingsTab span{width:20px;height:20px}.settingsTab i,.settingsRailHint{display:none}.settingsTab:hover,.settingsTab:focus-visible,.settingsTab.active{transform:translateY(-2px)}.missionConfig>.missionPanel{grid-column:1;grid-row:2;min-height:220px}.missionConfig>#tenseField{grid-row:3}.missionLaunch{grid-column:1;grid-row:4}}
+  @media(max-width:960px){.menuModal .missionConfig{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto auto;min-height:0}.settingsRail{grid-column:1;grid-row:1;flex-direction:row;overflow-x:auto;padding:6px;scrollbar-width:thin;scroll-snap-type:x proximity}.settingsTab{flex:0 0 102px;scroll-snap-align:start;grid-template-columns:21px minmax(0,1fr);padding:7px 6px}.settingsTab span{width:20px;height:20px}.settingsTab i,.settingsRailHint{display:none}.settingsTab:hover,.settingsTab:focus-visible,.settingsTab.active{transform:translateY(-2px)}.missionConfig>.missionPanel{grid-column:1;grid-row:2;min-height:220px}.missionConfig>#tenseField,.missionConfig>.quizSetupPanel{grid-row:3;min-height:0}.missionLaunch{grid-column:1;grid-row:4}}
   @media(max-width:640px){.settingsRail{margin-inline:-1px}.settingsTab{flex-basis:88px;min-height:39px}.settingsTab b{font-size:10.5px}.settingsTab small{font-size:6.5px}.missionConfig>.missionPanel{min-height:0;padding:13px 12px}.missionConfig>.missionPanel>label{margin-bottom:11px;font-size:13px}.missionConfig>.missionPanel .choiceBtn{min-height:62px}.missionConfig>#settingsPanelContent .choiceBtn{min-height:58px}.missionConfig>.heroThemePanel .themeThumb{height:auto}.missionConfig{gap:7px}}
   @media(max-width:640px){.missionConfig>.missionPanel::before{opacity:.48}.missionConfig>.missionPanel::after{top:43px;right:-12px;width:94px;opacity:.38}.missionConfig>.missionPanel>label::after{display:none}.missionConfig>.missionPanel .choiceBtn{box-shadow:inset 0 0 18px rgba(var(--space-rgb),.035),0 7px 17px rgba(0,0,0,.2)}}
+  @media(max-width:640px){.quiz-active #arena{top:calc(var(--mobile-safe-top) + 142px);bottom:8px}#quizPanel{top:50%;width:calc(100% - 12px);max-height:calc(100% - 8px);padding:15px 13px}.quizTitle{font-size:14px}.quizCounter{font-size:11px}.quizCounter span{font-size:18px}.quizQuestion{margin:13px 0 11px;font-size:17px;line-height:1.35}.quizAnswers{grid-template-columns:1fr;gap:7px}.quizAnswer{min-height:49px;padding:9px 10px;font-size:12px}.quizAnswer span{width:22px;height:22px}.quizFeedback{min-height:38px;margin-top:9px;padding:7px 9px;font-size:9px}.quizActions{margin-top:7px}.quizNext{min-height:39px}.quiz-active #faceLayer{opacity:.08}}
   @media(max-height:500px){.missionConfig>.missionPanel::after{top:38px;right:-8px;width:86px;opacity:.32}.missionConfig>.missionPanel>label::after{display:none}}
   /* Mobile-first play layout: large touch targets, safe positioning and no duplicate keyboard */
   @media(max-width:640px){
@@ -618,8 +668,232 @@
   @media(min-width:641px) and (max-width:900px) and (max-height:500px) and (orientation:landscape){
     .hud{left:6px;right:6px;top:5px;grid-template-columns:1fr 1fr;gap:8px}.brand{display:none}.hudL,.hudR{flex-wrap:nowrap;gap:4px}.hudR{grid-column:auto}.hudL .pill,.hudR .pill{flex:1 1 0;min-width:0;padding:4px 7px}.label{font-size:7px}.value{font-size:14px}.gameNav{left:6px;right:6px;top:51px;gap:5px}.handStatus{display:none}.navBtn{min-height:33px;padding:4px 7px}.navBtn span:last-child,.liveVisualBtn b{display:none}.navIcon{width:21px;height:21px}.liveVisualBtn{min-height:27px;padding:3px 7px}.soundBtn{margin-left:auto}
   }
-  @media(min-width:961px) and (min-height:721px) and (max-height:850px){.menuModal .heroSub{padding-block:6px;font-size:12px;line-height:1.5}.heroVisual{min-height:245px;margin-top:8px}.selectedHelmet{width:min(160px,42%)}.aiIdentity{display:none}}
-  @media(min-width:961px) and (max-height:720px){.menuModal .heroSub{padding-block:5px;font-size:11.5px;line-height:1.45}.selectedHelmet{width:min(100px,30%)}.aiIdentity{display:none}}
+  @media(min-width:961px) and (min-height:721px) and (max-height:850px){.menuModal .heroSub{padding-block:6px;font-size:12px;line-height:1.5}.heroVisual{min-height:245px;margin-top:6px}.selectedHelmet{width:auto;height:min(94%,330px)}.aiIdentity{display:none}}
+  @media(min-width:961px) and (max-height:720px){.menuModal .heroSub{padding-block:5px;font-size:11.5px;line-height:1.45}.selectedHelmet{width:auto;height:min(94%,250px)}.aiIdentity{display:none}}
+
+  /* AION orbital navigation: one calm hierarchy, two circular layers */
+  .menuControls{display:grid;grid-template-columns:minmax(215px,.58fr) minmax(390px,1.42fr);grid-template-rows:auto auto minmax(0,1fr) auto auto;column-gap:18px;align-content:start}
+  .menuControls>.controlHead,.menuControls>.chips,.menuControls>.aiBrief,.menuControls>.subBtns,.menuControls>.menuFoot{grid-column:1/-1}
+  .menuControls>.controlHead{grid-row:1}.menuControls>.aiBrief{grid-row:2}.menuControls>.mainModeNav{grid-column:1;grid-row:3}.menuControls>.missionConfig{grid-column:2;grid-row:3}.menuControls>.subBtns{grid-row:4}.menuControls>.menuFoot{grid-row:5}
+
+  .mainModeNav{position:relative;top:auto;z-index:20;display:block;width:min(100%,270px);height:270px;margin:28px auto 10px;padding:0;border:0;border-radius:50%;background:radial-gradient(circle,rgba(35,210,244,.1),transparent 31%),radial-gradient(circle,transparent 49%,rgba(95,231,255,.15) 49.4% 50%,transparent 50.5%);box-shadow:none;backdrop-filter:none;isolation:isolate}
+  .mainModeNav::before,.mainModeNav::after{content:"";position:absolute;z-index:0;left:50%;top:50%;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%)}
+  .mainModeNav::before{width:82%;height:82%;border:1px solid rgba(88,230,255,.22);box-shadow:inset 0 0 32px rgba(45,213,255,.06),0 0 26px rgba(45,213,255,.05);animation:mainOrbitSpin 22s linear infinite}
+  .mainModeNav::after{width:57%;height:57%;border:1px dashed rgba(123,105,255,.28);animation:mainOrbitSpin 15s linear infinite reverse}
+  .mainOrbitTrack{position:absolute;z-index:1;left:50%;top:50%;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%) rotate(-18deg)}
+  .mainOrbitTrack::after{content:"";position:absolute;left:50%;top:-3px;width:5px;height:5px;border-radius:50%;background:#bafaff;box-shadow:0 0 13px 4px rgba(76,229,255,.75)}
+  .trackOne{width:94%;height:39%;border:1px solid rgba(79,226,255,.2);animation:orbitEllipse 10s linear infinite}.trackTwo{width:58%;height:91%;border:1px solid rgba(146,99,255,.16);animation:orbitEllipse 14s linear infinite reverse}
+  .mainOrbitCore{position:absolute;z-index:4;left:50%;top:50%;display:grid;place-content:center;width:134px;height:134px;padding:15px;border:1px solid rgba(102,237,255,.45);border-radius:50%;background:radial-gradient(circle at 40% 35%,rgba(103,236,255,.2),rgba(4,22,39,.97) 58%,rgba(3,9,22,.99));box-shadow:inset 0 0 30px rgba(47,219,255,.11),0 0 28px rgba(44,217,255,.12);text-align:center;transform:translate(-50%,-50%)}
+  .mainOrbitCore::before{content:"";position:absolute;inset:7px;border:1px dashed rgba(111,236,255,.3);border-radius:50%;animation:mainOrbitSpin 9s linear infinite}
+  .mainOrbitCore span,.mainOrbitCore b,.mainOrbitCore small{position:relative;display:block}.mainOrbitCore span{color:#6ceaff;font:900 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.16em}.mainOrbitCore b{margin:7px 0 4px;color:#fff;font-size:14px;line-height:1.15;text-shadow:0 0 13px rgba(78,228,255,.65)}.mainOrbitCore small{color:#6f97a5;font-size:7px;line-height:1.25}
+  .mainModeBtn{position:absolute;z-index:5;left:50%;top:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:82px;height:82px;min-width:0;min-height:0;padding:8px;border:1px solid rgba(99,228,255,.32);border-radius:50%;clip-path:none;color:#a9c4ce;background:radial-gradient(circle at 38% 26%,rgba(82,222,255,.15),rgba(4,21,36,.97) 63%);box-shadow:0 12px 26px rgba(0,0,0,.35),inset 0 0 18px rgba(55,220,255,.05);text-align:center;transform:translate(-50%,-50%);transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .2s,box-shadow .2s,background .2s}
+  .mainModeBtn[data-main-menu="english"]{top:5%}.mainModeBtn[data-main-menu="math"]{left:95%}.mainModeBtn[data-main-menu="typing"]{top:95%}.mainModeBtn[data-main-menu="power"]{left:5%}
+  .mainModeBtn:hover,.mainModeBtn:focus-visible,.mainModeBtn.active{border-color:#7af0ff;color:#fff;background:radial-gradient(circle at 38% 28%,rgba(107,240,255,.32),rgba(11,44,66,.98) 64%);box-shadow:0 13px 30px rgba(0,0,0,.43),0 0 25px rgba(66,224,255,.26),inset 0 0 24px rgba(61,224,255,.11);outline:none;transform:translate(-50%,-50%) scale(1.09)}
+  .mainModeBtn.active::after{content:"";position:absolute;inset:-7px;border:1px dashed rgba(111,239,255,.58);border-radius:50%;animation:mainOrbitSpin 8s linear infinite}
+  .mainModeIcon{display:grid;place-items:center;width:29px;height:29px;border:1px solid rgba(98,232,255,.3);border-radius:50%;color:#70edff;font:900 10px/1 ui-monospace,Consolas,monospace}.mainModeBtn.active .mainModeIcon{border-color:#b1f8ff;box-shadow:0 0 15px rgba(69,225,255,.32)}
+  .mainModeBtn b,.mainModeBtn small{display:block;min-width:0}.mainModeBtn b{color:#fff;font-size:13px;line-height:1.2;white-space:normal;text-shadow:0 1px 6px rgba(0,0,0,.78)}.mainModeBtn small{display:none}
+
+  .missionConfig{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto minmax(420px,1fr) auto;gap:9px;min-width:0;min-height:0;margin-top:5px}
+  .missionConfig>.settingValue{display:none!important}.missionConfig>.missionPanel{display:none;grid-column:1;grid-row:2;width:100%;height:470px;min-height:0;margin:0;padding:13px 15px;overflow:hidden}
+  .missionConfig>.missionPanel.is-panel-active:not([hidden]){display:flex;flex-direction:column;opacity:1!important;animation:orbitPanelIn .34s cubic-bezier(.2,.8,.2,1) both}
+  .missionConfig>#tenseField,.missionConfig>.quizSetupPanel{grid-row:2}.missionConfig>#settingsPanelContent{min-height:0}.missionConfig>#settingsPanelContent>.subjectCategoryGrid{display:none!important}
+  .missionLaunch{grid-column:1;grid-row:3;margin:0}.missionConfig>.missionLaunch .startBtn{margin:0}
+
+  .orbitStepNav{grid-column:1;grid-row:1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;padding:5px 8px;border:1px solid rgba(95,226,255,.15);border-radius:99px;background:rgba(3,17,30,.72)}.orbitStepNav[hidden]{display:none!important}
+  .orbitStepNav button{display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;min-height:34px;padding:5px 7px;border:1px solid transparent;border-radius:99px;background:transparent;color:#7799a6;font-size:9px;transition:.18s ease}.orbitStepNav button:hover,.orbitStepNav button:focus-visible,.orbitStepNav button.active{border-color:rgba(104,235,255,.48);background:rgba(52,214,241,.11);color:#effdff;outline:none;box-shadow:0 0 16px rgba(47,220,255,.08)}.orbitStepNav button span{display:grid;place-items:center;width:20px;height:20px;border:1px solid rgba(99,225,255,.22);border-radius:50%;color:#62e9ff;font:900 6px/1 ui-monospace,Consolas,monospace}.orbitStepNav button b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  .missionConfig>.missionPanel>label{flex:0 0 auto;margin:0;padding:0 0 7px;font-size:12px}.missionConfig>.missionPanel>label::after{font-size:6px}.practiceModes{display:flex;flex:1;min-height:0;margin:0;padding:0;border:0}.practiceModes>.contentActivityLabel{display:none!important}
+  .quizSetupGrid,.quizSetupGrid.englishSetup,.quizSetupGrid.mathSetup{display:grid;width:100%;min-height:0;flex:1;gap:7px}.quizSetupGrid.englishSetup{grid-template-columns:1fr}.quizSetupGrid.mathSetup{grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr) auto}.quizSetupGrid.mathSetup>.quizOptionGroup:first-child{grid-column:1/-1;grid-row:1}.quizSetupGrid.mathSetup>.quizOptionGroup:nth-child(2){grid-column:1;grid-row:2}.quizSetupGrid.mathSetup>.quizOptionGroup:nth-child(3){grid-column:2;grid-row:2}.quizOptionGroup{min-width:0}.quizOptionGroup>label{margin:0;color:#8fb2bf;font-size:8px}.quizSetupGrid.englishSetup>.quizOptionGroup:first-child{min-height:0}.englishSetup .quizCountGrid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:230px;margin:0 auto}.quizTrackGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.quizCountGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.quizSetupPanel .quizTrackGrid .choiceBtn,.quizSetupPanel .quizCountGrid .choiceBtn{min-height:38px!important;border-radius:99px!important;clip-path:none!important}
+
+  .orbitalChoices{--orbit-node:92px;position:relative!important;display:block!important;width:100%;height:100%;min-height:320px;margin:auto;overflow:visible;isolation:isolate}
+  .orbitalChoices[data-orbit-density="dense"]{--orbit-node:74px}.themePreview.orbitalChoices{--orbit-node:100px;height:100%}.tenseGrid.orbitalChoices{--orbit-node:70px}
+  .orbitalChoices::before,.orbitalChoices::after{content:"";position:absolute;z-index:0;left:50%;top:50%;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%)}
+  .orbitalChoices::before{width:var(--orbit-ring-w,78%)!important;height:var(--orbit-ring-h,78%)!important;border:1px dashed rgba(var(--space-rgb,82,229,255),.17)!important;background:none!important;box-shadow:0 0 44px rgba(var(--space-rgb,82,229,255),.04)!important;animation:none!important}
+  .orbitalChoices::after{width:86%!important;height:54%!important;border:1px solid rgba(var(--space-rgb,82,229,255),.1)!important;transform:translate(-50%,-50%) rotate(-24deg)!important;box-shadow:0 0 30px rgba(140,110,255,.05)!important;animation:none!important}
+  .subOrbitCore{position:absolute;z-index:2;left:50%;top:50%;display:grid;place-content:center;width:124px;height:124px;padding:13px;border:1px solid rgba(var(--space-rgb,82,229,255),.55);border-radius:50%;background:radial-gradient(circle at 40% 32%,rgba(var(--space-rgb,82,229,255),.2),rgba(3,20,35,.97) 58%,rgba(2,8,20,.99));box-shadow:inset 0 0 28px rgba(var(--space-rgb,82,229,255),.1),0 0 29px rgba(var(--space-rgb,82,229,255),.13);text-align:center;transform:translate(-50%,-50%)}
+  .subOrbitCore::before{content:"";position:absolute;inset:7px;border:1px dashed rgba(var(--space-rgb,82,229,255),.28);border-radius:50%;animation:subOrbitSpin 9s linear infinite}.subOrbitCore span,.subOrbitCore b,.subOrbitCore small{position:relative;display:block}.subOrbitCore span{color:rgb(var(--space-rgb,82,229,255));font:900 6px/1 ui-monospace,Consolas,monospace;letter-spacing:.15em}.subOrbitCore b{max-width:118px;margin:8px auto 5px;overflow-wrap:anywhere;color:#fff;font-size:15px;line-height:1.2;text-shadow:0 0 12px rgba(var(--space-rgb,82,229,255),.55)}.subOrbitCore small{color:#7597a3;font-size:6.5px;line-height:1.2}
+  .orbitalChoices>.choiceBtn,.orbitalChoices>.themeCard{position:absolute!important;z-index:3;left:var(--orbit-x)!important;top:var(--orbit-y)!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:var(--orbit-node)!important;height:var(--orbit-node)!important;min-width:0!important;min-height:0!important;margin:calc(var(--orbit-node) / -2) 0 0 calc(var(--orbit-node) / -2)!important;padding:7px!important;border-radius:50%!important;clip-path:none!important;text-align:center!important;transform-origin:50% 50%!important;transform:scale(1)!important;transition:transform .22s cubic-bezier(.2,.8,.2,1),opacity .18s,border-color .18s,box-shadow .18s,background .18s}
+  .orbitalChoices>.choiceBtn:hover,.orbitalChoices>.choiceBtn:focus-visible,.orbitalChoices>.choiceBtn.active,.orbitalChoices>.themeCard:hover,.orbitalChoices>.themeCard:focus-visible,.orbitalChoices>.themeCard.active{z-index:8;opacity:1!important;transform:scale(1.14)!important}
+  .orbitalChoices>.choiceBtn b,.orbitalChoices>.themeCard b{display:-webkit-box!important;overflow:hidden;max-width:100%;font-size:12px!important;line-height:1.22!important;white-space:normal!important;-webkit-box-orient:vertical;-webkit-line-clamp:3;color:#fff!important;text-shadow:0 1px 6px rgba(0,0,0,.82)}.orbitalChoices>.choiceBtn small,.orbitalChoices>.themeCard small{display:none}.orbitalChoices>.choiceBtn .choiceIcon{font-size:20px!important}.orbitalChoices>.themeCard .themeThumb{flex:0 0 auto;width:62px;height:56px;margin:-4px 0 1px;border-radius:50%;background-size:500% 100%}.orbitalChoices>.themeCard b{font-size:11px!important}
+  .orbitalChoices>.choiceBtn::after,.orbitalChoices>.themeCard::after{content:""!important;display:block!important;position:absolute!important;z-index:-1!important;inset:-27%!important;width:auto!important;height:auto!important;border:0!important;border-radius:50%!important;box-shadow:none!important;pointer-events:none;opacity:0;transform:rotate(19deg) rotateX(66deg);background:conic-gradient(from 180deg,transparent 0 50%,rgba(96,200,255,.4) 58%,rgba(226,248,255,.95) 66%,#fff 70%,rgba(140,215,255,.6) 78%,transparent 88%)!important;-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px))!important;mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px))!important;filter:url(#boltRing) drop-shadow(0 0 6px rgba(120,225,255,.85))!important;transition:opacity .18s ease}
+  @media(hover:hover) and (pointer:fine){.orbitalChoices:hover>.choiceBtn:not(:hover),.orbitalChoices:hover>.themeCard:not(:hover){opacity:.8;transform:scale(.94)!important}}
+    /* Deep-space nebula behind the orbit */
+  .orbitalChoices{background-image:radial-gradient(ellipse 62% 48% at 24% 20%,rgba(124,84,255,.22),transparent 70%),radial-gradient(ellipse 58% 44% at 79% 76%,rgba(0,176,255,.19),transparent 72%),radial-gradient(circle at 50% 50%,rgba(var(--space-rgb,82,229,255),.05),transparent 56%),radial-gradient(circle at 33.8% 17.9%,rgba(178,232,255,0.71) 0 0.74px,transparent 1.29px),radial-gradient(circle at 53.3% 37.6%,rgba(255,255,255,0.38) 0 1.0px,transparent 1.55px),radial-gradient(circle at 7.4% 43.9%,rgba(255,255,255,0.39) 0 0.75px,transparent 1.3px),radial-gradient(circle at 43.1% 80.1%,rgba(178,232,255,0.42) 0 0.83px,transparent 1.38px),radial-gradient(circle at 61.7% 91.2%,rgba(255,255,255,0.67) 0 0.94px,transparent 1.49px),radial-gradient(circle at 93.8% 8.3%,rgba(255,255,255,0.82) 0 0.87px,transparent 1.42px),radial-gradient(circle at 17.3% 14.8%,rgba(178,232,255,0.52) 0 1.19px,transparent 1.74px),radial-gradient(circle at 20.6% 57.5%,rgba(255,255,255,0.7) 0 0.92px,transparent 1.47px),radial-gradient(circle at 54.4% 9.8%,rgba(255,255,255,0.38) 0 0.82px,transparent 1.37px),radial-gradient(circle at 66.6% 43.3%,rgba(178,232,255,0.52) 0 1.05px,transparent 1.6px),radial-gradient(circle at 45.7% 31.6%,rgba(255,255,255,0.79) 0 1.12px,transparent 1.67px),radial-gradient(circle at 26.5% 56.8%,rgba(255,255,255,0.64) 0 1.23px,transparent 1.78px),radial-gradient(circle at 71.1% 30.5%,rgba(178,232,255,0.89) 0 0.77px,transparent 1.32px),radial-gradient(circle at 42.5% 73.7%,rgba(255,255,255,0.43) 0 0.99px,transparent 1.54px),radial-gradient(circle at 7.6% 65.5%,rgba(255,255,255,0.77) 0 1.04px,transparent 1.59px),radial-gradient(circle at 84.5% 32.9%,rgba(178,232,255,0.73) 0 1.06px,transparent 1.61px);background-repeat:no-repeat}
+  /* Soften the panel's hard light streaks where an orbit lives */
+  /* Calm the panel: no hard streaks or spokes behind an orbit */
+  .missionPanel:has(.orbitalChoices)::before,.missionPanel:has(.orbitalChoices)::after{opacity:0!important;animation:none!important}
+  /* Soft concentric halos instead of hard rings */
+  .orbitalChoices::before{width:82%!important;height:82%!important;border-color:rgba(var(--space-rgb,82,229,255),.12)!important;background:radial-gradient(circle,rgba(var(--space-rgb,82,229,255),.055),transparent 62%)!important;box-shadow:inset 0 0 70px rgba(var(--space-rgb,82,229,255),.05),0 0 40px rgba(var(--space-rgb,82,229,255),.035)!important;animation:none!important}
+  .orbitalChoices::after{width:52%!important;height:52%!important;border:1px solid rgba(var(--space-rgb,82,229,255),.09)!important;animation:subOrbitSpin 70s linear infinite!important}
+  .subOrbitCore::before{opacity:.45;animation-duration:28s!important}
+  .orbitalChoices::before{box-shadow:inset 0 0 45px rgba(var(--space-rgb,82,229,255),.09),0 0 34px rgba(var(--space-rgb,82,229,255),.07)!important}
+  /* Neural current: an energy arc that runs around a node on hover, focus and selection */
+  .orbitalChoices>.choiceBtn,.orbitalChoices>.themeCard,.mainModeBtn{overflow:visible!important}
+  .fxDefs{position:absolute;width:0;height:0;overflow:hidden}
+  .orbitalChoices>.choiceBtn::before,.orbitalChoices>.themeCard::before,.mainModeBtn::before{content:""!important;position:absolute!important;z-index:-1!important;inset:-34%!important;width:auto!important;height:auto!important;border-radius:50%!important;pointer-events:none;opacity:0;transform:rotate(-24deg) rotateX(74deg);background:conic-gradient(from 0deg,transparent 0 44%,rgba(120,220,255,.5) 53%,rgba(236,252,255,1) 61%,#fff 66%,#fff 70%,rgba(200,240,255,.9) 76%,rgba(110,205,255,.35) 84%,transparent 91%)!important;-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px))!important;mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px))!important;filter:url(#boltRing) drop-shadow(0 0 7px rgba(136,238,255,.95)) drop-shadow(0 0 16px rgba(96,206,255,.5))!important;transition:opacity .18s ease}
+  .orbitalChoices>.choiceBtn:hover::before,.orbitalChoices>.choiceBtn:focus-visible::before,.orbitalChoices>.choiceBtn.active::before,.orbitalChoices>.themeCard:hover::before,.orbitalChoices>.themeCard:focus-visible::before,.orbitalChoices>.themeCard.active::before,.mainModeBtn:hover::before,.mainModeBtn:focus-visible::before,.mainModeBtn.active::before{opacity:1;animation:boltOrbit 1.7s linear infinite,boltFlicker .28s steps(2,end) infinite!important}
+  .mainModeBtn.active::after{inset:-24px;animation-duration:14s}
+  .orbitalChoices>.choiceBtn:hover::after,.orbitalChoices>.choiceBtn:focus-visible::after,.orbitalChoices>.choiceBtn.active::after,.orbitalChoices>.themeCard:hover::after,.orbitalChoices>.themeCard:focus-visible::after,.orbitalChoices>.themeCard.active::after{opacity:1;animation:boltOrbit2 2.7s linear infinite reverse,boltFlicker .21s steps(2,end) infinite!important}
+  @keyframes boltOrbit{from{transform:rotate(-24deg) rotateX(74deg) rotateZ(0deg)}to{transform:rotate(-24deg) rotateX(74deg) rotateZ(360deg)}}
+  @keyframes boltOrbit2{from{transform:rotate(19deg) rotateX(66deg) rotateZ(0deg)}to{transform:rotate(19deg) rotateX(66deg) rotateZ(360deg)}}
+  @keyframes boltFlicker{0%,100%{opacity:1}42%{opacity:.6}58%{opacity:1}72%{opacity:.78}}
+  @keyframes saturnRing{from{transform:rotate(-24deg) rotateX(74deg) rotateZ(0deg)}to{transform:rotate(-24deg) rotateX(74deg) rotateZ(360deg)}}
+  @keyframes saturnRingBack{from{transform:rotate(-24deg) rotateX(74deg) rotateZ(360deg)}to{transform:rotate(-24deg) rotateX(74deg) rotateZ(0deg)}}
+  @keyframes mainOrbitSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes orbitEllipse{to{transform:translate(-50%,-50%) rotate(342deg)}}@keyframes subOrbitSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes orbitPanelIn{from{transform:scale(.96) translateX(14px)}to{transform:scale(1) translateX(0)}}
+
+  @media(max-width:1120px){.menuControls{grid-template-columns:205px minmax(350px,1fr);column-gap:12px}.mainModeNav{width:230px;height:230px}.mainModeBtn{width:72px;height:72px}.mainOrbitCore{width:98px;height:98px}.mainOrbitCore b{font-size:12px}.orbitalChoices{height:315px;--orbit-node:68px}.orbitalChoices[data-orbit-density="dense"],.tenseGrid.orbitalChoices{--orbit-node:59px}.subOrbitCore{width:104px;height:104px}}
+  @media(max-width:960px){.menuControls{grid-template-columns:205px minmax(390px,1fr);column-gap:14px}.mainModeNav{margin-top:48px}.missionConfig>.missionPanel{height:455px}.orbitalChoices{height:315px}.menuModal .subBtns,.menuFoot{position:relative;z-index:2}}
+  @media(max-width:700px){.menuControls{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto auto auto auto auto;padding:17px}.menuControls>.controlHead,.menuControls>.aiBrief,.menuControls>.mainModeNav,.menuControls>.missionConfig,.menuControls>.subBtns,.menuControls>.menuFoot{grid-column:1}.menuControls>.controlHead{grid-row:1}.menuControls>.aiBrief{grid-row:2}.menuControls>.mainModeNav{grid-row:3}.menuControls>.missionConfig{grid-row:4}.menuControls>.subBtns{grid-row:5}.menuControls>.menuFoot{grid-row:6}.mainModeNav{width:225px;height:225px;margin:17px auto 27px}.mainModeBtn{width:69px;height:69px}.mainOrbitCore{width:96px;height:96px}.missionConfig{grid-template-rows:auto minmax(400px,auto) auto}.missionConfig>.missionPanel{height:430px;padding:11px 10px}.orbitalChoices{height:300px;--orbit-node:64px}.orbitalChoices[data-orbit-density="dense"],.tenseGrid.orbitalChoices{--orbit-node:55px}.subOrbitCore{width:96px;height:96px}.orbitStepNav{gap:3px;padding:4px}.orbitStepNav button{gap:3px;padding:4px 3px}.orbitStepNav button span{width:17px;height:17px}.quizSetupGrid.mathSetup{grid-template-columns:1fr 1fr}.quizTrackGrid{grid-template-columns:1fr}.menuModal .subBtns{margin-top:8px}}
+  @media(max-width:430px){.menuControls{padding:13px 10px}.controlHead h2{font-size:21px}.aiBrief{padding:7px}.mainModeNav{width:205px;height:205px}.mainModeBtn{width:64px;height:64px}.mainModeBtn b{font-size:9px}.mainModeIcon{width:24px;height:24px}.mainOrbitCore{width:88px;height:88px;padding:9px}.mainOrbitCore small{display:none}.missionConfig>.missionPanel{height:410px;padding:9px 7px}.missionConfig>.missionPanel>label{font-size:10.5px}.orbitalChoices{height:285px;--orbit-node:59px}.orbitalChoices[data-orbit-density="dense"],.tenseGrid.orbitalChoices{--orbit-node:55px}.orbitalChoices>.choiceBtn b,.orbitalChoices>.themeCard b{font-size:7.5px!important}.tenseGrid.orbitalChoices>.choiceBtn b{font-size:6.5px!important;-webkit-line-clamp:3}.orbitalChoices>.choiceBtn .choiceIcon{font-size:13px!important}.subOrbitCore{width:86px;height:86px;padding:8px}.subOrbitCore b{font-size:9px}.subOrbitCore small{display:none}.orbitStepNav button b{font-size:7.5px}.orbitStepNav button span{display:none}.themePreview.orbitalChoices{--orbit-node:70px;height:300px}.orbitalChoices>.themeCard .themeThumb{width:43px;height:39px}.quizSetupPanel .quizTrackGrid .choiceBtn,.quizSetupPanel .quizCountGrid .choiceBtn{font-size:8px!important}.englishSetup .quizCountGrid{max-width:190px}}
+
+  /* Progressive orbit: replace the current ring instead of splitting the screen */
+  .menuControls{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr) auto auto;column-gap:0}
+  .menuControls>.mainModeNav,.menuControls>.missionConfig{grid-column:1;grid-row:3}
+  .mainModeNav[hidden],.missionConfig[hidden],.orbitDrillHead[hidden],.missionLaunch[hidden]{display:none!important}
+  .mainModeNav{width:min(445px,47vh);height:min(445px,47vh);margin:auto;align-self:center;justify-self:center}
+  .mainModeBtn{width:122px;height:122px}.mainModeBtn[data-main-menu="english"]{top:7%}.mainModeBtn[data-main-menu="math"]{left:93%}.mainModeBtn[data-main-menu="typing"]{top:93%}.mainModeBtn[data-main-menu="power"]{left:7%}.mainModeIcon{width:35px;height:35px;font-size:12px}.mainModeBtn b{font-size:12px}.mainOrbitCore{width:146px;height:146px}.mainOrbitCore b{font-size:16px}
+  .missionConfig{grid-template-rows:auto minmax(0,1fr) auto;min-height:0;overflow:hidden;margin:0 0 8px}
+  .orbitDrillHead{grid-column:1;grid-row:1;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;min-height:50px;padding:7px 10px;border:1px solid rgba(98,231,255,.22);border-radius:4px;background:linear-gradient(90deg,rgba(42,211,240,.1),rgba(89,76,255,.055));box-shadow:inset 3px 0 #63ebff}
+  .orbitDrillHead>button{display:flex;align-items:center;gap:7px;min-height:34px;padding:5px 10px;border:1px solid rgba(104,233,255,.26);border-radius:99px;background:rgba(4,24,39,.9);color:#ccebf2;font-size:9px}.orbitDrillHead>button:hover,.orbitDrillHead>button:focus-visible{border-color:#73efff;color:#fff;outline:none;box-shadow:0 0 18px rgba(68,226,255,.14)}.orbitDrillHead>button span{display:grid;place-items:center;width:21px;height:21px;border:1px solid rgba(108,236,255,.32);border-radius:50%;color:#72edff}.orbitDrillHead>div small,.orbitDrillHead>div strong{display:block}.orbitDrillHead>div small{color:#69eaff;font:900 6.5px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em}.orbitDrillHead>div strong{margin-top:4px;color:#f4fcff;font-size:13px}.orbitDrillHead>span{padding:6px 9px;border:1px solid rgba(116,104,255,.26);border-radius:99px;color:#b7adff;background:rgba(103,79,255,.07);font:900 8px/1 ui-monospace,Consolas,monospace}
+  .orbitStepNav{display:none!important}
+  .missionConfig>.missionPanel{grid-column:1;grid-row:2;height:auto;min-height:0;margin:9px 0 0;padding:11px 15px}.missionConfig>.missionPanel>label{display:none!important}
+  .missionConfig>.missionPanel.is-panel-active:not([hidden]){display:flex;align-items:stretch;justify-content:center}
+  .missionConfig>.missionPanel .quizSetupGrid,.missionConfig>.missionPanel .practiceModes{display:block;width:100%;height:100%;min-height:0;margin:0;padding:0;border:0}
+  .missionConfig>.missionPanel .quizOptionGroup{width:100%;height:100%}.missionConfig>.missionPanel .quizOptionGroup>label{display:none}.flowGroupHidden{display:none!important}
+  .missionConfig>.missionPanel .orbitalChoices{width:100%;height:100%;min-height:0}.themePreview.orbitalChoices{height:100%}.englishSetup .quizCountGrid{max-width:none;margin:0}.quizTrackGrid,.quizCountGrid{grid-template-columns:none}
+  .missionConfig>.missionLaunch{grid-column:1;grid-row:3;margin-top:9px}
+  @media(max-width:700px){#menu .menuHero{display:none!important}.modal.menuModal{grid-template-columns:1fr;width:calc(100% - 10px);height:calc(100dvh - 10px);max-height:calc(100dvh - 10px)}.menuControls{height:100%;overflow-y:auto}.mainModeNav{width:245px;height:245px;margin:20px auto 30px}.mainModeBtn{width:72px;height:72px}.mainModeBtn[data-main-menu="english"]{top:5%}.mainModeBtn[data-main-menu="math"]{left:95%}.mainModeBtn[data-main-menu="typing"]{top:95%}.mainModeBtn[data-main-menu="power"]{left:5%}.mainModeIcon{width:25px;height:25px;font-size:9px}.mainModeBtn b{font-size:9px}.mainOrbitCore{width:100px;height:100px}.mainOrbitCore b{font-size:12px}.missionConfig{min-height:500px}.orbitDrillHead{gap:7px;padding:6px}.orbitDrillHead>button{padding:4px 7px}.orbitDrillHead>button b{display:none}.orbitDrillHead>div strong{font-size:11px}.missionConfig>.missionPanel{height:415px;padding:8px}.missionConfig>.missionPanel .orbitalChoices{min-height:340px}}
+  @media(max-width:430px){.mainModeNav{width:220px;height:220px}.mainModeBtn{width:66px;height:66px}.mainOrbitCore{width:90px;height:90px}.orbitDrillHead>div small{font-size:5.5px}.orbitDrillHead>div strong{font-size:10px}.orbitDrillHead>span{padding:5px 7px;font-size:7px}.missionConfig{min-height:475px}.missionConfig>.missionPanel{height:390px}.missionConfig>.missionPanel .orbitalChoices{min-height:325px}}
+
+  /* AION cinematic interaction layer */
+  #menu{--parallax-bg-x:0px;--parallax-bg-y:0px;--parallax-grid-x:0px;--parallax-grid-y:0px;--parallax-panel-x:0px;--parallax-panel-y:0px;--parallax-rx:0deg;--parallax-ry:0deg}
+  #menu .menuCinematic{transform:translate3d(var(--parallax-bg-x),var(--parallax-bg-y),0);transition:transform .22s ease-out}
+  #menu .neuralGrid{margin-left:var(--parallax-grid-x);margin-bottom:var(--parallax-grid-y)}
+  #menu .menuModal{transform:perspective(1400px) rotateX(var(--parallax-rx)) rotateY(var(--parallax-ry)) translate3d(var(--parallax-panel-x),var(--parallax-panel-y),0);transform-style:preserve-3d;transition:transform .22s ease-out}
+  #menuControls{--space-rgb:74,232,255;--accent-rgb:120,108,255}
+  #menuControls[data-active-menu="math"]{--space-rgb:255,190,73;--accent-rgb:255,104,67}
+  #menuControls[data-active-menu="typing"]{--space-rgb:178,106,255;--accent-rgb:73,220,255}
+  #menuControls[data-active-menu="power"]{--space-rgb:255,86,132;--accent-rgb:255,190,67}
+  #menuControls .controlHead h2,#menuControls .orbitDrillHead>div strong{transition:color .3s,text-shadow .3s}
+  #menuControls[data-orbit-view="sub"] .controlHead h2{color:rgb(var(--space-rgb));text-shadow:0 0 20px rgba(var(--space-rgb),.28)}
+
+  .mainModeNav,.orbitalChoices{perspective:900px;transform-style:preserve-3d}
+  .mainOrbitLinks,.orbitEnergyLinks{position:absolute;z-index:1;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+  .mainOrbitLinks line,.orbitEnergyLinks line{fill:none;stroke:rgba(93,224,255,.14);stroke-width:.42;stroke-dasharray:1.2 2.1;vector-effect:non-scaling-stroke;transition:stroke .18s,stroke-width .18s,filter .18s,opacity .18s}
+  .mainOrbitLinks line.is-active,.orbitEnergyLinks line.is-active{stroke:rgba(var(--line-rgb,83,232,255),.92);stroke-width:1.05;stroke-dasharray:5 2;filter:drop-shadow(0 0 3px rgba(var(--line-rgb,83,232,255),1)) drop-shadow(0 0 7px rgba(var(--line-rgb,83,232,255),.6));animation:energySignal .75s linear infinite}
+  .mainModeBtn{--node-rgb:82,230,255;--node-scale:1;--magnet-x:0px;--magnet-y:0px;--tilt-x:0deg;--tilt-y:0deg;border-color:rgba(var(--node-rgb),.36);background:radial-gradient(circle at 36% 25%,rgba(var(--node-rgb),.22),rgba(4,20,35,.97) 64%);transform:translate(calc(-50% + var(--magnet-x)),calc(-50% + var(--magnet-y))) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(var(--node-scale));will-change:transform,left,top,opacity,filter;transition:left .36s cubic-bezier(.2,.8,.2,1),top .36s cubic-bezier(.2,.8,.2,1),transform .19s cubic-bezier(.2,.8,.2,1),opacity .25s,filter .25s,border-color .2s,box-shadow .2s,background .2s}
+  .mainModeBtn[data-main-menu="english"]{--node-rgb:75,234,255}.mainModeBtn[data-main-menu="math"]{--node-rgb:255,190,73}.mainModeBtn[data-main-menu="typing"]{--node-rgb:181,106,255}.mainModeBtn[data-main-menu="power"]{--node-rgb:255,88,132}
+  .mainModeBtn:hover,.mainModeBtn:focus-visible,.mainModeBtn.active{--node-scale:1.09;border-color:rgb(var(--node-rgb));background:radial-gradient(circle at 36% 25%,rgba(var(--node-rgb),.38),rgba(8,35,55,.98) 65%);box-shadow:0 14px 34px rgba(0,0,0,.48),0 0 28px rgba(var(--node-rgb),.3),inset 0 0 25px rgba(var(--node-rgb),.14);transform:translate(calc(-50% + var(--magnet-x)),calc(-50% + var(--magnet-y))) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(var(--node-scale))}
+  .mainModeBtn .mainModeIcon{color:rgb(var(--node-rgb));border-color:rgba(var(--node-rgb),.45);box-shadow:inset 0 0 12px rgba(var(--node-rgb),.1)}
+  .orbitalChoices>.choiceBtn,.orbitalChoices>.themeCard{--node-scale:1;--magnet-x:0px;--magnet-y:0px;--tilt-x:0deg;--tilt-y:0deg;transform:translate3d(var(--magnet-x),var(--magnet-y),0) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(var(--node-scale))!important;will-change:transform,opacity,filter}
+  .orbitalChoices>.choiceBtn:hover,.orbitalChoices>.choiceBtn:focus-visible,.orbitalChoices>.choiceBtn.active,.orbitalChoices>.themeCard:hover,.orbitalChoices>.themeCard:focus-visible,.orbitalChoices>.themeCard.active{--node-scale:1.14;transform:translate3d(var(--magnet-x),var(--magnet-y),16px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(var(--node-scale))!important}
+  @media(hover:hover) and (pointer:fine){.orbitalChoices:hover>.choiceBtn:not(:hover),.orbitalChoices:hover>.themeCard:not(:hover){--node-scale:.94;transform:translate3d(0,0,0) scale(var(--node-scale))!important}}
+  .mainOrbitCore,.subOrbitCore{transition:border-color .2s,box-shadow .2s,filter .2s,transform .32s cubic-bezier(.2,.8,.2,1)}
+  .mainOrbitCore.is-reacting,.subOrbitCore.is-reacting{border-color:rgba(var(--space-rgb,82,229,255),.92);box-shadow:inset 0 0 38px rgba(var(--space-rgb,82,229,255),.19),0 0 42px rgba(var(--space-rgb,82,229,255),.28);filter:brightness(1.12)}
+  .mainOrbitCore.is-reacting{transform:translate(-50%,-50%) scale(1.045)}.subOrbitCore.is-reacting{transform:translate(-50%,-50%) scale(1.045)}
+
+  .mainModeNav.is-departing .mainModeBtn:not(.is-launching){opacity:0;filter:blur(7px);--node-scale:.35;pointer-events:none}
+  .mainModeNav.is-departing .mainModeBtn.is-launching{left:50%!important;top:50%!important;z-index:30;--magnet-x:0px;--magnet-y:0px;--tilt-x:0deg;--tilt-y:0deg;--node-scale:1.38;opacity:0;filter:brightness(2.1) blur(1px);pointer-events:none}
+  .mainModeNav.is-departing .mainOrbitCore{filter:brightness(2);box-shadow:inset 0 0 54px rgba(117,238,255,.35),0 0 80px rgba(76,225,255,.55);transform:translate(-50%,-50%) scale(.36)}
+  .mainModeNav.is-departing::before,.mainModeNav.is-departing::after{animation-duration:.7s!important}
+  .mainModeNav.is-returning{animation:mainOrbitReturn .42s cubic-bezier(.17,.85,.28,1) both}
+  .missionConfig.is-arriving,.missionConfig.is-stage-arriving{animation:orbitWarpIn .42s cubic-bezier(.17,.85,.28,1) both}
+  .missionConfig.is-stage-leaving,.missionConfig.is-leaving{animation:orbitWarpOut .24s ease-in both;pointer-events:none}
+  .missionConfig.is-stage-arriving .subOrbitCore::after,.missionConfig.is-arriving .subOrbitCore::after{content:"";position:absolute;inset:-36px;border:1px solid rgba(var(--space-rgb),.72);border-radius:50%;opacity:0;animation:coreShockwave .65s ease-out}
+
+  .menuUtilityDock{position:relative;z-index:35;justify-content:center;align-items:center;gap:9px!important;margin-top:6px!important}
+  .menuUtilityDock button{position:relative;flex:0 0 auto!important;display:grid;place-items:center;width:42px;height:42px;min-width:42px!important;min-height:42px!important;padding:0!important;overflow:visible;border-radius:50%!important;clip-path:none!important}
+  .menuUtilityDock button>span{display:grid;place-items:center;width:25px;height:25px;border:1px solid rgba(var(--space-rgb),.3);border-radius:50%;color:rgb(var(--space-rgb));font:900 10px/1 ui-monospace,Consolas,monospace;transition:.2s}
+  .menuUtilityDock button>b{position:absolute;left:50%;bottom:calc(100% + 9px);width:max-content;max-width:160px;padding:6px 9px;border:1px solid rgba(var(--space-rgb),.28);border-radius:4px;background:rgba(2,14,26,.97);box-shadow:0 9px 25px rgba(0,0,0,.48),0 0 16px rgba(var(--space-rgb),.1);color:#effcff;font-size:8px;letter-spacing:.04em;opacity:0;pointer-events:none;transform:translate(-50%,5px) scale(.94);transition:.18s}
+  .menuUtilityDock button:hover,.menuUtilityDock button:focus-visible{border-color:rgba(var(--space-rgb),.75)!important;box-shadow:0 0 22px rgba(var(--space-rgb),.18)}.menuUtilityDock button:hover>span,.menuUtilityDock button:focus-visible>span{background:rgba(var(--space-rgb),.13);box-shadow:0 0 15px rgba(var(--space-rgb),.26)}.menuUtilityDock button:hover>b,.menuUtilityDock button:focus-visible>b{opacity:1;transform:translate(-50%,0) scale(1)}
+
+  @keyframes energySignal{to{stroke-dashoffset:-7}}
+  @keyframes mainOrbitReturn{from{opacity:0;filter:blur(10px);transform:scale(.62) rotate(-8deg)}to{opacity:1;filter:none;transform:scale(1) rotate(0)}}
+  @keyframes orbitWarpIn{0%{opacity:0;filter:blur(13px) brightness(1.8);transform:scale(.66) rotate(3deg)}55%{opacity:1;filter:blur(1px) brightness(1.24);transform:scale(1.025) rotate(-.4deg)}100%{opacity:1;filter:none;transform:scale(1) rotate(0)}}
+  @keyframes orbitWarpOut{to{opacity:0;filter:blur(11px) brightness(1.7);transform:scale(.7) rotate(-2deg)}}
+  @keyframes coreShockwave{0%{opacity:.85;transform:scale(.55)}100%{opacity:0;transform:scale(1.65)}}
+  @media(max-width:700px){#menu .menuModal{transform:none}.mainOrbitLinks line,.orbitEnergyLinks line{stroke-width:.65}.menuUtilityDock button{width:44px;height:44px}.menuUtilityDock button>b{bottom:calc(100% + 7px)}}
+
+  /* Main command hologram: AION Guardian projection */
+  .mainModeNav{--main-holo-rgb:75,234,255}
+  .mainHologram{position:absolute;z-index:2;inset:-13%;overflow:visible;pointer-events:none;color:rgb(var(--main-holo-rgb));opacity:.6;transform-style:preserve-3d;transition:opacity .25s,filter .3s,transform .42s cubic-bezier(.2,.8,.2,1)}
+  .mainHologram::before,.mainHologram::after{content:"";position:absolute;left:50%;top:50%;pointer-events:none}
+  .mainHologram::before{width:70%;height:82%;border:1px solid rgba(var(--main-holo-rgb),.16);border-radius:50%;box-shadow:inset 0 0 42px rgba(var(--main-holo-rgb),.06),0 0 32px rgba(var(--main-holo-rgb),.06);transform:translate(-50%,-50%) rotateY(64deg);animation:holoFieldTurn 13s linear infinite}
+  .mainHologram::after{width:58%;height:2px;background:linear-gradient(90deg,transparent,rgba(var(--main-holo-rgb),.95),#fff,rgba(var(--main-holo-rgb),.95),transparent);box-shadow:0 0 12px rgba(var(--main-holo-rgb),.9),0 0 30px rgba(var(--main-holo-rgb),.42);opacity:.45;transform:translate(-50%,-50%);animation:holoFieldScan 4.6s ease-in-out infinite}
+  .holoGuardian{position:absolute;z-index:3;left:50%;top:47%;width:59%;height:72%;overflow:visible;color:rgb(var(--main-holo-rgb));opacity:.29;filter:drop-shadow(0 0 7px rgba(var(--main-holo-rgb),.72)) drop-shadow(0 0 24px rgba(var(--main-holo-rgb),.23));transform:translate(-50%,-50%) translateZ(32px);animation:guardianHover 3.4s ease-in-out infinite alternate,holoFlicker 6.2s steps(1,end) infinite;transition:opacity .25s,filter .25s,color .25s}
+  .guardianShell{fill:none;stroke:currentColor;stroke-width:1.2;stroke-linejoin:round;vector-effect:non-scaling-stroke}.guardianFill{fill:url(#guardianFill);stroke:none}.guardianEye{fill:currentColor;fill-opacity:.74;stroke-width:2.2;filter:drop-shadow(0 0 7px currentColor)}
+  .guardianMesh{fill:none;stroke:currentColor;stroke-width:.55;stroke-opacity:.2;vector-effect:non-scaling-stroke}.guardianScanner{fill:currentColor;fill-opacity:.13;stroke:currentColor;stroke-width:.6;stroke-opacity:.55;filter:drop-shadow(0 0 8px currentColor);animation:guardianScan 3.1s ease-in-out infinite}
+  .holoBeam{position:absolute;z-index:1;left:25%;right:25%;top:13%;bottom:12%;background:linear-gradient(90deg,transparent,rgba(var(--main-holo-rgb),.035) 22%,rgba(var(--main-holo-rgb),.14) 50%,rgba(var(--main-holo-rgb),.035) 78%,transparent),repeating-linear-gradient(180deg,rgba(var(--main-holo-rgb),.07) 0 1px,transparent 1px 7px);clip-path:polygon(27% 0,73% 0,100% 100%,0 100%);filter:blur(.2px);opacity:.68;animation:holoBeamBreathe 2.3s ease-in-out infinite alternate}
+  .holoProjector{position:absolute;z-index:4;left:50%;bottom:7%;width:45%;height:14%;transform:translateX(-50%) rotateX(66deg);transform-style:preserve-3d}
+  .holoProjector::before,.holoProjector::after,.holoProjector>i,.holoProjector>b{content:"";position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%)}
+  .holoProjector::before{width:100%;height:100%;border:1px solid rgba(var(--main-holo-rgb),.55);box-shadow:0 0 12px rgba(var(--main-holo-rgb),.5),inset 0 0 22px rgba(var(--main-holo-rgb),.18);animation:projectorSpin 8s linear infinite}
+  .holoProjector::after{width:68%;height:68%;border:2px dashed rgba(var(--main-holo-rgb),.52);animation:projectorSpin 5s linear infinite reverse}
+  .holoProjector>i:nth-child(1){width:43%;height:43%;border:1px solid rgba(255,255,255,.7);box-shadow:0 0 16px rgba(var(--main-holo-rgb),.9)}.holoProjector>i:nth-child(2){width:16%;height:16%;background:#fff;box-shadow:0 0 8px #fff,0 0 25px rgb(var(--main-holo-rgb))}.holoProjector>i:nth-child(3){width:126%;height:126%;border:1px dotted rgba(var(--main-holo-rgb),.23)}.holoProjector>b{width:7px;height:7px;background:#fff;box-shadow:0 0 11px rgb(var(--main-holo-rgb));animation:projectorDot 3.2s linear infinite}
+  .holoTelemetry{position:absolute;z-index:6;width:125px;padding:7px 9px;border-left:1px solid rgba(var(--main-holo-rgb),.6);background:linear-gradient(90deg,rgba(var(--main-holo-rgb),.1),transparent);opacity:.62;text-shadow:0 0 7px rgba(var(--main-holo-rgb),.5)}
+  .holoTelemetry::after{content:"";position:absolute;top:50%;width:38px;height:1px;background:linear-gradient(90deg,rgba(var(--main-holo-rgb),.65),transparent)}
+  .holoTelemetryLeft{left:-9%;top:12%}.holoTelemetryLeft::after{left:100%}.holoTelemetryRight{right:-9%;top:12%;border-left:0;border-right:1px solid rgba(var(--main-holo-rgb),.6);background:linear-gradient(270deg,rgba(var(--main-holo-rgb),.1),transparent);text-align:right}.holoTelemetryRight::after{right:100%;transform:rotate(180deg)}
+  .holoTelemetry span,.holoTelemetry b,.holoTelemetry small{display:block}.holoTelemetry span{font:900 5.5px/1 ui-monospace,Consolas,monospace;letter-spacing:.16em}.holoTelemetry b{margin:4px 0;color:#eaffff;font:900 7px/1.15 ui-monospace,Consolas,monospace}.holoTelemetry small{color:rgba(var(--main-holo-rgb),.72);font:700 5px/1.25 ui-monospace,Consolas,monospace}
+  .holoSpark{position:absolute;z-index:5;left:50%;top:50%;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 7px 2px rgb(var(--main-holo-rgb)),0 0 20px rgba(var(--main-holo-rgb),.8)}.holoSpark.sparkA{animation:holoSparkOrbitA 5.8s linear infinite}.holoSpark.sparkB{animation:holoSparkOrbitB 8.1s linear infinite reverse}.holoSpark.sparkC{animation:holoSparkOrbitC 4.4s linear infinite}
+  .mainModeNav.is-awake .mainHologram,.mainModeNav:has(.mainModeBtn:hover) .mainHologram,.mainModeNav:has(.mainModeBtn:focus-visible) .mainHologram{opacity:.92;filter:brightness(1.14)}
+  .mainModeNav.is-awake .holoGuardian,.mainModeNav:has(.mainModeBtn:hover) .holoGuardian,.mainModeNav:has(.mainModeBtn:focus-visible) .holoGuardian{opacity:.5;filter:drop-shadow(0 0 8px rgba(var(--main-holo-rgb),.95)) drop-shadow(0 0 32px rgba(var(--main-holo-rgb),.45))}
+  .mainModeNav.is-departing .mainHologram{opacity:0;filter:brightness(2.8) blur(4px);transform:scale(1.48) translateZ(90px)}
+  .mainOrbitCore{background:radial-gradient(circle at 38% 28%,rgba(255,255,255,.16),rgba(var(--main-holo-rgb),.2) 18%,rgba(4,22,39,.92) 58%,rgba(3,9,22,.97));border-color:rgba(var(--main-holo-rgb),.65);box-shadow:inset 0 0 35px rgba(var(--main-holo-rgb),.17),0 0 35px rgba(var(--main-holo-rgb),.18);backdrop-filter:blur(5px)}
+  @keyframes guardianHover{from{transform:translate(-50%,-51%) translateZ(32px)}to{transform:translate(-50%,-48.5%) translateZ(45px)}}
+  @keyframes guardianScan{0%,8%{transform:translateY(0);opacity:0}18%{opacity:1}82%{opacity:.8}92%,100%{transform:translateY(206px);opacity:0}}
+  @keyframes holoFlicker{0%,91%,94%,100%{visibility:visible}92%,95%{visibility:hidden}}
+  @keyframes holoBeamBreathe{to{opacity:.92;filter:brightness(1.25)}}
+  @keyframes holoFieldTurn{to{transform:translate(-50%,-50%) rotateY(64deg) rotateZ(360deg)}}
+  @keyframes holoFieldScan{0%,100%{top:22%;opacity:.05}50%{top:77%;opacity:.58}}
+  @keyframes projectorSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+  @keyframes projectorDot{to{transform:translate(-50%,-50%) rotate(360deg) translateX(74px)}}
+  @keyframes holoSparkOrbitA{to{transform:rotate(360deg) translateX(178px) rotate(-360deg)}}
+  @keyframes holoSparkOrbitB{from{transform:rotate(70deg) translateX(142px) rotate(-70deg)}to{transform:rotate(430deg) translateX(142px) rotate(-430deg)}}
+  @keyframes holoSparkOrbitC{from{transform:rotate(210deg) translateX(110px) rotate(-210deg)}to{transform:rotate(570deg) translateX(110px) rotate(-570deg)}}
+  @media(max-width:700px){.mainModeNav{width:min(78vw,300px);height:min(78vw,300px)}.mainHologram{inset:-8%;opacity:.62}.holoGuardian{width:72%;height:82%;opacity:.3}.holoTelemetry{display:none}.holoProjector{bottom:8%;width:52%}.holoSpark.sparkB,.holoSpark.sparkC{display:none}.mainModeNav.is-awake .holoGuardian,.mainModeNav:has(.mainModeBtn:hover) .holoGuardian,.mainModeNav:has(.mainModeBtn:focus-visible) .holoGuardian{opacity:.42}}
+
+  /* Volumetric mission decks: cinematic armored-tech HUD on every nested screen */
+  .missionConfig{position:relative;perspective:1500px;transform-style:preserve-3d}
+  .missionConfig>.missionPanel.is-panel-active{--deck-rx:0deg;--deck-ry:0deg;--holo-x:50%;--holo-y:42%;position:relative;border-color:rgba(var(--space-rgb),.42);background:radial-gradient(circle at var(--holo-x) var(--holo-y),rgba(var(--space-rgb),.17),transparent 27%),linear-gradient(145deg,rgba(8,31,48,.96),rgba(2,10,23,.98) 58%,rgba(var(--accent-rgb),.07));box-shadow:inset 0 0 75px rgba(var(--space-rgb),.08),inset 0 -28px 55px rgba(0,0,0,.42),0 25px 65px rgba(0,0,0,.42),0 0 38px rgba(var(--space-rgb),.1);transform:rotateX(var(--deck-rx)) rotateY(var(--deck-ry)) translateZ(0);transform-style:preserve-3d;transition:transform .18s ease-out,border-color .3s,box-shadow .3s;will-change:transform}
+  .missionConfig>.missionPanel.is-panel-active::before{content:""!important;position:absolute!important;z-index:0!important;inset:0!important;width:auto!important;height:auto!important;opacity:.72!important;pointer-events:none;background:linear-gradient(105deg,transparent 26%,rgba(var(--space-rgb),.1) 48%,transparent 70%),radial-gradient(circle at var(--holo-x) var(--holo-y),rgba(255,255,255,.15),transparent 9%)!important;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));transform:none!important;filter:none!important;animation:holoPanelScan 5.6s ease-in-out infinite alternate!important}
+  .missionConfig>.missionPanel.is-panel-active::after{content:""!important;position:absolute!important;z-index:1!important;left:5%!important;right:5%!important;bottom:-17%!important;top:auto!important;width:90%!important;height:49%!important;opacity:.28!important;pointer-events:none;border:0!important;border-top:1px solid rgba(var(--space-rgb),.35)!important;border-radius:50%!important;background:repeating-linear-gradient(90deg,rgba(var(--space-rgb),.15) 0 1px,transparent 1px 30px),repeating-linear-gradient(0deg,rgba(var(--space-rgb),.12) 0 1px,transparent 1px 23px)!important;box-shadow:0 -12px 35px rgba(var(--space-rgb),.08)!important;transform:perspective(430px) rotateX(67deg)!important;transform-origin:50% 100%!important;mask-image:radial-gradient(ellipse,#000 14%,transparent 73%)!important;filter:none!important;animation:holoFloorPulse 3.4s ease-in-out infinite alternate!important}
+  .missionConfig>.missionPanel.is-panel-active>*,.missionConfig>.missionPanel.is-panel-active .quizSetupGrid,.missionConfig>.missionPanel.is-panel-active .practiceModes{transform-style:preserve-3d}
+
+  .holoDepthStage{position:absolute;z-index:0;inset:0;overflow:hidden;pointer-events:none;transform-style:preserve-3d}
+  .holoDepthStage>i{--ring-z:0px;--ring-tilt:68deg;--ring-scale:1;position:absolute;left:50%;top:50%;width:64%;height:64%;border:1px solid rgba(var(--space-rgb),.2);border-radius:50%;box-shadow:0 0 19px rgba(var(--space-rgb),.06),inset 0 0 24px rgba(var(--space-rgb),.04);transform:translate3d(-50%,-50%,var(--ring-z)) rotateX(var(--ring-tilt)) rotateZ(0) scale(var(--ring-scale));animation:holoRingVolume 14s linear infinite}
+  .holoDepthStage>i:nth-child(2){--ring-z:18px;--ring-tilt:74deg;--ring-scale:.76;border-style:dashed;border-color:rgba(var(--accent-rgb),.27);animation-duration:10s;animation-direction:reverse}
+  .holoDepthStage>i:nth-child(3){--ring-z:36px;--ring-tilt:62deg;--ring-scale:.5;border-width:2px;border-color:rgba(var(--space-rgb),.13);animation-duration:7s}
+  .holoDepthStage>i::before,.holoDepthStage>i::after{content:"";position:absolute;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:rgb(var(--space-rgb));box-shadow:0 0 8px 2px rgba(var(--space-rgb),.85),0 0 20px rgba(var(--space-rgb),.45)}
+  .holoDepthStage>i::before{left:-4px}.holoDepthStage>i::after{right:-4px}
+  .subOrbitCore{transform:translate(-50%,-50%) translateZ(46px);background:radial-gradient(circle at 38% 27%,rgba(255,255,255,.2),rgba(var(--space-rgb),.2) 15%,rgba(3,20,35,.98) 58%,#020711 100%);box-shadow:inset 0 0 32px rgba(var(--space-rgb),.15),0 0 22px rgba(var(--space-rgb),.2),0 0 65px rgba(var(--space-rgb),.08)}
+  .subOrbitCore.is-reacting{transform:translate(-50%,-50%) translateZ(64px) scale(1.06)}
+  .coreLens,.corePulse{position:absolute;left:50%;top:50%;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%)}
+  .coreLens{z-index:-1;width:82%;height:82%;border:1px solid rgba(var(--space-rgb),.35);background:conic-gradient(from 20deg,transparent 0 18%,rgba(var(--space-rgb),.22) 19% 21%,transparent 22% 48%,rgba(var(--space-rgb),.3) 49% 51%,transparent 52% 78%,rgba(var(--space-rgb),.2) 79% 81%,transparent 82%);animation:reactorLens 8s linear infinite}
+  .corePulse{z-index:-2;width:32%;height:32%;background:rgb(var(--space-rgb));box-shadow:0 0 16px rgba(var(--space-rgb),.95),0 0 42px rgba(var(--space-rgb),.5);opacity:.24;animation:reactorPulse 1.9s ease-in-out infinite}
+
+  .orbitalChoices>.choiceBtn,.orbitalChoices>.themeCard{--node-z:0px;--node-float:0px;transform:translate3d(var(--magnet-x),var(--magnet-y),calc(var(--node-z) + var(--node-float))) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(var(--node-scale))!important;box-shadow:0 18px 32px rgba(0,0,0,.42),inset 0 0 25px rgba(var(--space-rgb),.055);animation:nodeLevitate 3.8s ease-in-out infinite alternate;animation-delay:var(--node-delay,0s)}
+  .orbitalChoices>.choiceBtn:hover,.orbitalChoices>.choiceBtn:focus-visible,.orbitalChoices>.choiceBtn.active,.orbitalChoices>.themeCard:hover,.orbitalChoices>.themeCard:focus-visible,.orbitalChoices>.themeCard.active{--node-float:24px;transform:translate3d(var(--magnet-x),var(--magnet-y),calc(var(--node-z) + var(--node-float))) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(var(--node-scale))!important;box-shadow:0 24px 48px rgba(0,0,0,.52),0 0 30px rgba(var(--space-rgb),.24),inset 0 0 30px rgba(var(--space-rgb),.13)}
+  @media(hover:hover) and (pointer:fine){.orbitalChoices:hover>.choiceBtn:not(:hover),.orbitalChoices:hover>.themeCard:not(:hover){transform:translate3d(0,0,var(--node-z)) scale(var(--node-scale))!important}}
+  .orbitDrillHead{position:relative;overflow:hidden;border-color:rgba(var(--space-rgb),.38);background:linear-gradient(100deg,rgba(var(--space-rgb),.14),rgba(5,17,32,.93) 42%,rgba(var(--accent-rgb),.1));box-shadow:inset 3px 0 rgb(var(--space-rgb)),inset 0 0 27px rgba(var(--space-rgb),.06),0 12px 26px rgba(0,0,0,.24);transform:translateZ(24px)}
+  .orbitDrillHead::after{content:"";position:absolute;top:0;bottom:0;width:24%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);transform:skewX(-18deg) translateX(-220%);animation:commandSweep 4.8s ease-in-out infinite;pointer-events:none}
+  .missionLaunch{transform:translateZ(30px)}
+  .missionLaunch .startBtn{border:1px solid rgba(255,255,255,.35);box-shadow:0 18px 45px rgba(var(--space-rgb),.25),0 0 28px rgba(var(--space-rgb),.12)}
+  .missionConfig.is-arriving::before,.missionConfig.is-stage-arriving::before{content:"";position:absolute;z-index:60;left:50%;top:49%;width:90px;height:90px;border:2px solid rgba(var(--space-rgb),.9);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);animation:portalBurst .62s ease-out both;box-shadow:0 0 25px rgba(var(--space-rgb),.75),inset 0 0 20px rgba(var(--space-rgb),.4)}
+  .missionConfig.is-arriving::after,.missionConfig.is-stage-arriving::after{content:"";position:absolute;z-index:59;left:50%;top:49%;width:6px;height:76%;pointer-events:none;background:linear-gradient(transparent,rgba(255,255,255,.95),transparent);filter:drop-shadow(0 0 12px rgb(var(--space-rgb)));transform:translate(-50%,-50%) scaleY(0);animation:portalBlade .56s ease-out both}
+
+  .libraryModal,#help .modal,#result .modal{--deck-rx:0deg;--deck-ry:0deg;--holo-x:50%;--holo-y:35%;border-color:rgba(84,228,255,.46);background:radial-gradient(circle at var(--holo-x) var(--holo-y),rgba(77,225,255,.13),transparent 25%),linear-gradient(145deg,rgba(5,26,42,.99),rgba(7,7,22,.99));box-shadow:0 40px 120px rgba(0,0,0,.78),0 0 55px rgba(59,218,255,.11),inset 0 0 70px rgba(57,222,255,.045);transform:perspective(1500px) rotateX(var(--deck-rx)) rotateY(var(--deck-ry));transform-style:preserve-3d;transition:transform .18s ease-out}
+  .libraryStat,.studyCard,#help li,#result .statcard{transform:translateZ(14px);transition:transform .2s,box-shadow .2s,border-color .2s}
+  .libraryStat:hover,.studyCard:hover,#result .statcard:hover{transform:translateZ(34px) translateY(-4px);border-color:rgba(91,232,255,.45);box-shadow:0 20px 38px rgba(0,0,0,.38),0 0 22px rgba(55,224,255,.1)}
+
+  @keyframes holoPanelScan{0%{background-position:-80% 0,0 0}100%{background-position:180% 0,0 0}}
+  @keyframes holoFloorPulse{to{opacity:.43;filter:drop-shadow(0 0 10px rgba(var(--space-rgb),.25))}}
+  @keyframes holoRingVolume{to{transform:translate3d(-50%,-50%,var(--ring-z)) rotateX(var(--ring-tilt)) rotateZ(360deg) scale(var(--ring-scale))}}
+  @keyframes reactorLens{to{transform:translate(-50%,-50%) rotate(360deg)}}
+  @keyframes reactorPulse{50%{opacity:.5;transform:translate(-50%,-50%) scale(1.24)}}
+  @keyframes nodeLevitate{from{filter:brightness(.94)}to{filter:brightness(1.08)}}
+  @keyframes commandSweep{0%,58%{left:-28%}100%{left:128%}}
+  @keyframes portalBurst{0%{opacity:1;transform:translate(-50%,-50%) scale(.15)}100%{opacity:0;transform:translate(-50%,-50%) scale(8)}}
+  @keyframes portalBlade{0%{opacity:0;transform:translate(-50%,-50%) scaleY(0)}38%{opacity:1;transform:translate(-50%,-50%) scaleY(1)}100%{opacity:0;transform:translate(-50%,-50%) scaleY(.25)}}
+  @media(max-width:700px),(pointer:coarse){.missionConfig>.missionPanel.is-panel-active,.libraryModal,#help .modal,#result .modal{--deck-rx:0deg!important;--deck-ry:0deg!important;transform:none}.missionConfig>.missionPanel.is-panel-active::after{opacity:.16!important}.orbitalChoices>.choiceBtn,.orbitalChoices>.themeCard{animation:none}.holoDepthStage>i{opacity:.72}.subOrbitCore{transform:translate(-50%,-50%) translateZ(24px)}.studyCard:hover,.libraryStat:hover,#result .statcard:hover{transform:none}}
   @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -691,8 +965,8 @@
       <i aria-hidden="true"></i><span>พลังมือ · รอเริ่มภารกิจ</span>
     </div>
     <div class="liveVisualSwitch" id="liveVisualSwitch" role="group" aria-label="สลับโหมดกล้องระหว่างเล่น">
-      <button class="liveVisualBtn active" type="button" data-live-visual="camera" aria-pressed="true" title="เปิดกล้องและพลังมือ"><span>◉</span><b>ใช้กล้อง</b></button>
-      <button class="liveVisualBtn" type="button" data-live-visual="space" aria-pressed="false" title="ปิดกล้อง ใช้ฉากไซเบอร์"><span>✦</span><b>ไม่ใช้กล้อง</b></button>
+      <button class="liveVisualBtn" type="button" data-live-visual="camera" aria-pressed="false" title="เปิดกล้องและพลังมือ"><span>◉</span><b>ใช้กล้อง</b></button>
+      <button class="liveVisualBtn active" type="button" data-live-visual="space" aria-pressed="true" title="ปิดกล้อง ใช้ฉากไซเบอร์"><span>✦</span><b>ไม่ใช้กล้อง</b></button>
     </div>
     <button class="navBtn soundBtn" id="voiceBtn" type="button" aria-pressed="true" title="เปิดหรือปิดเสียงอ่านคำแปล">
       <span class="navIcon" aria-hidden="true">◖))</span><span>เสียงแปล</span>
@@ -708,7 +982,19 @@
     <div class="speakingLine"><i aria-hidden="true"></i><span>กำลังออกเสียงคำแปล</span></div>
   </div>
   <div class="toast" id="toast">เยี่ยมมาก!</div>
-  <div id="arena"></div>
+  <div id="arena">
+    <section id="quizPanel" role="region" aria-labelledby="quizQuestion" hidden>
+      <div class="quizTop">
+        <div><span class="quizEyebrow" id="quizEyebrow">ENGLISH EXAM</span><b class="quizTitle" id="quizTitle">ป.1–ป.3 · 40 ข้อ</b></div>
+        <div class="quizCounter"><span id="quizCurrent">1</span> / <b id="quizTotal">40</b></div>
+        <div class="quizProgress" aria-hidden="true"><i id="quizProgressBar"></i></div>
+      </div>
+      <h2 class="quizQuestion" id="quizQuestion">คำถาม</h2>
+      <div class="quizAnswers" id="quizAnswers" role="group" aria-label="ตัวเลือกคำตอบ"></div>
+      <div class="quizFeedback" id="quizFeedback" role="status" aria-live="polite">เลือกคำตอบที่ถูกต้องที่สุด</div>
+      <div class="quizActions"><button class="quizNext" id="quizNextBtn" type="button" hidden>ข้อถัดไป →</button></div>
+    </section>
+  </div>
 
   <div class="bottom">
     <div class="voiceChallenge glass" id="voiceChallenge" role="status" aria-live="polite" hidden>
@@ -748,8 +1034,7 @@
       <section class="menuHero" aria-labelledby="gameTitle">
         <div class="systemBadge"><i></i> AION NEURAL SYSTEM · ONLINE</div>
         <p class="eyebrow">AI-POWERED LANGUAGE COMMAND</p>
-        <h1 class="heroTitle" id="gameTitle">AR HERO<br><span>TYPING QUEST</span></h1>
-        <p class="heroSub">เชื่อมต่อระบบฝึกภาษาอัจฉริยะ พิมพ์ให้แม่น พูดตามให้ชัด และให้ AI จดจำพัฒนาการของคุณในทุกภารกิจ</p>
+        <h1 class="heroTitle heroQuote" id="gameTitle" aria-label="AR Hero Typing Quest"><b></b></h1>
         <div class="heroVisual" aria-hidden="true">
           <div class="aiCoreRing ringOuter"></div><div class="aiCoreRing ringMid"></div><div class="aiCoreRing ringInner"></div>
           <div class="aiScanBeam"></div>
@@ -765,50 +1050,157 @@
         </div>
       </section>
 
-      <section class="menuControls">
+      <section class="menuControls" id="menuControls" data-active-menu="english">
         <div class="controlHead">
           <div><small>MISSION CONTROL // AION-07</small><h2>ตั้งค่าภารกิจ</h2></div>
           <div class="readyLight"><i></i> AI พร้อมปฏิบัติการ</div>
         </div>
         <div class="chips">
-          <span class="chip">2,500 WORDS</span><span class="chip">1,000 EXAM WORDS</span><span class="chip">500 CONVERSATIONS</span><span class="chip">3,600 TENSE SENTENCES</span>
+          <span class="chip">5,000 ENGLISH QUESTIONS</span><span class="chip">1,500 WORDS</span><span class="chip">500 CONVERSATIONS</span><span class="chip">3,600 TENSE SENTENCES</span>
           <span class="chip">PALM POWER</span><span class="chip">VOICE SCORE</span>
         </div>
 
-        <div class="aiBrief" role="note">
-          <div class="aiAvatar" aria-hidden="true"><i></i><span>AI</span></div>
-          <div><span>AION BRIEFING</span><p id="aiBriefText">เลือกรูปแบบการฝึก ระบบจะปรับภารกิจ เสียง และการทบทวนให้เข้ากับคุณ</p></div>
-          <div class="signalBars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-        </div>
+
+        <nav class="mainModeNav" role="tablist" aria-label="เมนูหลัก">
+          <svg class="mainOrbitLinks" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <line data-link-menu="english" x1="50" y1="50" x2="50" y2="7"></line>
+            <line data-link-menu="math" x1="50" y1="50" x2="93" y2="50"></line>
+            <line data-link-menu="typing" x1="50" y1="50" x2="50" y2="93"></line>
+            <line data-link-menu="power" x1="50" y1="50" x2="7" y2="50"></line>
+          </svg>
+          <div class="mainHologram" aria-hidden="true">
+            <div class="holoBeam"></div>
+            <div class="holoProjector"><i></i><i></i><i></i><b></b></div>
+            <svg class="holoGuardian" viewBox="0 0 260 310" focusable="false">
+              <defs>
+                <linearGradient id="guardianFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="currentColor" stop-opacity=".3"/><stop offset=".52" stop-color="currentColor" stop-opacity=".04"/><stop offset="1" stop-color="currentColor" stop-opacity=".2"/></linearGradient>
+                <clipPath id="guardianClip"><path d="M67 57Q130 10 193 57L221 121 207 218 170 267 130 291 90 267 53 218 39 121Z"/></clipPath>
+              </defs>
+              <g class="guardianShell">
+                <path class="guardianFill" d="M67 57Q130 10 193 57L221 121 207 218 170 267 130 291 90 267 53 218 39 121Z"/>
+                <path d="M67 57Q130 10 193 57L221 121 207 218 170 267 130 291 90 267 53 218 39 121Z"/>
+                <path d="M67 57L91 88 130 70 169 88 193 57M91 88L75 133 92 209 130 247 168 209 185 133 169 88M75 133L49 119M185 133L211 119M92 209L66 221M168 209L194 221M130 70V247"/>
+                <path class="guardianEye" d="M75 139L118 128 106 151 77 158ZM185 139L142 128 154 151 183 158Z"/>
+                <path d="M106 178L130 190 154 178M102 218L130 229 158 218M88 94L63 81M172 94L197 81"/>
+                <ellipse cx="130" cy="157" rx="76" ry="100" stroke-dasharray="3 8"/>
+                <ellipse cx="130" cy="157" rx="103" ry="126" stroke-dasharray="1 11"/>
+              </g>
+              <g class="guardianMesh" clip-path="url(#guardianClip)">
+                <path d="M25 88H235M20 112H240M18 136H242M17 160H243M18 184H242M21 208H239M27 232H233M35 256H225"/>
+                <path d="M58 28L111 298M96 15L122 302M164 15L138 302M202 28L149 298"/>
+              </g>
+              <rect class="guardianScanner" x="23" y="38" width="214" height="38" rx="18"/>
+            </svg>
+            <div class="holoTelemetry holoTelemetryLeft"><span>AION SENTINEL</span><b id="mainHoloStatus">AWAITING COMMAND</b><small>NEURAL SHELL // ONLINE</small></div>
+            <div class="holoTelemetry holoTelemetryRight"><span>HOLO DEPTH</span><b>04 DIMENSIONS</b><small>REACTIVE LIGHT FIELD</small></div>
+            <i class="holoSpark sparkA"></i><i class="holoSpark sparkB"></i><i class="holoSpark sparkC"></i>
+          </div>
+          <div class="mainOrbitCore" aria-hidden="true"><span>AION CORE</span><b id="mainOrbitTitle">เลือกภารกิจ</b><small id="mainOrbitHint">เลื่อนเมาส์เพื่อสแกน · คลิกเพื่อเข้าสู่ระบบ</small></div>
+          <i class="mainOrbitTrack trackOne" aria-hidden="true"></i><i class="mainOrbitTrack trackTwo" aria-hidden="true"></i>
+          <button type="button" class="mainModeBtn active" id="mainMenuEnglish" data-main-menu="english" role="tab" aria-selected="true" aria-controls="englishQuizField"><span class="mainModeIcon">EN</span><span><b>ภาษาอังกฤษ</b><small>ข้อสอบภาษาอังกฤษล้วน · 5,000 ข้อ</small></span></button>
+          <button type="button" class="mainModeBtn" id="mainMenuMath" data-main-menu="math" role="tab" aria-selected="false" aria-controls="mathQuizField"><span class="mainModeIcon">Σ</span><span><b>คณิตศาสตร์</b><small>ป.3–ม.3 · 3,500 ข้อ</small></span></button>
+          <button type="button" class="mainModeBtn" id="mainMenuTyping" data-main-menu="typing" role="tab" aria-selected="false" aria-controls="settingsPanelContent"><span class="mainModeIcon">⌨</span><span><b>ฝึกพิมพ์</b><small>คำศัพท์ · บทสนทนา · 12 Tenses</small></span></button>
+          <button type="button" class="mainModeBtn" id="mainMenuPower" data-main-menu="power" role="tab" aria-selected="false" aria-controls="settingsPanelTheme"><span class="mainModeIcon">◇</span><span><b>ชุดพลัง</b><small>เลือกฮีโร่และพลัง AR</small></span></button>
+        </nav>
 
         <div class="config missionConfig">
-          <nav class="settingsRail" role="tablist" aria-label="หมวดตั้งค่าภารกิจ" aria-orientation="vertical">
-            <button type="button" class="settingsTab active" id="settingsTabContent" data-settings-tab="content" role="tab" aria-selected="true" aria-controls="settingsPanelContent"><span>01</span><b>เนื้อหา</b><small data-settings-summary="contentType">คำศัพท์</small><i>›</i></button>
-            <button type="button" class="settingsTab" id="settingsTabLanguage" data-settings-tab="language" role="tab" aria-selected="false" aria-controls="settingsPanelLanguage"><span>02</span><b>ภาษา</b><small data-settings-summary="language">ภาษาไทย</small><i>›</i></button>
-            <button type="button" class="settingsTab" id="settingsTabDifficulty" data-settings-tab="difficulty" role="tab" aria-selected="false" aria-controls="difficultyField"><span>03</span><b>ระดับ</b><small data-settings-summary="gradeLevel">ทั่วไป</small><i>›</i></button>
-            <button type="button" class="settingsTab" id="settingsTabDuration" data-settings-tab="duration" role="tab" aria-selected="false" aria-controls="settingsPanelDuration"><span>04</span><b>เวลา</b><small data-settings-summary="duration">2 นาที</small><i>›</i></button>
-            <button type="button" class="settingsTab" id="settingsTabVisual" data-settings-tab="visual" role="tab" aria-selected="false" aria-controls="settingsPanelVisual"><span>05</span><b>ภาพ</b><small data-settings-summary="visualMode">AR Camera</small><i>›</i></button>
-            <button type="button" class="settingsTab" id="settingsTabSpeech" data-settings-tab="speech" role="tab" aria-selected="false" aria-controls="settingsPanelSpeech"><span>06</span><b>เสียง</b><small data-settings-summary="speechPractice">พูดตาม</small><i>›</i></button>
-            <button type="button" class="settingsTab" id="settingsTabTheme" data-settings-tab="theme" role="tab" aria-selected="false" aria-controls="settingsPanelTheme"><span>07</span><b>ชุดพลัง</b><small data-settings-summary="heroTheme">Solar</small><i>›</i></button>
-            <div class="settingsRailHint"><span>HOVER</span> หรือกดเพื่อเลือกหมวด</div>
-          </nav>
+          <select id="visualMode" class="settingValue" tabindex="-1" aria-hidden="true">
+            <option value="camera">AR Camera + พลังมือ</option>
+            <option value="space" selected>Cyber Space · ไม่ใช้กล้อง</option>
+          </select>
 
-          <div class="field wide missionPanel is-panel-active" id="settingsPanelContent" data-settings-panel="content" role="tabpanel" aria-labelledby="settingsTabContent">
-            <label id="contentTypeLabel"><span>01</span> เนื้อหาภารกิจ</label>
-            <div class="choiceGrid four" data-select="contentType" role="group" aria-labelledby="contentTypeLabel">
-              <button type="button" class="choiceBtn active" data-value="words" aria-pressed="true"><span class="choiceIcon">Aa</span><span><b>คำศัพท์</b><small>1,500 คำ</small></span></button>
-              <button type="button" class="choiceBtn" data-value="exam" aria-pressed="false"><span class="choiceIcon">◎</span><span><b>ศัพท์สอบ</b><small>1,000 คำ</small></span></button>
-              <button type="button" class="choiceBtn" data-value="conversations" aria-pressed="false"><span class="choiceIcon">◌◌</span><span><b>บทสนทนา</b><small>500 ประโยค</small></span></button>
-              <button type="button" class="choiceBtn" data-value="tenses" aria-pressed="false"><span class="choiceIcon">T</span><span><b>12 Tenses</b><small>3,600 ประโยค</small></span></button>
+          <div class="orbitDrillHead" id="orbitDrillHead" hidden>
+            <button type="button" id="orbitBackBtn" aria-label="ย้อนกลับหนึ่งระดับ"><span>←</span><b>ย้อนกลับ</b></button>
+            <div><small id="orbitBreadcrumb">AION / MENU</small><strong id="orbitPageTitle">เลือกภารกิจ</strong></div>
+            <span id="orbitDepth">01 / 01</span>
+          </div>
+
+          <div class="field wide missionPanel" id="settingsPanelContent" data-settings-panel="content" data-main-section="typing" role="tabpanel" aria-labelledby="mainMenuTyping">
+            <label id="subjectCategoryLabel"><span>⌨</span> โหมดฝึกพิมพ์</label>
+            <div class="choiceGrid subjectCategoryGrid" data-select="subjectCategory" role="group" aria-labelledby="subjectCategoryLabel" hidden>
+              <button type="button" class="choiceBtn active" data-value="english" aria-pressed="true"><span class="choiceIcon">EN</span><span><b>ภาษาอังกฤษ</b><small>ข้อสอบ 5,000 ข้อ · ฝึกพิมพ์และพูด</small></span></button>
+              <button type="button" class="choiceBtn" data-value="math" aria-pressed="false"><span class="choiceIcon">Σ</span><span><b>คณิตศาสตร์</b><small>ป.3–ม.3 · 3,500 ข้อ · โจทย์ปัญหา 50%</small></span></button>
             </div>
+            <select id="subjectCategory" class="settingValue" tabindex="-1" aria-hidden="true"><option value="english" selected>ภาษาอังกฤษ</option><option value="math">คณิตศาสตร์</option></select>
+            <section class="practiceModes" id="practiceModes" aria-labelledby="practiceModesTitle">
+              <label class="contentActivityLabel" id="contentTypeLabel"><span>MODE</span> <span id="practiceModesTitle">เลือกประเภทการฝึกพิมพ์</span></label>
+              <div class="choiceGrid contentModeGrid" data-select="contentType" role="group" aria-labelledby="contentTypeLabel">
+                <button type="button" class="choiceBtn active" data-subject="english" data-value="english_quiz" aria-pressed="true"><span class="choiceIcon">?</span><span><b>ข้อสอบอังกฤษ</b><small>10 ชุด · 5,000 ข้อ</small></span></button>
+                <button type="button" class="choiceBtn" data-subject="english" data-value="words" aria-pressed="false"><span class="choiceIcon">Aa</span><span><b>ฝึกคำศัพท์</b><small>1,500 คำ</small></span></button>
+                <button type="button" class="choiceBtn" data-subject="english" data-value="exam" aria-pressed="false"><span class="choiceIcon">◎</span><span><b>ศัพท์สอบ</b><small>1,000 คำ</small></span></button>
+                <button type="button" class="choiceBtn" data-subject="english" data-value="conversations" aria-pressed="false"><span class="choiceIcon">◌◌</span><span><b>บทสนทนา</b><small>500 ประโยค</small></span></button>
+                <button type="button" class="choiceBtn" data-subject="english" data-value="tenses" aria-pressed="false"><span class="choiceIcon">T</span><span><b>12 Tenses</b><small>3,600 ประโยค</small></span></button>
+                <button type="button" class="choiceBtn" data-subject="math" data-value="math_quiz" aria-pressed="false" hidden><span class="choiceIcon">Σ</span><span><b>ข้อสอบคณิตศาสตร์</b><small>ชั้นละ 500 ข้อ · โจทย์ปัญหา 250</small></span></button>
+              </div>
+            </section>
             <select id="contentType" class="settingValue" tabindex="-1" aria-hidden="true">
-              <option value="words" selected>คำศัพท์ 1,500 คำ</option>
+              <option value="english_quiz" selected>ข้อสอบภาษาอังกฤษ · 10 ชุด · ชุดละ 500 ข้อ</option>
+              <option value="words">คำศัพท์ 1,500 คำ</option>
               <option value="exam">ศัพท์สอบ TOEFL · TOEIC · IELTS · KKU-AELT 1,000 คำ</option>
               <option value="conversations">บทสนทนา 500 ประโยค</option>
               <option value="tenses">12 Tenses · 3,600 ประโยค</option>
+              <option value="math_quiz">ข้อสอบคณิตศาสตร์ · ป.3–ม.3 · ชั้นละ 500 ข้อ</option>
             </select>
           </div>
-          <div class="field wide missionPanel missionSubPanel is-panel-active" data-settings-panel="content" id="tenseField" hidden>
+          <div class="field wide missionPanel missionSubPanel quizSetupPanel is-panel-active" data-settings-panel="content" data-main-section="english" id="englishQuizField" role="tabpanel" aria-labelledby="mainMenuEnglish">
+            <label><span>EN</span> ข้อสอบภาษาอังกฤษล้วน 10 ชุด · Grammar · Reading · Usage · รวม 5,000 ข้อ</label>
+            <div class="quizSetupGrid englishSetup">
+              <div class="quizOptionGroup">
+                <label id="englishLevelLabel"><span>EXAM</span> เลือกชุดข้อสอบ</label>
+                <div class="choiceGrid englishExamGrid" data-select="englishLevel" role="group" aria-labelledby="englishLevelLabel">
+                  <button type="button" class="choiceBtn active" data-value="p1_3" aria-pressed="true"><span><b>ป.1–ป.3</b><small>500 ข้อ · ENGLISH</small></span></button>
+                  <button type="button" class="choiceBtn" data-value="p4_6" aria-pressed="false"><span><b>ป.4–ป.6</b><small>500 ข้อ · ENGLISH</small></span></button>
+                  <button type="button" class="choiceBtn" data-value="m1_3" aria-pressed="false"><span><b>ม.1–ม.3</b><small>500 ข้อ · ENGLISH</small></span></button>
+                  <button type="button" class="choiceBtn" data-value="m4_6" aria-pressed="false"><span><b>ม.4–ม.6</b><small>500 ข้อ · ENGLISH</small></span></button>
+                  <button type="button" class="choiceBtn" data-value="toefl" aria-pressed="false"><span><b>TOEFL</b><small>500 ข้อ · EXAM FORMAT</small></span></button>
+                  <button type="button" class="choiceBtn" data-value="toeic" aria-pressed="false"><span><b>TOEIC</b><small>500 ข้อ · EXAM FORMAT</small></span></button>
+                  <button type="button" class="choiceBtn" data-value="ielts" aria-pressed="false"><span><b>IELTS</b><small>500 ข้อ · EXAM FORMAT</small></span></button>
+                  <button type="button" class="choiceBtn" data-value="kku_aelt" aria-pressed="false"><span><b>KKU-AELT</b><small>500 ข้อ · EXAM FORMAT</small></span></button>
+                  <button type="button" class="choiceBtn" data-value="conversations" aria-pressed="false"><span><b>บทสนทนา</b><small>500 ข้อ · REAL-LIFE ENGLISH</small></span></button>
+                  <button type="button" class="choiceBtn" data-value="tenses" aria-pressed="false"><span><b>12 Tenses</b><small>500 ข้อ · GRAMMAR</small></span></button>
+                </div>
+                <select id="englishLevel" class="settingValue" tabindex="-1" aria-hidden="true"><option value="p1_3" selected>ป.1–ป.3</option><option value="p4_6">ป.4–ป.6</option><option value="m1_3">ม.1–ม.3</option><option value="m4_6">ม.4–ม.6</option><option value="toefl">TOEFL</option><option value="toeic">TOEIC</option><option value="ielts">IELTS</option><option value="kku_aelt">KKU-AELT</option><option value="conversations">บทสนทนา</option><option value="tenses">12 Tenses</option></select>
+              </div>
+              <div class="quizOptionGroup">
+                <label id="englishCountLabel"><span>SESSION</span> เลือกจำนวนข้อที่จะทำรอบนี้</label>
+                <div class="choiceGrid quizCountGrid" data-select="englishQuizCount" role="group" aria-labelledby="englishCountLabel">
+                  <button type="button" class="choiceBtn active" data-value="40" aria-pressed="true"><span><b>40 ข้อ</b><small>STANDARD</small></span></button>
+                  <button type="button" class="choiceBtn" data-value="60" aria-pressed="false"><span><b>60 ข้อ</b><small>FULL TEST</small></span></button>
+                </div>
+                <select id="englishQuizCount" class="settingValue" tabindex="-1" aria-hidden="true"><option value="40" selected>40 ข้อ</option><option value="60">60 ข้อ</option></select>
+              </div>
+            </div>
+          </div>
+          <div class="field wide missionPanel missionSubPanel quizSetupPanel" data-settings-panel="content" data-main-section="math" id="mathQuizField" role="tabpanel" aria-labelledby="mainMenuMath" hidden>
+            <label><span>Σ</span> คลังคณิตศาสตร์ชั้นละ 500 ข้อ · โจทย์ปัญหา 250 ข้อ (50%)</label>
+            <div class="quizSetupGrid mathSetup">
+              <div class="quizOptionGroup">
+                <label id="mathGradeLabel"><span>GRADE</span> เลือกชั้นเรียน</label>
+                <div class="choiceGrid quizGradeGrid" data-select="mathGrade" role="group" aria-labelledby="mathGradeLabel">
+                  <button type="button" class="choiceBtn active" data-value="p3" aria-pressed="true"><span><b>ป.3</b><small>500 ข้อ · โจทย์ 250</small></span></button><button type="button" class="choiceBtn" data-value="p4" aria-pressed="false"><span><b>ป.4</b><small>500 ข้อ · โจทย์ 250</small></span></button><button type="button" class="choiceBtn" data-value="p5" aria-pressed="false"><span><b>ป.5</b><small>500 ข้อ · โจทย์ 250</small></span></button><button type="button" class="choiceBtn" data-value="p6" aria-pressed="false"><span><b>ป.6</b><small>500 ข้อ · โจทย์ 250</small></span></button><button type="button" class="choiceBtn" data-value="m1" aria-pressed="false"><span><b>ม.1</b><small>500 ข้อ · โจทย์ 250</small></span></button><button type="button" class="choiceBtn" data-value="m2" aria-pressed="false"><span><b>ม.2</b><small>500 ข้อ · โจทย์ 250</small></span></button><button type="button" class="choiceBtn" data-value="m3" aria-pressed="false"><span><b>ม.3</b><small>500 ข้อ · โจทย์ 250</small></span></button>
+                </div>
+                <select id="mathGrade" class="settingValue" tabindex="-1" aria-hidden="true"><option value="p3" selected>ป.3</option><option value="p4">ป.4</option><option value="p5">ป.5</option><option value="p6">ป.6</option><option value="m1">ม.1</option><option value="m2">ม.2</option><option value="m3">ม.3</option></select>
+              </div>
+              <div class="quizOptionGroup">
+                <label id="mathTrackLabel"><span>TRACK</span> แนวข้อสอบ</label>
+                <div class="choiceGrid quizTrackGrid" data-select="mathTrack" role="group" aria-labelledby="mathTrackLabel">
+                  <button type="button" class="choiceBtn active" data-value="balanced" aria-pressed="true"><span><b>ตามระดับชั้น</b><small>สมดุลทุกหัวข้อ</small></span></button>
+                  <button type="button" class="choiceBtn" data-value="triam" aria-pressed="false"><span><b>เตรียมอุดม</b><small>พีชคณิต · เรขาคณิต</small></span></button>
+                  <button type="button" class="choiceBtn" data-value="mwit" aria-pressed="false"><span><b>มหิดลวิทย์</b><small>เหตุผล · ประยุกต์</small></span></button>
+                </div>
+                <select id="mathTrack" class="settingValue" tabindex="-1" aria-hidden="true"><option value="balanced" selected>ตามระดับชั้น</option><option value="triam">แนวเตรียมอุดม</option><option value="mwit">แนวมหิดลวิทยานุสรณ์</option></select>
+              </div>
+              <div class="quizOptionGroup">
+                <label id="mathCountLabel"><span>SET</span> จำนวนข้อ</label>
+                <div class="choiceGrid quizCountGrid" data-select="mathQuizCount" role="group" aria-labelledby="mathCountLabel">
+                  <button type="button" class="choiceBtn active" data-value="40" aria-pressed="true"><span><b>40 ข้อ</b><small>STANDARD</small></span></button>
+                  <button type="button" class="choiceBtn" data-value="60" aria-pressed="false"><span><b>60 ข้อ</b><small>FULL TEST</small></span></button>
+                </div>
+                <select id="mathQuizCount" class="settingValue" tabindex="-1" aria-hidden="true"><option value="40" selected>40 ข้อ</option><option value="60">60 ข้อ</option></select>
+              </div>
+            </div>
+          </div>
+          <div class="field wide missionPanel missionSubPanel" data-settings-panel="content" data-main-section="typing" id="tenseField" hidden>
             <label id="tenseTypeLabel"><span>T</span> เลือก Tense ที่ต้องการฝึก · Tense ละ 300 ประโยค</label>
             <div class="choiceGrid tenseGrid" data-select="tenseType" role="group" aria-labelledby="tenseTypeLabel">
               <button type="button" class="choiceBtn active" data-value="present_simple" aria-pressed="true"><span><b>Present Simple</b><small>S + V1(s/es)</small></span></button>
@@ -833,7 +1225,7 @@
               <option value="future_perfect">Future Perfect</option><option value="future_perfect_continuous">Future Perfect Continuous</option>
             </select>
           </div>
-          <div class="field wide missionPanel" id="settingsPanelLanguage" data-settings-panel="language" role="tabpanel" aria-labelledby="settingsTabLanguage">
+          <div class="field wide missionPanel" id="settingsPanelLanguage" data-settings-panel="language" data-main-section="typing">
             <label id="languageLabel"><span>02</span> ภาษาเป้าหมาย</label>
             <div class="choiceGrid three" data-select="language" role="group" aria-labelledby="languageLabel">
               <button type="button" class="choiceBtn active" data-value="th" aria-pressed="true"><span class="choiceIcon">ก</span><span><b>ภาษาไทย</b><small>ไทย → EN</small></span></button>
@@ -846,20 +1238,34 @@
               <option value="mix">ผสม ไทย + English</option>
             </select>
           </div>
-          <div class="field wide missionPanel" id="difficultyField" data-settings-panel="difficulty" role="tabpanel" aria-labelledby="settingsTabDifficulty">
-            <label id="gradeLevelLabel"><span>03</span> ระดับความยาก</label>
-            <div class="choiceGrid three" data-select="gradeLevel" role="group" aria-labelledby="gradeLevelLabel">
-              <button type="button" class="choiceBtn" data-value="easy" aria-pressed="false"><span class="choiceIcon">Ⅰ</span><span><b>เริ่มต้น</b><small>ป.1–ป.3</small></span></button>
-              <button type="button" class="choiceBtn active" data-value="normal" aria-pressed="true"><span class="choiceIcon">Ⅱ</span><span><b>ทั่วไป</b><small>ป.4–ป.6</small></span></button>
-              <button type="button" class="choiceBtn" data-value="pro" aria-pressed="false"><span class="choiceIcon">Ⅲ</span><span><b>HERO PRO</b><small>ท้าทาย</small></span></button>
+          <div class="field wide missionPanel" id="difficultyField" data-settings-panel="difficulty" data-main-section="typing">
+            <label id="gradeLevelLabel"><span>03</span> เลือกระดับหรือหลักสูตรที่ต้องการฝึก</label>
+            <div class="choiceGrid learningPathGrid" data-select="gradeLevel" role="group" aria-labelledby="gradeLevelLabel">
+              <button type="button" class="choiceBtn" data-value="p1_3" aria-pressed="false"><span class="choiceIcon">P1</span><span><b>ป.1–ป.3</b><small>ศัพท์พื้นฐาน · 500 คำ</small></span></button>
+              <button type="button" class="choiceBtn active" data-value="p4_6" aria-pressed="true"><span class="choiceIcon">P4</span><span><b>ป.4–ป.6</b><small>ศัพท์ทั่วไป · 500 คำ</small></span></button>
+              <button type="button" class="choiceBtn" data-value="m1_3" aria-pressed="false"><span class="choiceIcon">M1</span><span><b>ม.1–ม.3</b><small>ศัพท์ขั้นสูง · 500 คำ</small></span></button>
+              <button type="button" class="choiceBtn" data-value="m4_6" aria-pressed="false"><span class="choiceIcon">M4</span><span><b>ม.4–ม.6</b><small>ศัพท์วิชาการ · 1,000 คำ</small></span></button>
+              <button type="button" class="choiceBtn" data-value="toefl" aria-pressed="false"><span class="choiceIcon">TFL</span><span><b>TOEFL</b><small>ศัพท์เตรียมสอบ</small></span></button>
+              <button type="button" class="choiceBtn" data-value="toeic" aria-pressed="false"><span class="choiceIcon">TIC</span><span><b>TOEIC</b><small>ศัพท์ธุรกิจและงาน</small></span></button>
+              <button type="button" class="choiceBtn" data-value="ielts" aria-pressed="false"><span class="choiceIcon">IEL</span><span><b>IELTS</b><small>ศัพท์เชิงวิชาการ</small></span></button>
+              <button type="button" class="choiceBtn" data-value="kku_aelt" aria-pressed="false"><span class="choiceIcon">KKU</span><span><b>KKU-AELT</b><small>ศัพท์เตรียมสอบ</small></span></button>
+              <button type="button" class="choiceBtn" data-value="conversations" aria-pressed="false"><span class="choiceIcon">CHAT</span><span><b>บทสนทนา</b><small>500 ประโยคใช้จริง</small></span></button>
+              <button type="button" class="choiceBtn" data-value="tenses" aria-pressed="false"><span class="choiceIcon">12T</span><span><b>12 Tenses</b><small>3,600 ประโยค</small></span></button>
             </div>
             <select id="gradeLevel" class="settingValue" tabindex="-1" aria-hidden="true">
-              <option value="easy">ป.1–ป.3 · คำสั้น</option>
-              <option value="normal" selected>ป.4–ป.6 · คำทั่วไป</option>
-              <option value="pro">HERO PRO · คำท้าทาย</option>
+              <option value="p1_3">ป.1–ป.3</option>
+              <option value="p4_6" selected>ป.4–ป.6</option>
+              <option value="m1_3">ม.1–ม.3</option>
+              <option value="m4_6">ม.4–ม.6</option>
+              <option value="toefl">TOEFL</option>
+              <option value="toeic">TOEIC</option>
+              <option value="ielts">IELTS</option>
+              <option value="kku_aelt">KKU-AELT</option>
+              <option value="conversations">บทสนทนา</option>
+              <option value="tenses">12 Tenses</option>
             </select>
           </div>
-          <div class="field missionPanel" id="settingsPanelDuration" data-settings-panel="duration" role="tabpanel" aria-labelledby="settingsTabDuration">
+          <div class="field missionPanel" id="settingsPanelDuration" data-settings-panel="duration" data-main-section="typing">
             <label id="durationLabel"><span>04</span> เวลาเล่น</label>
             <div class="choiceGrid four" data-select="duration" role="group" aria-labelledby="durationLabel">
               <button type="button" class="choiceBtn" data-value="60" aria-pressed="false"><span><b>1 นาที</b><small>QUICK</small></span></button>
@@ -874,19 +1280,8 @@
               <option value="0">ไม่จับเวลา · เล่นอิสระ</option>
             </select>
           </div>
-          <div class="field missionPanel" id="settingsPanelVisual" data-settings-panel="visual" role="tabpanel" aria-labelledby="settingsTabVisual">
-            <label id="visualModeLabel"><span>05</span> โหมดภาพ</label>
-            <div class="choiceGrid" data-select="visualMode" role="group" aria-labelledby="visualModeLabel">
-              <button type="button" class="choiceBtn active" data-value="camera" aria-pressed="true"><span class="choiceIcon">◉</span><span><b>AR Camera</b><small>พลังมือ</small></span></button>
-              <button type="button" class="choiceBtn" data-value="space" aria-pressed="false"><span class="choiceIcon">✦</span><span><b>Cyber Space</b><small>ไม่ใช้กล้อง</small></span></button>
-            </div>
-            <select id="visualMode" class="settingValue" tabindex="-1" aria-hidden="true">
-              <option value="camera">AR Camera + พลังมือ</option>
-              <option value="space">Cyber Space · ไม่ใช้กล้อง</option>
-            </select>
-          </div>
-          <div class="field wide missionPanel" id="settingsPanelSpeech" data-settings-panel="speech" role="tabpanel" aria-labelledby="settingsTabSpeech">
-            <label id="speechPracticeLabel"><span>06</span> ฝึกออกเสียงภาษาอังกฤษ</label>
+          <div class="field wide missionPanel" id="settingsPanelSpeech" data-settings-panel="speech" data-main-section="typing">
+            <label id="speechPracticeLabel"><span>05</span> ฝึกออกเสียงภาษาอังกฤษ</label>
             <div class="choiceGrid" data-select="speechPractice" role="group" aria-labelledby="speechPracticeLabel">
               <button type="button" class="choiceBtn active" data-value="on" aria-pressed="true"><span class="choiceIcon">🎙</span><span><b>พิมพ์แล้วพูดตาม</b><small>พิมพ์ก่อน · ตรวจเสียง</small></span></button>
               <button type="button" class="choiceBtn" data-value="off" aria-pressed="false"><span class="choiceIcon">⌨</span><span><b>พิมพ์อย่างเดียว</b><small>ไม่ใช้ไมโครโฟน</small></span></button>
@@ -897,7 +1292,7 @@
             </select>
           </div>
           <div class="field wide themeSelectField">
-            <label for="heroTheme"><span>07</span> เลือกชุดพลัง AR</label>
+            <label for="heroTheme"><span>06</span> เลือกชุดพลัง AR</label>
             <select id="heroTheme" aria-label="เลือกชุดพลัง AR">
               <option value="armor">Solar Armor · เกราะพลังสุริยะ</option>
               <option value="web">Crimson Pulse · พลังเรขาคณิต</option>
@@ -906,8 +1301,8 @@
               <option value="robot">Cyber Ranger · หุ่นพิทักษ์</option>
             </select>
           </div>
-          <div class="field wide missionPanel heroThemePanel" id="settingsPanelTheme" data-settings-panel="theme" role="tabpanel" aria-labelledby="settingsTabTheme">
-            <label><span>07</span> เลือกชุดพลัง AR</label>
+          <div class="field wide missionPanel heroThemePanel" id="settingsPanelTheme" data-settings-panel="theme" data-main-section="power" role="tabpanel" aria-labelledby="mainMenuPower">
+            <label><span>06</span> เลือกชุดพลัง AR</label>
             <div class="themePreview" role="group" aria-label="ชุดพลัง AR">
               <button type="button" class="themeCard active" data-theme="armor"><span class="themeThumb"></span><b>Solar</b><small>ARMOR</small></button>
               <button type="button" class="themeCard" data-theme="web"><span class="themeThumb"></span><b>Crimson</b><small>PULSE</small></button>
@@ -919,10 +1314,10 @@
           <div class="wide missionLaunch"><button class="startBtn" id="startBtn"><span>เริ่มภารกิจกับ AI</span><b>INITIALIZE</b><i aria-hidden="true">→</i></button></div>
         </div>
 
-        <div class="subBtns">
-          <button class="miniBtn" id="libraryBtn" type="button">คลังการเรียนรู้</button>
-          <button class="miniBtn" id="helpBtn" type="button">คู่มือการเล่น</button>
-          <button class="miniBtn" id="demoBtn" type="button">ทดลอง 30 วินาที</button>
+        <div class="subBtns menuUtilityDock" aria-label="เครื่องมือด่วน">
+          <button class="miniBtn" id="libraryBtn" type="button" aria-label="คลังการเรียนรู้"><span aria-hidden="true">◉</span><b>คลังการเรียนรู้</b></button>
+          <button class="miniBtn" id="helpBtn" type="button" aria-label="คู่มือการเล่น"><span aria-hidden="true">?</span><b>คู่มือการเล่น</b></button>
+          <button class="miniBtn" id="demoBtn" type="button" aria-label="ทดลอง 30 วินาที"><span aria-hidden="true">▶</span><b>ทดลอง 30 วินาที</b></button>
         </div>
         <div class="menuFoot"><span>AION NEURAL LANGUAGE ENGINE</span><span>LOCAL CAMERA · PRIVATE VOICE LINK</span></div>
       </section>
@@ -934,18 +1329,20 @@
       <div style="text-align:right"><button class="iconBtn" id="closeHelp">✕</button></div>
       <h2>วิธีเล่น</h2>
       <div class="helpText">
-        1) กดเลือกฝึกคำศัพท์ ศัพท์สอบ บทสนทนา หรือ <b>12 Tenses</b> แล้วเลือกภาษา เวลา หรือ <b>ไม่จับเวลา</b> และธีมฮีโร่<br>
-        2) พิมพ์คำหรือประโยคที่ลอยอยู่บนหน้าจอให้ถูก แล้วกด <b>Enter</b><br>
-        3) ถ้าเปิด <b>พิมพ์แล้วพูดตาม</b> ระบบจะแสดงข้อความอังกฤษกับคำอ่าน IPA จากนั้นจึงเปิดปุ่มไมค์<br>
-        4) กดไมค์ พูดตาม ระบบจะถอดเสียงและให้คะแนนความตรง แล้วกด <b>คำถัดไป</b> (หรือข้ามเสียงได้)<br>
-        5) เมื่อพิมพ์ถูก เกมจะแสดง <b>คำแปลตัวใหญ่ คำอ่าน IPA และเสียงคำแปล</b> ทันที<br>
-        6) ถ้าพิมพ์ถูกต่อเนื่อง จะได้คอมโบและคะแนนเพิ่มขึ้น<br>
-        7) ทุก ๆ 5 คำ จะเลเวลอัป และบางช่วงจะเข้าสู่ <b>Boss Round</b><br>
-        8) เปิด <b>คลังการเรียนรู้</b> เพื่อดูคะแนนเสียง ค้นหาคำเดิม ติดดาว และทบทวน<br>
+        1) กดเลือกฝึกคำศัพท์ ศัพท์สอบ บทสนทนา <b>12 Tenses</b> ข้อสอบอังกฤษ หรือข้อสอบคณิตศาสตร์<br>
+        2) ระบบจะเริ่มด้วย <b>ไม่ใช้กล้อง</b> และสามารถกด “ใช้กล้อง” ได้จากเมนูในหน้าฝึกหรือหน้าทดสอบ<br>
+        3) พิมพ์คำหรือประโยคที่ลอยอยู่บนหน้าจอให้ถูก แล้วกด <b>Enter</b><br>
+        4) ถ้าเปิด <b>พิมพ์แล้วพูดตาม</b> ระบบจะแสดงข้อความอังกฤษกับคำอ่าน IPA จากนั้นจึงเปิดปุ่มไมค์<br>
+        5) กดไมค์ พูดตาม ระบบจะถอดเสียงและให้คะแนนความตรง แล้วกด <b>คำถัดไป</b> (หรือข้ามเสียงได้)<br>
+        6) เมื่อพิมพ์ถูก เกมจะแสดง <b>คำแปลตัวใหญ่ คำอ่าน IPA และเสียงคำแปล</b> ทันที<br>
+        7) ถ้าพิมพ์ถูกต่อเนื่อง จะได้คอมโบและคะแนนเพิ่มขึ้น<br>
+        8) ทุก ๆ 5 คำ จะเลเวลอัป และบางช่วงจะเข้าสู่ <b>Boss Round</b><br>
+        9) เปิด <b>คลังการเรียนรู้</b> เพื่อดูคะแนนเสียง ค้นหาคำเดิม ติดดาว และทบทวน<br>
         9) ระหว่างเล่น กด <b>◉ ใช้กล้อง</b> หรือ <b>✦ ไม่ใช้กล้อง</b> ที่แถบด้านบนเพื่อสลับโหมดได้ทันที<br>
         10) ในโหมด <b>ไม่จับเวลา</b> กด <b>■ จบภารกิจ</b> เมื่อต้องการดูผลสรุปและ WPM จากเวลาที่ฝึกจริง<br>
-        11) กดปุ่ม <b>🎭</b> ระหว่างเล่น เพื่อสลับหน้ากาก AR อย่างรวดเร็ว<br><br>
-        <small>หมายเหตุ: คะแนนเสียงวัดจากความตรงของข้อความที่เบราว์เซอร์รู้จำ จึงใช้ฝึกความชัดเจนได้ แต่ไม่ใช่คะแนนสำเนียงหรือหน่วยเสียงแบบห้องสอบ</small>
+        11) กดปุ่ม <b>🎭</b> ระหว่างเล่น เพื่อสลับหน้ากาก AR อย่างรวดเร็ว<br>
+        12) โหมดข้อสอบแสดงเฉลยทันที เลือกชุด 40/60 ข้อ และกด <b>■ จบภารกิจ</b> เพื่อดูผลก่อนครบชุดได้<br><br>
+        <small>หมายเหตุ: คะแนนเสียงวัดจากความตรงของข้อความที่เบราว์เซอร์รู้จำ ส่วนข้อสอบเป็นแบบฝึกที่จัดทำขึ้นเพื่อเตรียมตัว ไม่ใช่ข้อสอบทางการของสถานศึกษาหรือเจ้าของสนามสอบ</small>
       </div>
     </div>
   </div>
@@ -1002,11 +1399,11 @@
       <div class="bigScore" id="finalScore">0</div>
       <div class="grade" id="resultMessage">เยี่ยมมาก!</div>
       <div class="statgrid">
-        <div class="statcard"><b id="rWpm">0</b><span>คำ/นาที</span></div>
-        <div class="statcard"><b id="rAcc">0%</b><span>ความแม่นยำ</span></div>
-        <div class="statcard"><b id="rBest">x0</b><span>คอมโบสูงสุด</span></div>
-        <div class="statcard"><b id="rWords">0</b><span>คำที่พิชิต</span></div>
-        <div class="statcard"><b id="rSpeech">--</b><span>คะแนนเสียงเฉลี่ย</span></div>
+        <div class="statcard"><b id="rWpm">0</b><span id="rWpmLabel">คำ/นาที</span></div>
+        <div class="statcard"><b id="rAcc">0%</b><span id="rAccLabel">ความแม่นยำ</span></div>
+        <div class="statcard"><b id="rBest">x0</b><span id="rBestLabel">คอมโบสูงสุด</span></div>
+        <div class="statcard"><b id="rWords">0</b><span id="rWordsLabel">คำที่พิชิต</span></div>
+        <div class="statcard"><b id="rSpeech">--</b><span id="rSpeechLabel">คะแนนเสียงเฉลี่ย</span></div>
       </div>
       <div class="subBtns">
         <button class="startBtn" id="againBtn">เล่นอีกครั้ง</button>
@@ -1018,6 +1415,16 @@
   </div>
 </div>
 
+<svg class="fxDefs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="boltRing" x="-70%" y="-70%" width="240%" height="240%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.17 0.24" numOctaves="4" seed="3" result="n">
+      <animate attributeName="seed" values="2;11;5;17;8;14;3" dur="0.42s" repeatCount="indefinite"/>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="17" xChannelSelector="R" yChannelSelector="G" result="d"/>
+    <feGaussianBlur in="d" stdDeviation="2.4" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="d"/></feMerge>
+  </filter>
+</svg>
 <script src="vendor/mediapipe/hands/hands.js"></script>
 <script src="data/learning-bank.js"></script>
 <script src="data/translation-fixes.js"></script>
@@ -1026,6 +1433,7 @@
 <script src="data/pronunciation-bank.js"></script>
 <script src="data/exam-pronunciation-bank.js"></script>
 <script src="data/tense-pronunciation-bank.js"></script>
+<script src="data/quiz-bank.js"></script>
 <script>
 (() => {
   const $ = s => document.querySelector(s);
@@ -1123,22 +1531,26 @@
     englishSpeakBtn: $('#englishSpeakBtn'), bossBadge: $('#bossBadge'), bossBar: $('#bossBar'),
     finalScore: $('#finalScore'), resultMessage: $('#resultMessage'),
     rWpm: $('#rWpm'), rAcc: $('#rAcc'), rBest: $('#rBest'), rWords: $('#rWords'), rSpeech: $('#rSpeech'), bestText: $('#bestText'),
+    rWpmLabel: $('#rWpmLabel'), rAccLabel: $('#rAccLabel'), rBestLabel: $('#rBestLabel'), rWordsLabel: $('#rWordsLabel'), rSpeechLabel: $('#rSpeechLabel'),
     handStatus: $('#handStatus'), voiceBtn: $('#voiceBtn'), finishBtn: $('#finishBtn'), selectedHelmet: $('#selectedHelmet'),
     voiceChallenge: $('#voiceChallenge'), voicePhaseLabel: $('#voicePhaseLabel'), voiceExpected: $('#voiceExpected'), voiceExpectedIpa: $('#voiceExpectedIpa'),
     voiceDetected: $('#voiceDetected'), voiceScore: $('#voiceScore'), voiceMicBtn: $('#voiceMicBtn'),
     voiceListenBtn: $('#voiceListenBtn'), voiceSkipBtn: $('#voiceSkipBtn'),
     libraryGrid: $('#libraryGrid'), libraryResultText: $('#libraryResultText'), libraryMore: $('#libraryMore'),
-    reviewDueBtn: $('#reviewDueBtn'), reviewFilteredBtn: $('#reviewFilteredBtn'), librarySearch: $('#librarySearch')
+    reviewDueBtn: $('#reviewDueBtn'), reviewFilteredBtn: $('#reviewFilteredBtn'), librarySearch: $('#librarySearch'),
+    quizPanel: $('#quizPanel'), quizEyebrow: $('#quizEyebrow'), quizTitle: $('#quizTitle'), quizCurrent: $('#quizCurrent'), quizTotal: $('#quizTotal'),
+    quizProgressBar: $('#quizProgressBar'), quizQuestion: $('#quizQuestion'), quizAnswers: $('#quizAnswers'), quizFeedback: $('#quizFeedback'), quizNextBtn: $('#quizNextBtn')
   };
 
   let state = {
     running:false, paused:false, score:0, combo:1, bestCombo:1, level:1, hearts:3,
     remain:120, duration:120, elapsed:0, correctChars:0, wrongChars:0, words:0, target:null,
-    timer:null, boss:false, bossHits:0, language:'th', difficulty:'normal', contentType:'words', tenseType:'present_simple', theme:'armor', visualMode:'camera',
+    timer:null, boss:false, bossHits:0, language:'th', learningPath:'p4_6', difficulty:'normal', examTag:'', contentType:'english_quiz', tenseType:'present_simple', theme:'armor', visualMode:'space',
     lastPair:null, reviewPool:null, stream:null, audioCtx:null, visualRequest:0,
     speechEnabled:localStorage.getItem('arHeroVoice') !== 'off',
     speechPractice:localStorage.getItem('arHeroSpeechPractice') !== 'off', speechRecognition:null,
-    speechToken:0, speechListening:false, speechComplete:false, voicePhase:'typing', speechScoreTotal:0, speechScoreCount:0
+    speechToken:0, speechListening:false, speechComplete:false, voicePhase:'typing', speechScoreTotal:0, speechScoreCount:0,
+    quizMode:false, quizItems:[], quizIndex:0, quizCorrect:0, quizAnswered:0, quizLocked:false, quizLevel:'', quizTrack:'balanced', quizTitle:''
   };
 
   function beep(freq=720, dur=.07, type='sine', gain=.04){
@@ -1451,13 +1863,8 @@
     const selectedMode = mode === 'camera' ? 'camera' : 'space';
     ui.app.classList.toggle('visual-camera',selectedMode === 'camera');
     ui.app.classList.toggle('visual-space',selectedMode === 'space');
-    const menuSelect = $('#visualMode');
-    if(menuSelect) menuSelect.value = selectedMode;
-    document.querySelectorAll('[data-select="visualMode"] .choiceBtn').forEach(button => {
-      const active = button.dataset.value === selectedMode;
-      button.classList.toggle('active',active);
-      button.setAttribute('aria-pressed',String(active));
-    });
+    const visualSelect = $('#visualMode');
+    if(visualSelect) visualSelect.value = selectedMode;
     document.querySelectorAll('[data-live-visual]').forEach(button => {
       const active = button.dataset.liveVisual === selectedMode;
       button.classList.toggle('active',active);
@@ -1787,6 +2194,11 @@
     if(state.reviewPool?.length) return state.reviewPool;
     if(state.contentType === 'tenses') return tenseBank[state.tenseType] || tenseBank.present_simple || [];
     const bank = state.contentType === 'conversations' ? conversations : state.contentType === 'exam' ? examVocab : vocab;
+    if(state.contentType === 'exam' && state.examTag){
+      const taggedPool = Object.values(bank).flat().filter(item => item.tags?.includes(state.examTag));
+      if(taggedPool.length) return taggedPool;
+    }
+    if(state.difficulty === 'all') return Object.values(bank).flat();
     return bank[state.difficulty] || bank.normal;
   }
 
@@ -2100,6 +2512,18 @@
   function updateHUD(){
     ui.score.textContent = state.score.toLocaleString();
     ui.combo.textContent = 'x' + state.combo;
+    if(state.quizMode){
+      const minutes = Math.floor(state.elapsed/60);
+      const seconds = String(state.elapsed%60).padStart(2,'0');
+      ui.level.textContent = Math.min(state.quizIndex+1,state.quizItems.length || 1);
+      ui.time.textContent = `${minutes}:${seconds}`;
+      ui.time.classList.remove('untimed');
+      ui.timeLabel.textContent = 'เวลาสอบ';
+      ui.hearts.textContent = `✓ ${state.quizCorrect}`;
+      ui.accuracy.textContent = (state.quizAnswered ? Math.round(state.quizCorrect/state.quizAnswered*100) : 100) + '%';
+      ui.langMode.textContent = state.contentType === 'english_quiz' ? 'EN' : 'MATH';
+      return;
+    }
     ui.level.textContent = state.level;
     const untimed = state.duration === 0;
     ui.time.textContent = untimed ? '∞' : state.remain;
@@ -2222,6 +2646,11 @@
     input.value = '';
     input.disabled = false;
     input.blur();
+    state.quizMode = false;
+    state.quizItems = [];
+    state.quizLocked = false;
+    ui.quizPanel.hidden = true;
+    ui.app.classList.remove('quiz-active');
     ui.voiceChallenge.hidden = true;
     ui.app.classList.remove('speech-active');
     ui.translationCard.classList.remove('show');
@@ -2232,13 +2661,60 @@
     ui.finishBtn.hidden = true;
     ui.menu.style.display = 'grid';
     stopMedia();
+    state.visualMode = 'space';
+    syncVisualModeUI('space',false);
     camera.style.display = 'none';
     spaceBg.style.display = 'block';
     setHandStatus('พลังมือ · รอเริ่มภารกิจ', 'idle');
   }
 
+  function formatElapsed(seconds){
+    const safeSeconds = Math.max(1,seconds);
+    return safeSeconds >= 60
+      ? `${Math.floor(safeSeconds/60)} นาที${safeSeconds % 60 ? ` ${safeSeconds % 60} วินาที` : ''}`
+      : `${safeSeconds} วินาที`;
+  }
+
+  function finishQuiz(){
+    if(!state.running || !state.quizMode) return;
+    state.running = false;
+    clearInterval(state.timer);
+    state.timer = null;
+    clearTransientFX();
+    ui.quizPanel.hidden = true;
+    ui.app.classList.remove('quiz-active');
+    ui.finishBtn.hidden = true;
+
+    const answered = state.quizAnswered;
+    const correct = state.quizCorrect;
+    const wrong = Math.max(0,answered-correct);
+    const accuracy = answered ? Math.round(correct/answered*100) : 0;
+    ui.finalScore.textContent = state.score.toLocaleString();
+    ui.rWpm.textContent = correct;
+    ui.rAcc.textContent = accuracy + '%';
+    ui.rBest.textContent = 'x' + state.bestCombo;
+    ui.rWords.textContent = answered;
+    ui.rSpeech.textContent = wrong;
+    ui.rWpmLabel.textContent = 'ตอบถูก';
+    ui.rAccLabel.textContent = 'คะแนนร้อยละ';
+    ui.rBestLabel.textContent = 'ตอบถูกต่อเนื่อง';
+    ui.rWordsLabel.textContent = 'ตอบแล้ว';
+    ui.rSpeechLabel.textContent = 'ตอบผิด';
+
+    const gradeMessage = accuracy >= 90 ? '🏆 พร้อมลุยสนามสอบ!' : accuracy >= 75 ? '🚀 ทำได้ดีมาก ทบทวนข้อที่พลาดอีกนิด' : accuracy >= 60 ? '💪 พื้นฐานดี ฝึกชุดใหม่เพื่อเพิ่มความแม่น' : '🎯 ค่อย ๆ อ่านเฉลย แล้วลองทำซ้ำอีกครั้ง';
+    ui.resultMessage.textContent = `${gradeMessage} · ${correct}/${answered || state.quizItems.length} ข้อ · ${formatElapsed(state.elapsed)}`;
+    const bestKey = `arHeroQuizBest:${state.contentType}:${state.quizLevel}:${state.quizTrack}`;
+    const previousBest = Number(localStorage.getItem(bestKey) || 0);
+    const best = Math.max(previousBest,accuracy);
+    localStorage.setItem(bestKey,best);
+    ui.bestText.textContent = `${state.quizTitle} · สถิติสูงสุดบนเครื่องนี้ ${best}% · แบบฝึกจัดทำขึ้นเพื่อฝึกฝน ไม่ใช่ข้อสอบทางการของสถานศึกษา`;
+    stopMedia();
+    ui.result.style.display = 'grid';
+  }
+
   function endGame(){
     if(!state.running) return;
+    if(state.quizMode){ finishQuiz(); return; }
     state.running = false;
     clearInterval(state.timer);
     state.timer = null;
@@ -2259,15 +2735,18 @@
     ui.rBest.textContent = 'x' + state.bestCombo;
     ui.rWords.textContent = state.words;
     ui.rSpeech.textContent = state.speechScoreCount ? Math.round(state.speechScoreTotal/state.speechScoreCount) : '--';
+    ui.rWpmLabel.textContent = 'คำ/นาที';
+    ui.rAccLabel.textContent = 'ความแม่นยำ';
+    ui.rBestLabel.textContent = 'คอมโบสูงสุด';
+    ui.rWordsLabel.textContent = 'คำที่พิชิต';
+    ui.rSpeechLabel.textContent = 'คะแนนเสียงเฉลี่ย';
 
     const gradeMessage =
       acc >= 95 ? '🌟 สุดยอดฮีโร่นักพิมพ์!' :
       acc >= 85 ? '🚀 เก่งมาก! เร็วและแม่นแล้ว' :
       acc >= 70 ? '💪 ดีมาก ฝึกอีกหน่อยจะเทพกว่าเดิม' :
       '🎯 เน้นความแม่นก่อน แล้วความเร็วจะตามมา';
-    const sessionTime = elapsedSeconds >= 60
-      ? `${Math.floor(elapsedSeconds/60)} นาที${elapsedSeconds % 60 ? ` ${elapsedSeconds % 60} วินาที` : ''}`
-      : `${elapsedSeconds} วินาที`;
+    const sessionTime = formatElapsed(elapsedSeconds);
     ui.resultMessage.textContent = `${gradeMessage} · ฝึก ${sessionTime}`;
     ui.finishBtn.hidden = true;
 
@@ -2287,6 +2766,21 @@
   }
 
   function exportCSV(){
+    if(state.quizMode){
+      const answered = state.quizAnswered;
+      const accuracy = answered ? Math.round(state.quizCorrect/answered*100) : 0;
+      const rows = [
+        ['date','mode','level','track','question_total','answered','correct','wrong','accuracy','score','duration_sec'],
+        [new Date().toLocaleString('th-TH'),state.contentType,state.quizLevel,state.quizTrack,state.quizItems.length,answered,state.quizCorrect,Math.max(0,answered-state.quizCorrect),accuracy,state.score,Math.max(1,state.elapsed)]
+      ];
+      const csv = '\ufeff' + rows.map(row => row.map(value => `"${String(value).replaceAll('"','""')}"`).join(',')).join('\n');
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+      link.download = 'AR_Hero_Quiz_Result.csv';
+      link.click();
+      URL.revokeObjectURL(link.href);
+      return;
+    }
     const total = state.correctChars + state.wrongChars;
     const acc = total ? Math.round(state.correctChars/total*100) : 0;
     const elapsedSeconds = Math.max(1, state.elapsed);
@@ -2304,7 +2798,165 @@
     URL.revokeObjectURL(a.href);
   }
 
+  function shuffleQuiz(items){
+    const result = [...items];
+    for(let index=result.length-1;index>0;index--){
+      const target = Math.floor(Math.random()*(index+1));
+      [result[index],result[target]] = [result[target],result[index]];
+    }
+    return result;
+  }
+
+  function isQuizType(value=$('#contentType').value){
+    return value === 'english_quiz' || value === 'math_quiz';
+  }
+
+  function renderQuizQuestion(){
+    const item = state.quizItems[state.quizIndex];
+    if(!item){ finishQuiz(); return; }
+    const englishExam = state.contentType === 'english_quiz';
+    state.quizLocked = false;
+    state.level = state.quizIndex + 1;
+    ui.quizPanel.dataset.questionType = item.questionType === 'word_problem' ? 'word_problem' : 'skill';
+    ui.quizEyebrow.textContent = `${state.contentType === 'english_quiz' ? 'ENGLISH EXAM' : 'MATH EXAM'} // ${item.category}`;
+    ui.quizTitle.textContent = state.quizTitle;
+    ui.quizCurrent.textContent = state.quizIndex + 1;
+    ui.quizTotal.textContent = state.quizItems.length;
+    ui.quizProgressBar.style.width = `${state.quizIndex/state.quizItems.length*100}%`;
+    ui.quizQuestion.textContent = item.question;
+    ui.quizAnswers.innerHTML = item.choices.map((choice,index) => `<button class="quizAnswer" type="button" data-answer-index="${index}"><span>${String.fromCharCode(65+index)}</span>${escapeHTML(choice)}</button>`).join('');
+    applyGloss(ui.quizQuestion);
+    applyGloss(ui.quizAnswers);
+    ui.quizFeedback.className = 'quizFeedback';
+    ui.quizFeedback.textContent = englishExam ? 'Choose the best answer.' : 'เลือกคำตอบที่ถูกต้องที่สุด';
+    ui.quizNextBtn.hidden = true;
+    ui.quizNextBtn.textContent = state.quizIndex === state.quizItems.length-1 ? (englishExam ? 'View results →' : 'ดูผลสรุป →') : (englishExam ? 'Next question →' : 'ข้อถัดไป →');
+    updateHUD();
+    ui.quizAnswers.querySelector('.quizAnswer')?.focus();
+  }
+
+  function selectQuizAnswer(button){
+    if(!state.running || !state.quizMode || state.quizLocked) return;
+    const item = state.quizItems[state.quizIndex];
+    const selected = Number(button.dataset.answerIndex);
+    const correct = selected === item.answer;
+    state.quizLocked = true;
+    state.quizAnswered++;
+    state.words = state.quizAnswered;
+    if(correct){
+      state.quizCorrect++;
+      state.score += 100 * state.combo;
+      state.combo = Math.min(9,state.combo+1);
+      state.bestCombo = Math.max(state.bestCombo,state.combo);
+      beep(820,.09,'triangle',.045);
+    }else{
+      state.combo = 1;
+      beep(190,.13,'sawtooth',.035);
+    }
+    [...ui.quizAnswers.querySelectorAll('.quizAnswer')].forEach((answerButton,index) => {
+      answerButton.disabled = true;
+      if(index === item.answer) answerButton.classList.add('correct');
+      else if(index === selected) answerButton.classList.add('wrong');
+    });
+    ui.quizFeedback.className = `quizFeedback ${correct ? 'good' : 'bad'}`;
+    const feedbackTitle = state.contentType === 'english_quiz'
+      ? (correct ? '✓ Correct' : `✕ Correct answer: ${escapeHTML(item.choices[item.answer])}`)
+      : (correct ? '✓ ถูกต้อง' : `✕ คำตอบที่ถูก: ${escapeHTML(item.choices[item.answer])}`);
+    ui.quizFeedback.innerHTML = `<strong>${feedbackTitle}</strong><br>${escapeHTML(item.explanation)}`;
+    ui.quizProgressBar.style.width = `${state.quizAnswered/state.quizItems.length*100}%`;
+    ui.quizNextBtn.hidden = false;
+    updateHUD();
+    ui.quizNextBtn.focus();
+  }
+
+  async function startQuiz(){
+    const quizBank = window.AR_QUIZ_BANK;
+    const contentType = $('#contentType').value;
+    if(!quizBank || !isQuizType(contentType)){
+      toast('ไม่พบคลังข้อสอบ กรุณารีเฟรชหน้า');
+      return;
+    }
+    state.contentType = contentType;
+    state.quizMode = true;
+    state.running = true;
+    state.paused = false;
+    state.score = 0;
+    state.combo = 1;
+    state.bestCombo = 1;
+    state.level = 1;
+    state.elapsed = 0;
+    state.quizIndex = 0;
+    state.quizCorrect = 0;
+    state.quizAnswered = 0;
+    state.quizLocked = false;
+    state.correctChars = 0;
+    state.wrongChars = 0;
+    state.words = 0;
+    state.duration = 0;
+    state.remain = 0;
+    state.boss = false;
+    clearTransientFX();
+    energySystem.landmarks = [];
+    energySystem.lastSeen = 0;
+
+    if(contentType === 'english_quiz'){
+      state.quizLevel = $('#englishLevel').value;
+      state.quizTrack = 'english';
+      const count = Number($('#englishQuizCount').value);
+      const source = quizBank.english[state.quizLevel] || [];
+      state.quizItems = shuffleQuiz(source).slice(0,count);
+      state.quizTitle = `${quizBank.labels.english[state.quizLevel]} · ${state.quizItems.length} QUESTIONS`;
+    }else{
+      state.quizLevel = $('#mathGrade').value;
+      state.quizTrack = $('#mathTrack').value;
+      const count = Number($('#mathQuizCount').value);
+      const source = quizBank.math[state.quizLevel] || [];
+      const filtered = state.quizTrack === 'balanced' ? source : source.filter(item => item.track === 'standard' || item.track === state.quizTrack);
+      const wordProblemCount = Math.floor(count/2);
+      const wordProblems = shuffleQuiz(filtered.filter(item => item.questionType === 'word_problem')).slice(0,wordProblemCount);
+      const skillQuestions = shuffleQuiz(filtered.filter(item => item.questionType !== 'word_problem')).slice(0,count-wordProblemCount);
+      state.quizItems = shuffleQuiz([...wordProblems,...skillQuestions]);
+      const trackLabel = {balanced:'ตามระดับชั้น',triam:'แนวเตรียมอุดม',mwit:'แนวมหิดลวิทยานุสรณ์'}[state.quizTrack];
+      state.quizTitle = `คณิตศาสตร์ ${quizBank.labels.math[state.quizLevel]} · ${trackLabel} · ${state.quizItems.length} ข้อ (โจทย์ปัญหา ${wordProblems.length})`;
+    }
+    if(!state.quizItems.length){
+      state.running = false;
+      state.quizMode = false;
+      toast('ยังไม่มีข้อสอบในระดับนี้');
+      return;
+    }
+
+    setTheme($('#heroTheme').value);
+    ui.menu.style.display = 'none';
+    ui.result.style.display = 'none';
+    ui.help.style.display = 'none';
+    ui.library.style.display = 'none';
+    ui.bossBadge.style.display = 'none';
+    ui.translationCard.classList.remove('show');
+    ui.voiceChallenge.hidden = true;
+    ui.finishBtn.hidden = false;
+    input.disabled = true;
+    input.blur();
+    ui.app.classList.add('quiz-active');
+    ui.quizPanel.hidden = false;
+
+    await setVisual($('#visualMode').value);
+    if(!state.running) return;
+    renderQuizQuestion();
+    clearInterval(state.timer);
+    state.timer = setInterval(() => {
+      if(!state.running || state.paused) return;
+      state.elapsed++;
+      updateHUD();
+      if(Math.random() < .28) droneSpawner();
+    },1000);
+  }
+
   async function startGame(demo=false, reviewItems=null){
+    state.quizMode = false;
+    state.quizItems = [];
+    ui.quizPanel.hidden = true;
+    ui.app.classList.remove('quiz-active');
     state.running = true;
     state.paused = false;
     state.score = 0;
@@ -2326,7 +2978,10 @@
 
     state.reviewPool = reviewItems?.length ? reviewItems : null;
     state.language = $('#language').value;
-    state.difficulty = $('#gradeLevel').value;
+    state.learningPath = $('#gradeLevel').value;
+    const selectedPath = learningPathPresets[state.learningPath] || learningPathPresets.p4_6;
+    state.difficulty = selectedPath.difficulty;
+    state.examTag = selectedPath.examTag || '';
     state.tenseType = $('#tenseType').value;
     state.contentType = state.reviewPool ? 'review' : $('#contentType').value;
     state.speechPractice = $('#speechPractice').value === 'on';
@@ -2386,22 +3041,387 @@
     button.dataset.popup = detail ? `${title} · ${detail}` : title;
   });
 
-  const settingsTabs = [...document.querySelectorAll('[data-settings-tab]')];
+  const mainMenuButtons = [...document.querySelectorAll('[data-main-menu]')];
   const settingsPanels = [...document.querySelectorAll('[data-settings-panel]')];
-  function activateSettingsPanel(panelName,focusTab=false){
-    settingsTabs.forEach(tab => {
-      const active = tab.dataset.settingsTab === panelName;
-      tab.classList.toggle('active',active);
-      tab.setAttribute('aria-selected',String(active));
-      tab.tabIndex = active ? 0 : -1;
-      if(active && focusTab) tab.focus();
+  const mainModeNav = document.querySelector('.mainModeNav');
+  const missionConfig = document.querySelector('.missionConfig');
+  const missionLaunch = document.querySelector('.missionLaunch');
+  const orbitDrillHead = $('#orbitDrillHead');
+  const orbitalGroups = [...document.querySelectorAll('.contentModeGrid,.englishExamGrid,.quizGradeGrid,.quizTrackGrid,.quizCountGrid,.learningPathGrid,.tenseGrid,#settingsPanelLanguage .choiceGrid,#settingsPanelDuration .choiceGrid,#settingsPanelSpeech .choiceGrid,.themePreview')];
+  const menuLabels = {english:'ภาษาอังกฤษ',math:'คณิตศาสตร์',typing:'ฝึกพิมพ์',power:'ชุดพลัง'};
+  const orbitFlows = {
+    english:[
+      {panel:'settingsPanelContent',group:'#settingsPanelContent .contentModeGrid',accepts:['contentType'],title:'เลือกรูปแบบภาษาอังกฤษ'},
+      {panel:()=>$('#contentType').value === 'tenses' ? 'tenseField' : 'englishQuizField',group:()=>$('#contentType').value === 'tenses' ? '#tenseField .tenseGrid' : '#englishQuizField .quizOptionGroup:nth-child(1) .choiceGrid',accepts:['tenseType','englishLevel'],title:'เลือกเนื้อหา'},
+      {panel:()=>$('#contentType').value === 'tenses' ? 'settingsPanelDuration' : 'englishQuizField',group:()=>$('#contentType').value === 'tenses' ? '#settingsPanelDuration .choiceGrid' : '#englishQuizField .quizOptionGroup:nth-child(2) .choiceGrid',accepts:['duration','englishQuizCount'],title:'เลือกรอบการฝึก',final:true}
+    ],
+    math:[
+      {panel:'mathQuizField',group:'#mathQuizField .quizOptionGroup:nth-child(1) .choiceGrid',accepts:['mathGrade'],title:'เลือกชั้นเรียน'},
+      {panel:'mathQuizField',group:'#mathQuizField .quizOptionGroup:nth-child(2) .choiceGrid',accepts:['mathTrack'],title:'เลือกแนวข้อสอบ'},
+      {panel:'mathQuizField',group:'#mathQuizField .quizOptionGroup:nth-child(3) .choiceGrid',accepts:['mathQuizCount'],title:'เลือกจำนวนข้อ',final:true}
+    ],
+    typing:[
+      {panel:'settingsPanelContent',group:'#settingsPanelContent .contentModeGrid',accepts:['contentType'],title:'เลือกประเภทการฝึก'},
+      {panel:()=>$('#contentType').value === 'tenses' ? 'tenseField' : 'difficultyField',group:()=>$('#contentType').value === 'tenses' ? '#tenseField .tenseGrid' : '#difficultyField .learningPathGrid',accepts:['gradeLevel','tenseType'],title:()=>$('#contentType').value === 'tenses' ? 'เลือก 1 ใน 12 Tenses' : 'เลือกระดับหรือหลักสูตร'},
+      {panel:'settingsPanelLanguage',group:'#settingsPanelLanguage .choiceGrid',accepts:['language'],title:'เลือกภาษาเป้าหมาย'},
+      {panel:'settingsPanelDuration',group:'#settingsPanelDuration .choiceGrid',accepts:['duration'],title:'เลือกเวลาเล่น'},
+      {panel:'settingsPanelSpeech',group:'#settingsPanelSpeech .choiceGrid',accepts:['speechPractice'],title:'เลือกโหมดออกเสียง',final:true}
+    ],
+    power:[
+      {panel:'settingsPanelTheme',group:'#settingsPanelTheme .themePreview',accepts:['heroTheme'],title:'เลือกชุดพลัง AR',final:true}
+    ]
+  };
+  let activeMainMenu = '';
+  let activeFlowIndex = 0;
+  let orbitView = 'main';
+  let flowTransitionLocked = false;
+  let orbitNavigationAnimating = false;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const mainTransitionMs = reducedMotion ? 0 : 330;
+  const stageTransitionMs = reducedMotion ? 0 : 210;
+  const menuColorMap = {
+    english:'75,234,255', math:'255,190,73', typing:'181,106,255', power:'255,88,132'
+  };
+  const holoStatusMap = {
+    english:'LINGUISTIC MATRIX', math:'QUANTUM LOGIC', typing:'MOTOR SYNC', power:'ARMOR LINK'
+  };
+
+  function playMenuTone(kind='scan'){
+    const notes = kind === 'enter' ? [[310,.07,'sine'],[620,.11,'triangle']] : kind === 'back' ? [[440,.06,'triangle'],[250,.1,'sine']] : [[520,.045,'sine']];
+    notes.forEach((note,index) => setTimeout(() => beep(note[0],note[1],note[2],.014),index * 58));
+  }
+  function pulseOrbitCore(core){
+    if(!core) return;
+    core.classList.add('is-reacting');
+    clearTimeout(core.__reactionTimer);
+    core.__reactionTimer = setTimeout(() => core.classList.remove('is-reacting'),260);
+  }
+  function bindMagneticNode(button){
+    if(button.__magneticBound) return;
+    button.__magneticBound = true;
+    button.addEventListener('pointermove',event => {
+      if(event.pointerType !== 'mouse' || reducedMotion) return;
+      const rect = button.getBoundingClientRect();
+      const dx = Math.max(-1,Math.min(1,(event.clientX - rect.left - rect.width / 2) / (rect.width / 2)));
+      const dy = Math.max(-1,Math.min(1,(event.clientY - rect.top - rect.height / 2) / (rect.height / 2)));
+      button.style.setProperty('--magnet-x',`${(dx * 5).toFixed(2)}px`);
+      button.style.setProperty('--magnet-y',`${(dy * 5).toFixed(2)}px`);
+      button.style.setProperty('--tilt-x',`${(-dy * 7).toFixed(2)}deg`);
+      button.style.setProperty('--tilt-y',`${(dx * 7).toFixed(2)}deg`);
     });
+    button.addEventListener('pointerleave',() => {
+      button.style.removeProperty('--magnet-x');
+      button.style.removeProperty('--magnet-y');
+      button.style.removeProperty('--tilt-x');
+      button.style.removeProperty('--tilt-y');
+    });
+  }
+  function bindHoloDeck(deck){
+    if(!deck || deck.__holoDeckBound) return;
+    deck.__holoDeckBound = true;
+    deck.addEventListener('pointermove',event => {
+      if(event.pointerType !== 'mouse' || reducedMotion) return;
+      const rect = deck.getBoundingClientRect();
+      const x = Math.max(0,Math.min(1,(event.clientX - rect.left) / rect.width));
+      const y = Math.max(0,Math.min(1,(event.clientY - rect.top) / rect.height));
+      deck.style.setProperty('--holo-x',`${(x * 100).toFixed(1)}%`);
+      deck.style.setProperty('--holo-y',`${(y * 100).toFixed(1)}%`);
+      deck.style.setProperty('--deck-rx',`${((.5 - y) * 2.4).toFixed(2)}deg`);
+      deck.style.setProperty('--deck-ry',`${((x - .5) * 2.8).toFixed(2)}deg`);
+    });
+    deck.addEventListener('pointerleave',() => {
+      deck.style.setProperty('--holo-x','50%');
+      deck.style.setProperty('--holo-y','42%');
+      deck.style.setProperty('--deck-rx','0deg');
+      deck.style.setProperty('--deck-ry','0deg');
+    });
+  }
+
+  function orbitGroupButtons(group){
+    return [...group.children].filter(item => {
+      if(!item.matches('.choiceBtn,.themeCard') || item.hidden) return false;
+      if(group.classList.contains('contentModeGrid') && item.dataset.value === 'math_quiz') return false;
+      return true;
+    });
+  }
+  function orbitGroupLabel(group){
+    const labelledBy = group.getAttribute('aria-labelledby');
+    const label = labelledBy ? document.getElementById(labelledBy) : group.closest('.quizOptionGroup')?.querySelector(':scope > label');
+    return label?.textContent.replace(/^\S+\s*/,'').trim() || 'เลือกภารกิจ';
+  }
+  function updateOrbitCore(group,button,react=false){
+    const core = group.querySelector('.subOrbitCore');
+    const title = button?.querySelector('b')?.textContent.trim() || 'พร้อมเลือก';
+    const detail = button?.querySelector('small')?.textContent.trim() || orbitGroupLabel(group);
+    if(core){
+      core.querySelector('b').textContent = title;
+      core.querySelector('small').textContent = detail;
+      if(react) pulseOrbitCore(core);
+    }
+    const activeIndex = button?.dataset.orbitIndex;
+    group.querySelectorAll('.orbitEnergyLinks line').forEach(line => line.classList.toggle('is-active',line.dataset.orbitIndex === activeIndex));
+  }
+  function circularOrbitRadius(group,count){
+    const width = group.clientWidth, height = group.clientHeight;
+    if(!width || !height) return null;
+    const node = parseFloat(getComputedStyle(group).getPropertyValue('--orbit-node')) || 96;
+    const effectSafeEdge = Math.max(14,node * .18);
+    const spanX = Math.max(node * 0.62, width / 2 - node / 2 - effectSafeEdge);
+    const spanY = Math.max(node * 0.62, height / 2 - node / 2 - effectSafeEdge);
+    // วงรีอ่อน ๆ เต็มกรอบ: กว้างได้ถึง 1.45 เท่าของแนวตั้ง จึงใช้พื้นที่คุ้มโดยไม่แบนจนดูเพี้ยน
+    const ringY = spanY;
+    const ringX = Math.min(spanX, spanY * 1.45);
+    return { x: ringX / width * 100, y: ringY / height * 100 };
+  }
+  const CONTENT_MODES_BY_MENU = { english:['english_quiz','tenses'], typing:['words','exam','conversations'] };
+  function applyContentModeVisibility(group){
+    if(!group.classList.contains('contentModeGrid')) return;
+    const allowed = CONTENT_MODES_BY_MENU[activeMainMenu] || CONTENT_MODES_BY_MENU.typing;
+    [...group.children].forEach(item => {
+      if(!item.matches('.choiceBtn') || !item.dataset.value) return;
+      item.hidden = !allowed.includes(item.dataset.value);
+    });
+  }
+  function layoutOrbitalGroup(group){
+    group.classList.add('orbitalChoices');
+    applyContentModeVisibility(group);
+    let depthStage = group.querySelector('.holoDepthStage');
+    if(!depthStage){
+      depthStage = document.createElement('div');
+      depthStage.className = 'holoDepthStage';
+      depthStage.setAttribute('aria-hidden','true');
+      depthStage.innerHTML = '<i></i><i></i><i></i>';
+      group.insertBefore(depthStage,group.firstChild);
+    }
+    let energyLinks = group.querySelector('.orbitEnergyLinks');
+    if(!energyLinks){
+      energyLinks = document.createElementNS('http://www.w3.org/2000/svg','svg');
+      energyLinks.classList.add('orbitEnergyLinks');
+      energyLinks.setAttribute('viewBox','0 0 100 100');
+      energyLinks.setAttribute('preserveAspectRatio','none');
+      energyLinks.setAttribute('aria-hidden','true');
+      group.insertBefore(energyLinks,group.firstChild);
+    }
+    let core = group.querySelector('.subOrbitCore');
+    if(!core){
+      core = document.createElement('div');
+      core.className = 'subOrbitCore';
+      core.setAttribute('aria-hidden','true');
+      core.innerHTML = `<i class="corePulse"></i><i class="coreLens"></i><span>NEURAL ORBIT</span><b>พร้อมเลือก</b><small>${escapeHTML(orbitGroupLabel(group))}</small>`;
+      group.appendChild(core);
+    }
+    const buttons = orbitGroupButtons(group);
+    group.dataset.orbitDensity = buttons.length >= 9 ? 'dense' : 'normal';
+    if(!group.__orbitObserved && typeof ResizeObserver !== 'undefined'){
+      group.__orbitObserved = true;
+      new ResizeObserver(() => layoutOrbitalGroup(group)).observe(group);
+    }
+    const orbitRadius = circularOrbitRadius(group,buttons.length);
+    if(!orbitRadius) return;
+    group.style.setProperty('--orbit-ring-w', (orbitRadius.x * 2) + '%');
+    group.style.setProperty('--orbit-ring-h', (orbitRadius.y * 2) + '%');
+    const lineNodes = [];
+    buttons.forEach((button,index) => {
+      let angle;
+      if(buttons.length === 1) angle = -Math.PI / 2;
+      else if(buttons.length === 2) angle = index * Math.PI;
+      else angle = -Math.PI / 2 + index * Math.PI * 2 / buttons.length;
+      const radiusX = orbitRadius.x;
+      const radiusY = orbitRadius.y;
+      const orbitX = 50 + Math.cos(angle) * radiusX;
+      const orbitY = 50 + Math.sin(angle) * radiusY;
+      button.dataset.orbitIndex = String(index);
+      button.style.setProperty('--orbit-x',`${orbitX}%`);
+      button.style.setProperty('--orbit-y',`${orbitY}%`);
+      button.style.setProperty('--node-z',`${Math.round(Math.sin(angle) * 20 + Math.cos(angle) * 10)}px`);
+      button.style.setProperty('--node-delay',`${(-index * .31).toFixed(2)}s`);
+      bindMagneticNode(button);
+      const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1','50'); line.setAttribute('y1','50');
+      line.setAttribute('x2',orbitX.toFixed(2)); line.setAttribute('y2',orbitY.toFixed(2));
+      line.dataset.orbitIndex = String(index);
+      lineNodes.push(line);
+    });
+    energyLinks.replaceChildren(...lineNodes);
+    updateOrbitCore(group,buttons.find(button => button.classList.contains('active')) || buttons[0]);
+  }
+  function layoutOrbitalGroups(){ orbitalGroups.forEach(layoutOrbitalGroup); }
+
+  function currentOrbitFlow(){ return orbitFlows[activeMainMenu] || []; }
+  function currentOrbitStage(){
+    const flow = currentOrbitFlow();
+    return flow[Math.min(activeFlowIndex,Math.max(0,flow.length-1))];
+  }
+  function stageValue(value){ return typeof value === 'function' ? value() : value; }
+  function showMainOrbit(focusMenu=false){
+    orbitView = 'main';
+    activeFlowIndex = 0;
+    mainMenuButtons.forEach(button => {
+      button.classList.remove('active');
+      button.setAttribute('aria-selected','false');
+      button.tabIndex = 0;
+    });
+    $('#mainOrbitTitle').textContent = 'เลือกภารกิจ';
+    $('#mainOrbitHint').textContent = 'เลื่อนเมาส์เพื่อสแกน · คลิกเพื่อเข้าสู่ระบบ';
+    mainModeNav.style.setProperty('--main-holo-rgb',menuColorMap.english);
+    mainModeNav.classList.remove('is-awake');
+    $('#mainHoloStatus').textContent = 'AWAITING COMMAND';
+    refreshMainMenuPanels();
+    if(focusMenu) mainMenuButtons[0]?.focus();
+  }
+  function transitionOrbitStage(mutate,{toMain=false}={}){
+    if(orbitNavigationAnimating) return;
+    orbitNavigationAnimating = true;
+    flowTransitionLocked = true;
+    missionConfig.classList.remove('is-stage-arriving','is-arriving');
+    missionConfig.classList.add(toMain ? 'is-leaving' : 'is-stage-leaving');
+    playMenuTone(toMain ? 'back' : 'scan');
+    setTimeout(() => {
+      missionConfig.classList.remove('is-stage-leaving','is-leaving');
+      mutate();
+      if(toMain){
+        mainModeNav.classList.add('is-returning');
+      }else{
+        missionConfig.classList.add('is-stage-arriving');
+      }
+      orbitNavigationAnimating = false;
+      flowTransitionLocked = false;
+      setTimeout(() => {
+        mainModeNav.classList.remove('is-returning');
+        missionConfig.classList.remove('is-stage-arriving');
+      },reducedMotion ? 0 : 430);
+    },stageTransitionMs);
+  }
+  function advanceOrbitFlow(selectId){
+    if(flowTransitionLocked || orbitNavigationAnimating || orbitView !== 'sub') return;
+    const flow = currentOrbitFlow();
+    const stage = currentOrbitStage();
+    if(!stage || !stage.accepts.includes(selectId) || activeFlowIndex >= flow.length-1) return;
+    transitionOrbitStage(() => {
+      activeFlowIndex++;
+      refreshMainMenuPanels();
+    });
+  }
+  function goBackOrbit(){
+    if(orbitNavigationAnimating) return;
+    if(orbitView !== 'sub'){ showMainOrbit(true); return; }
+    if(activeFlowIndex > 0){
+      transitionOrbitStage(() => {
+        activeFlowIndex--;
+        refreshMainMenuPanels();
+        $('#orbitBackBtn').focus();
+      });
+    }else{
+      transitionOrbitStage(() => showMainOrbit(true),{toMain:true});
+    }
+  }
+  function refreshMainMenuPanels(){
+    const isSubView = orbitView === 'sub';
+    const flow = currentOrbitFlow();
+    const stage = currentOrbitStage();
+    mainModeNav.hidden = isSubView;
+    missionConfig.hidden = !isSubView;
+    orbitDrillHead.hidden = !isSubView;
+    document.querySelectorAll('#englishQuizField .quizOptionGroup,#mathQuizField .quizOptionGroup').forEach(group => group.classList.add('flowGroupHidden'));
+    const activeGroup = isSubView && stage ? document.querySelector(stageValue(stage.group)) : null;
+    activeGroup?.closest('.quizOptionGroup')?.classList.remove('flowGroupHidden');
     settingsPanels.forEach(panel => {
-      const active = panel.dataset.settingsPanel === panelName;
-      panel.classList.toggle('is-panel-active',active);
-      panel.setAttribute('aria-hidden',String(!active));
-      panel.inert = !active;
+      const visible = Boolean(isSubView && stage && panel.id === stageValue(stage.panel) && !panel.hidden);
+      panel.classList.toggle('is-panel-active',visible);
+      panel.setAttribute('aria-hidden',String(!visible));
+      panel.inert = !visible;
     });
+    missionLaunch.hidden = !isSubView || !stage?.final;
+    if(isSubView && stage){
+      $('#orbitBreadcrumb').textContent = `AION / ${menuLabels[activeMainMenu]} / STEP ${String(activeFlowIndex+1).padStart(2,'0')}`;
+      $('#orbitPageTitle').textContent = stageValue(stage.title);
+      $('#orbitDepth').textContent = `${String(activeFlowIndex+1).padStart(2,'0')} / ${String(flow.length).padStart(2,'0')}`;
+    }
+    $('#menuControls').dataset.activeMenu = activeMainMenu;
+    $('#menuControls').dataset.orbitView = orbitView;
+    requestAnimationFrame(layoutOrbitalGroups);
+  }
+  function activateMainMenu(menuName,focusButton=false,enterFlow=true){
+    activeMainMenu = menuName;
+    activeFlowIndex = 0;
+    orbitView = enterFlow ? 'sub' : 'main';
+    mainMenuButtons.forEach(button => {
+      const active = button.dataset.mainMenu === menuName;
+      button.classList.toggle('active',active);
+      button.setAttribute('aria-selected',String(active));
+      button.tabIndex = active ? 0 : -1;
+      if(active && focusButton) button.focus();
+    });
+    const activeButton = mainMenuButtons.find(button => button.dataset.mainMenu === menuName);
+    $('#mainOrbitTitle').textContent = activeButton?.querySelector('b')?.textContent.trim() || 'ภารกิจ';
+    $('#mainOrbitHint').textContent = activeButton?.querySelector('small')?.textContent.trim() || 'กำลังเชื่อมต่อภารกิจ';
+    flowTransitionLocked = true;
+    if(menuName === 'english' || menuName === 'math' || menuName === 'typing'){
+      const subject = menuName === 'math' ? 'math' : 'english';
+      $('#subjectCategory').value = subject;
+      syncSubjectCategory(subject);
+      const targetType = menuName === 'english' ? 'english_quiz' : menuName === 'math' ? 'math_quiz' : (isQuizType($('#contentType').value) ? 'words' : $('#contentType').value);
+      document.querySelector(`[data-select="contentType"] .choiceBtn[data-value="${targetType}"]`)?.click();
+    }else{
+      setAiBrief('เลือกชุดพลังที่ชอบ แล้วกดเริ่มด้วยชุดนี้ หรือกลับไปเปลี่ยนภาษาอังกฤษ คณิตศาสตร์ และโหมดฝึกพิมพ์ด้านบน');
+      const launch = $('#startBtn');
+      launch.querySelector('span').textContent = 'เริ่มด้วยชุดพลังนี้';
+      launch.querySelector('b').textContent = 'POWER READY';
+    }
+    flowTransitionLocked = false;
+    activeFlowIndex = 0;
+    if(!enterFlow){ showMainOrbit(); return; }
+    refreshMainMenuPanels();
+  }
+  function previewMainOrbit(button,react=true){
+    const menuName = button?.dataset.mainMenu;
+    if(!menuName) return;
+    $('#mainOrbitTitle').textContent = button.querySelector('b')?.textContent.trim() || menuLabels[menuName];
+    $('#mainOrbitHint').textContent = button.querySelector('small')?.textContent.trim() || 'คลิกเพื่อเข้าสู่ระบบ';
+    const rgb = menuColorMap[menuName] || menuColorMap.english;
+    const core = document.querySelector('.mainOrbitCore');
+    mainModeNav.style.setProperty('--main-holo-rgb',rgb);
+    mainModeNav.classList.add('is-awake');
+    $('#mainHoloStatus').textContent = holoStatusMap[menuName] || 'NEURAL LINK';
+    core?.style.setProperty('--space-rgb',rgb);
+    document.querySelectorAll('.mainOrbitLinks line').forEach(line => {
+      line.style.setProperty('--line-rgb',rgb);
+      line.classList.toggle('is-active',line.dataset.linkMenu === menuName);
+    });
+    if(react) pulseOrbitCore(core);
+  }
+  function resetMainOrbitPreview(){
+    if(orbitNavigationAnimating) return;
+    $('#mainOrbitTitle').textContent = 'เลือกภารกิจ';
+    $('#mainOrbitHint').textContent = 'เลื่อนเมาส์เพื่อสแกน · คลิกเพื่อเข้าสู่ระบบ';
+    mainModeNav.style.setProperty('--main-holo-rgb',menuColorMap.english);
+    mainModeNav.classList.remove('is-awake');
+    $('#mainHoloStatus').textContent = 'AWAITING COMMAND';
+    document.querySelector('.mainOrbitCore')?.classList.remove('is-reacting');
+    document.querySelectorAll('.mainOrbitLinks line').forEach(line => line.classList.remove('is-active'));
+  }
+  function enterOrbitMenu(menuName){
+    if(orbitNavigationAnimating || orbitView !== 'main') return;
+    const button = mainMenuButtons.find(item => item.dataset.mainMenu === menuName);
+    if(!button) return;
+    orbitNavigationAnimating = true;
+    flowTransitionLocked = true;
+    previewMainOrbit(button);
+    button.classList.add('is-launching');
+    mainModeNav.classList.add('is-departing');
+    playMenuTone('enter');
+    setTimeout(() => {
+      activateMainMenu(menuName);
+      flowTransitionLocked = true;
+      mainModeNav.classList.remove('is-departing');
+      button.classList.remove('is-launching');
+      missionConfig.classList.add('is-arriving');
+      orbitNavigationAnimating = false;
+      flowTransitionLocked = false;
+      setTimeout(() => {
+        missionConfig.classList.remove('is-arriving');
+      },reducedMotion ? 0 : 440);
+    },mainTransitionMs);
   }
   function updateSettingsSummary(selectId,button){
     const summaryId = selectId === 'tenseType' ? 'contentType' : selectId;
@@ -2409,21 +3429,63 @@
     const label = button?.querySelector('b')?.textContent.trim();
     if(summary && label) summary.textContent = label;
   }
-  settingsTabs.forEach(tab => {
-    const activate = () => activateSettingsPanel(tab.dataset.settingsTab);
-    tab.addEventListener('mouseenter',activate);
-    tab.addEventListener('focus',activate);
-    tab.addEventListener('click',activate);
-    tab.addEventListener('keydown',event => {
-      if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
-      event.preventDefault();
-      const available = settingsTabs.filter(item => !item.hidden);
-      const current = available.indexOf(tab);
-      const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? available.length - 1 : (current + (['ArrowDown','ArrowRight'].includes(event.key) ? 1 : -1) + available.length) % available.length;
-      activateSettingsPanel(available[nextIndex].dataset.settingsTab,true);
-    });
-  });
-  activateSettingsPanel('content');
+  function syncContentSettings(value){
+    const quizMode = isQuizType(value);
+    const tenseMode = value === 'tenses';
+    const usesSentences = value === 'conversations' || tenseMode;
+    input.placeholder = usesSentences ? 'พิมพ์ประโยคที่เห็น แล้วกด Enter...' : 'พิมพ์คำที่เห็น แล้วกด Enter...';
+    $('#tenseField').hidden = !tenseMode;
+    $('#englishQuizField').hidden = value !== 'english_quiz';
+    $('#mathQuizField').hidden = value !== 'math_quiz';
+    $('#difficultyField').hidden = tenseMode || quizMode;
+    $('#settingsPanelLanguage').hidden = quizMode;
+    $('#settingsPanelDuration').hidden = quizMode;
+    $('#settingsPanelSpeech').hidden = quizMode;
+    const briefings = {
+      words:'AI จะสุ่มคำศัพท์ตามระดับ และวางแผนทบทวนคำที่คุณยังจำไม่แม่น',
+      exam:'เปิดคลังศัพท์ TOEFL · TOEIC · IELTS · KKU-AELT พร้อมติดตามความแม่นยำ',
+      conversations:'ฝึกประโยคสนทนาที่ใช้จริง พิมพ์ให้ถูก แล้วพูดตามเพื่อรับคะแนนเสียง',
+      tenses:'เลือกหนึ่งใน 12 Tenses แล้วฝึกจากสถานการณ์ชีวิตประจำวัน Tense ละ 300 ประโยค',
+      english_quiz:'ข้อสอบภาษาอังกฤษล้วน 10 ชุด ชุดละ 500 ข้อ ครบ Grammar, Reading, Usage, Conversation และรูปแบบเฉพาะของแต่ละสนามสอบ',
+      math_quiz:'เลือกชั้น ป.3–ม.3 จากคลังชั้นละ 500 ข้อ โดยครึ่งหนึ่งเป็นโจทย์ปัญหาวิเคราะห์สถานการณ์ พร้อมแนวเตรียมอุดมและมหิดลวิทยานุสรณ์'
+    };
+    setAiBrief(briefings[value] || briefings.words);
+    const launch = $('#startBtn');
+    launch.querySelector('span').textContent = quizMode ? 'เริ่มทำข้อสอบกับ AI' : 'เริ่มภารกิจกับ AI';
+    launch.querySelector('b').textContent = quizMode ? 'START EXAM' : 'INITIALIZE';
+    refreshMainMenuPanels();
+  }
+  const learningPathPresets = {
+    p1_3:{contentType:'words',difficulty:'easy'},
+    p4_6:{contentType:'words',difficulty:'normal'},
+    m1_3:{contentType:'words',difficulty:'pro'},
+    m4_6:{contentType:'exam',difficulty:'all'},
+    toefl:{contentType:'exam',difficulty:'all',examTag:'TOEFL'},
+    toeic:{contentType:'exam',difficulty:'all',examTag:'TOEIC'},
+    ielts:{contentType:'exam',difficulty:'all',examTag:'IELTS'},
+    kku_aelt:{contentType:'exam',difficulty:'all',examTag:'KKU-AELT'},
+    conversations:{contentType:'conversations',difficulty:'all'},
+    tenses:{contentType:'tenses',difficulty:'normal'}
+  };
+  function syncLearningPath(value){
+    const preset = learningPathPresets[value] || learningPathPresets.p4_6;
+    const contentButton = document.querySelector(`[data-select="contentType"] .choiceBtn[data-value="${preset.contentType}"]`);
+    contentButton?.click();
+  }
+  function syncSubjectCategory(value){
+    const contentButtons = [...document.querySelectorAll('[data-select="contentType"] .choiceBtn')];
+    contentButtons.forEach(button => { button.hidden = button.dataset.subject !== value; });
+    const current = contentButtons.find(button => button.dataset.value === $('#contentType').value);
+    if(!current || current.hidden){
+      const fallback = contentButtons.find(button => !button.hidden);
+      fallback?.click();
+    }else{
+      syncContentSettings($('#contentType').value);
+    }
+    const practiceModes = $('#practiceModes');
+    if(practiceModes) practiceModes.hidden = value === 'math';
+    refreshMainMenuPanels();
+  }
 
   document.querySelectorAll('.choiceGrid[data-select]').forEach(group => {
     const select = document.getElementById(group.dataset.select);
@@ -2436,40 +3498,111 @@
         item.setAttribute('aria-pressed', String(active));
       });
       updateSettingsSummary(select.id,button);
+      updateOrbitCore(group,button);
       if(select.id === 'contentType'){
-        const usesSentences = select.value === 'conversations' || select.value === 'tenses';
-        input.placeholder = usesSentences
-          ? 'พิมพ์ประโยคที่เห็น แล้วกด Enter...'
-          : 'พิมพ์คำที่เห็น แล้วกด Enter...';
-        $('#tenseField').hidden = select.value !== 'tenses';
-        $('#difficultyField').hidden = select.value === 'tenses';
-        const difficultyTab = document.querySelector('[data-settings-tab="difficulty"]');
-        if(difficultyTab) difficultyTab.hidden = select.value === 'tenses';
-        const briefings = {
-          words:'AI จะสุ่มคำศัพท์ตามระดับ และวางแผนทบทวนคำที่คุณยังจำไม่แม่น',
-          exam:'เปิดคลังศัพท์ TOEFL · TOEIC · IELTS · KKU-AELT พร้อมติดตามความแม่นยำ',
-          conversations:'ฝึกประโยคสนทนาที่ใช้จริง พิมพ์ให้ถูก แล้วพูดตามเพื่อรับคะแนนเสียง',
-          tenses:'เลือกหนึ่งใน 12 Tenses แล้วฝึกจากสถานการณ์ชีวิตประจำวัน Tense ละ 300 ประโยค'
-        };
-        $('#aiBriefText').textContent = briefings[select.value] || briefings.words;
+        syncContentSettings(select.value);
+      }else if(select.id === 'subjectCategory'){
+        syncSubjectCategory(select.value);
+      }else if(select.id === 'gradeLevel'){
+        syncLearningPath(select.value);
       }
       select.dispatchEvent(new Event('change', {bubbles:true}));
+      advanceOrbitFlow(select.id);
     };
     buttons.forEach((button,index) => {
       button.addEventListener('click', () => choose(button));
       button.addEventListener('keydown', event => {
         if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)) return;
         event.preventDefault();
+        const available = buttons.filter(item => !item.hidden && getComputedStyle(item).display !== 'none');
+        const current = available.indexOf(button);
         const step = ['ArrowRight','ArrowDown'].includes(event.key) ? 1 : -1;
-        const next = buttons[(index + step + buttons.length) % buttons.length];
+        const next = available[(current + step + available.length) % available.length];
+        if(!next) return;
         choose(next);
         next.focus();
       });
     });
   });
 
-  $('#startBtn').onclick = () => startGame(false);
+  orbitalGroups.forEach(group => {
+    group.addEventListener('click',event => {
+      const button = event.target.closest('.choiceBtn,.themeCard');
+      if(button) updateOrbitCore(group,button,true);
+    });
+    group.addEventListener('pointerover',event => {
+      const button = event.target.closest('.choiceBtn,.themeCard');
+      if(button) updateOrbitCore(group,button,true);
+    });
+    group.addEventListener('pointerleave',() => {
+      const buttons = orbitGroupButtons(group);
+      updateOrbitCore(group,buttons.find(button => button.classList.contains('active')) || buttons[0]);
+      group.querySelector('.subOrbitCore')?.classList.remove('is-reacting');
+    });
+  });
+
+  mainMenuButtons.forEach(button => {
+    bindMagneticNode(button);
+    button.addEventListener('click',() => enterOrbitMenu(button.dataset.mainMenu));
+    button.addEventListener('pointerenter',() => previewMainOrbit(button));
+    button.addEventListener('focus',() => previewMainOrbit(button));
+    button.addEventListener('pointerleave',resetMainOrbitPreview);
+    button.addEventListener('blur',resetMainOrbitPreview);
+    button.addEventListener('keydown',event => {
+      if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(event.key)) return;
+      event.preventDefault();
+      const current = mainMenuButtons.indexOf(button);
+      const step = ['ArrowRight','ArrowDown'].includes(event.key) ? 1 : -1;
+      const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? mainMenuButtons.length-1 : (current+step+mainMenuButtons.length)%mainMenuButtons.length;
+      mainMenuButtons[nextIndex].focus();
+    });
+  });
+  $('#orbitBackBtn').addEventListener('click',goBackOrbit);
+  document.querySelectorAll('.missionPanel,.libraryModal,#help .modal,#result .modal').forEach(bindHoloDeck);
+  const menuScreen = $('#menu');
+  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches && !reducedMotion){
+    let parallaxFrame = 0;
+    menuScreen.addEventListener('pointermove',event => {
+      if(parallaxFrame) cancelAnimationFrame(parallaxFrame);
+      parallaxFrame = requestAnimationFrame(() => {
+        const dx = (event.clientX / window.innerWidth - .5) * 2;
+        const dy = (event.clientY / window.innerHeight - .5) * 2;
+        menuScreen.style.setProperty('--parallax-bg-x',`${(-dx * 4.2).toFixed(2)}px`);
+        menuScreen.style.setProperty('--parallax-bg-y',`${(-dy * 3.1).toFixed(2)}px`);
+        menuScreen.style.setProperty('--parallax-grid-x',`${(dx * 2).toFixed(2)}px`);
+        menuScreen.style.setProperty('--parallax-grid-y',`${(dy * 1.2).toFixed(2)}px`);
+        menuScreen.style.setProperty('--parallax-panel-x',`${(dx * .9).toFixed(2)}px`);
+        menuScreen.style.setProperty('--parallax-panel-y',`${(dy * .65).toFixed(2)}px`);
+        menuScreen.style.setProperty('--parallax-rx',`${(-dy * .7).toFixed(2)}deg`);
+        menuScreen.style.setProperty('--parallax-ry',`${(dx * .8).toFixed(2)}deg`);
+      });
+    });
+    menuScreen.addEventListener('pointerleave',() => {
+      menuScreen.style.setProperty('--parallax-bg-x','0px');
+      menuScreen.style.setProperty('--parallax-bg-y','0px');
+      menuScreen.style.setProperty('--parallax-grid-x','0px');
+      menuScreen.style.setProperty('--parallax-grid-y','0px');
+      menuScreen.style.setProperty('--parallax-panel-x','0px');
+      menuScreen.style.setProperty('--parallax-panel-y','0px');
+      menuScreen.style.setProperty('--parallax-rx','0deg');
+      menuScreen.style.setProperty('--parallax-ry','0deg');
+    });
+  }
+  layoutOrbitalGroups();
+  activateMainMenu('english',false,false);
+
+  $('#startBtn').onclick = () => isQuizType() ? startQuiz() : startGame(false);
   $('#demoBtn').onclick = () => startGame(true);
+  ui.quizAnswers.addEventListener('click',event => {
+    const button = event.target.closest('.quizAnswer');
+    if(button) selectQuizAnswer(button);
+  });
+  ui.quizNextBtn.onclick = () => {
+    if(!state.running || !state.quizMode || !state.quizLocked) return;
+    if(state.quizIndex >= state.quizItems.length-1){ finishQuiz(); return; }
+    state.quizIndex++;
+    renderQuizQuestion();
+  };
   $('#libraryBtn').onclick = () => openLibrary();
   $('#closeLibrary').onclick = closeLibrary;
   $('#libraryFilters').addEventListener('click', event => {
@@ -2582,6 +3715,95 @@
     stopMedia();
   });
 
+  // พจนานุกรมอังกฤษ->ไทย รวมจากคลังคำศัพท์ที่โหลดไว้แล้ว ใช้โชว์คำแปลตอนชี้คำในข้อสอบ
+  const GLOSSARY = (() => {
+    const map = new Map();
+    const add = (en, th) => {
+      if(!en || !th) return;
+      const key = String(en).trim().toLowerCase();
+      if(!key || key.length < 2 || /[^a-z'-]/.test(key) || map.has(key)) return;
+      map.set(key, String(th).trim());
+    };
+    const eat = groups => {
+      if(!groups) return;
+      Object.values(groups).forEach(list => {
+        if(!Array.isArray(list)) return;
+        list.forEach(item => {
+          if(Array.isArray(item)) add(item[1], item[0]);
+          else if(item && typeof item === 'object') add(item.en, item.th);
+        });
+      });
+    };
+    eat(window.AR_EXAM_BANK?.vocabulary);
+    eat(window.AR_TYPING_BANK?.vocabulary);
+    // คำไวยากรณ์พื้นฐานที่ข้อสอบถามบ่อย ทับค่าจากคลังเพราะแม่นกว่าในบริบทนี้
+    const CORE = {i:"ฉัน",you:"คุณ",he:"เขา (ชาย)",she:"เธอ (หญิง)",it:"มัน",we:"เรา",they:"พวกเขา",me:"ฉัน (กรรม)",him:"เขา (กรรม)",her:"เธอ / ของเธอ",us:"พวกเรา (กรรม)",them:"พวกเขา (กรรม)",my:"ของฉัน",your:"ของคุณ",his:"ของเขา",hers:"ของเธอ",its:"ของมัน",our:"ของเรา",their:"ของพวกเขา",mine:"ของฉัน",yours:"ของคุณ",ours:"ของเรา",theirs:"ของพวกเขา",myself:"ตัวฉันเอง",yourself:"ตัวคุณเอง",himself:"ตัวเขาเอง",herself:"ตัวเธอเอง",themselves:"ตัวพวกเขาเอง",who:"ใคร / ผู้ซึ่ง",whom:"ใคร (กรรม)",whose:"ของใคร",what:"อะไร",when:"เมื่อไร",where:"ที่ไหน",why:"ทำไม",how:"อย่างไร",which:"อันไหน / ซึ่ง",am:"เป็น / อยู่ / คือ",is:"เป็น / อยู่ / คือ",are:"เป็น / อยู่ / คือ",was:"เป็น / อยู่ (อดีต)",were:"เป็น / อยู่ (อดีต)",be:"เป็น / อยู่ / คือ",been:"เป็น / อยู่ (ช่อง 3)",being:"กำลังเป็น",'do':"ทำ",does:"ทำ",did:"ทำ (อดีต)",done:"ทำเสร็จแล้ว",have:"มี",has:"มี",had:"มี (อดีต)",will:"จะ",would:"จะ (อดีต/สุภาพ)",shall:"จะ",should:"ควรจะ",can:"สามารถ",could:"สามารถ (อดีต)",may:"อาจจะ / ขออนุญาต",might:"อาจจะ",must:"ต้อง",need:"จำเป็นต้อง",a:"หนึ่ง (คำนำหน้านาม)",an:"หนึ่ง (คำนำหน้านาม)",the:"คำนำหน้านามชี้เฉพาะ",'this':"นี้",that:"นั้น",these:"เหล่านี้",those:"เหล่านั้น",some:"บ้าง / บางส่วน",any:"ใด ๆ",many:"มาก (นับได้)",much:"มาก (นับไม่ได้)",more:"มากกว่า",most:"มากที่สุด",few:"น้อย (นับได้)",little:"น้อย (นับไม่ได้) / เล็ก",all:"ทั้งหมด",both:"ทั้งสอง",each:"แต่ละ",every:"ทุก",other:"อื่น",another:"อีกอันหนึ่ง",same:"เหมือนกัน",own:"ของตัวเอง",'in':"ใน",on:"บน",at:"ที่",to:"ไปยัง / ถึง",from:"จาก",of:"ของ",'for':"สำหรับ",with:"กับ",without:"โดยไม่มี",about:"เกี่ยวกับ",under:"ใต้",over:"เหนือ",above:"ข้างบน",below:"ข้างล่าง",between:"ระหว่าง (สองสิ่ง)",among:"ท่ามกลาง",into:"เข้าไปใน",onto:"ขึ้นไปบน",by:"โดย / ข้าง / ภายใน (กำหนดเวลา)",near:"ใกล้",behind:"ข้างหลัง",beside:"ข้าง ๆ",before:"ก่อน",after:"หลังจาก",during:"ระหว่าง (ช่วงเวลา)",until:"จนกระทั่ง",since:"ตั้งแต่",through:"ผ่าน",across:"ข้าม",around:"รอบ ๆ",against:"ต่อต้าน / พิงกับ",and:"และ",but:"แต่",or:"หรือ",so:"ดังนั้น",because:"เพราะว่า",'if':"ถ้า",though:"แม้ว่า",although:"ถึงแม้ว่า",while:"ขณะที่",than:"กว่า",then:"แล้วก็",also:"ด้วย",too:"เกินไป / ด้วย",very:"มาก",not:"ไม่",no:"ไม่ / ไม่มี",yes:"ใช่",only:"เพียงแค่",just:"เพิ่งจะ / แค่",there:"ที่นั่น",here:"ที่นี่",now:"ตอนนี้",today:"วันนี้",tomorrow:"พรุ่งนี้",yesterday:"เมื่อวาน",always:"เสมอ",never:"ไม่เคย",often:"บ่อย ๆ",sometimes:"บางครั้ง",usually:"โดยปกติ",already:"เรียบร้อยแล้ว",yet:"ยัง",still:"ยังคง",ago:"ที่แล้ว",soon:"เร็ว ๆ นี้",again:"อีกครั้ง"};
+    Object.entries(CORE).forEach(([en,th]) => map.set(en,th));
+    return map;
+  })();
+
+  let glossTip = null;
+  function showGloss(word){
+    const meaning = word.dataset.gloss;
+    if(!meaning) return;
+    if(!glossTip){
+      glossTip = document.createElement('div');
+      glossTip.className = 'glossTip';
+      glossTip.setAttribute('role','tooltip');
+      document.body.appendChild(glossTip);
+    }
+    glossTip.textContent = meaning;
+    glossTip.classList.add('show');
+    const anchorBox = word.getBoundingClientRect(), tipBox = glossTip.getBoundingClientRect();
+    let left = anchorBox.left + anchorBox.width / 2 - tipBox.width / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - tipBox.width - 8));
+    let top = anchorBox.top - tipBox.height - 9;
+    if(top < 8) top = anchorBox.bottom + 9;
+    glossTip.style.left = `${left}px`;
+    glossTip.style.top = `${top}px`;
+  }
+  function hideGloss(){ glossTip?.classList.remove('show'); }
+
+  function applyGloss(root){
+    if(!root || !GLOSSARY.size) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const targets = [];
+    while(walker.nextNode()){
+      const node = walker.currentNode;
+      if(node.parentElement?.classList.contains('glossWord')) continue;
+      if(/[A-Za-z]{2}/.test(node.nodeValue)) targets.push(node);
+    }
+    targets.forEach(node => {
+      const parts = node.nodeValue.split(/([A-Za-z][A-Za-z'-]*)/g);
+      const fragment = document.createDocumentFragment();
+      let wrapped = false;
+      parts.forEach(part => {
+        if(!part) return;
+        const meaning = GLOSSARY.get(part.toLowerCase());
+        if(meaning && /^[A-Za-z]/.test(part)){
+          const span = document.createElement('span');
+          span.className = 'glossWord';
+          span.dataset.gloss = meaning;
+          span.textContent = part;
+          fragment.appendChild(span);
+          wrapped = true;
+        } else {
+          fragment.appendChild(document.createTextNode(part));
+        }
+      });
+      if(wrapped) node.parentNode.replaceChild(fragment, node);
+    });
+  }
+
+  document.addEventListener('mouseover', event => {
+    const word = event.target.closest?.('.glossWord');
+    if(word) showGloss(word);
+  });
+  document.addEventListener('mouseout', event => {
+    if(event.target.closest?.('.glossWord')) hideGloss();
+  });
+  window.addEventListener('scroll', hideGloss, true);
+  function setAiBrief(text){ const el = $('#aiBriefText'); if(el) el.textContent = text; }
   function updateMenuClock(){
     const clock = $('#menuClock');
     if(clock) clock.textContent = new Date().toLocaleTimeString('en-GB',{hour12:false});
@@ -2591,6 +3813,86 @@
   requestAnimationFrame(drawEnergyFrame);
   updateMenuClock();
   setInterval(updateMenuClock,1000);
+  const HERO_QUOTES = [
+    "ระยะทาง 1 กิโลเมตร เดินหรือวิ่งก็ถึงเหมือนกัน ต่างกันแค่ว่าใครเหนื่อยกว่า",
+    "ข้อสอบที่ยาก ไม่ได้น่ากลัวเท่าคำตอบที่เรารู้อยู่แล้ว แต่ไม่กล้าเลือก",
+    "เลขศูนย์ไม่มีค่าเมื่ออยู่ลำพัง แต่ถ้าวางถูกที่ มันเปลี่ยนค่าทุกอย่างได้",
+    "เส้นตรงอาจสั้นที่สุด แต่ไม่ใช่ทุกเส้นทางที่เราเดินเป็นเส้นตรงได้",
+    "คนที่วิ่งเร็วกว่า ไม่ได้แปลว่าจะถึงก่อน ถ้าวิ่งผิดทาง",
+    "คำตอบผิดหนึ่งข้อเสียหนึ่งคะแนน แต่การเลือกผิดบางครั้งเสียเป็นปี",
+    "โจทย์บางข้อไม่มีคำตอบผิด มีแค่คำตอบที่ต้องรับผลของมัน",
+    "หนึ่งบวกหนึ่งอาจได้สอง แต่คนสองคนอยู่ด้วยกัน ไม่ได้แปลว่าจะคิดเหมือนกัน",
+    "คนเก่งแก้โจทย์ยากได้ คนฉลาดรู้ว่าโจทย์ไหนไม่ควรเสียเวลาแก้",
+    "เข็มทิศไม่ได้ทำให้เราเดินเร็วขึ้น แต่มันทำให้ไม่เสียเวลาเดินผิดทาง",
+    "ทุกคนมีเวลา 24 ชั่วโมงเท่ากัน แต่ไม่ได้มี ‘คุณค่าของเวลา’ เท่ากัน",
+    "ถ้าคำตอบสุดท้ายถูก วิธีคิดก็ยังสำคัญ เพราะชีวิตไม่มีเฉลยท้ายเล่ม",
+    "สะพานที่แข็งแรง ไม่ได้วัดจากวันที่ไม่มีใครเดินผ่าน",
+    "ความเร็วช่วยให้ไปถึงเร็ว แต่ทิศทางต่างหากที่บอกว่าไปถึงไหน",
+    "บางครั้งการหยุด ไม่ได้แปลว่าแพ้ แต่อาจเป็นการหยุดก่อนเดินผิดไปไกลกว่าเดิม",
+  ];
+  function startHeroQuotes(){
+    const box = $('#gameTitle'), line = box && box.querySelector('b');
+    if(!line) return;
+    let index = Math.floor(Math.random() * HERO_QUOTES.length);
+    const show = () => {
+      line.textContent = HERO_QUOTES[index];
+      box.classList.remove('is-swap');
+      void box.offsetWidth;
+      box.classList.add('is-swap');
+      index = (index + 1) % HERO_QUOTES.length;
+    };
+    show();
+    setInterval(() => {
+      if(document.hidden || !box.getClientRects().length) return;
+      show();
+    }, 7000);
+  }
+  startHeroQuotes();
+  function buildHeroThemeStrip(){
+    const cards = [...document.querySelectorAll('#settingsPanelTheme .themeCard')];
+    const visual = document.querySelector('.menuHero .heroVisual');
+    if(!cards.length || !visual || document.querySelector('.heroThemeStrip')) return;
+    const strip = document.createElement('div');
+    strip.className = 'heroThemeStrip';
+    const label = document.createElement('span');
+    label.className = 'heroThemeLabel';
+    label.textContent = 'ชุดพลัง AR';
+    const row = document.createElement('div');
+    row.className = 'heroThemeRow';
+    cards.forEach(card => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'heroThemeChip';
+      chip.dataset.theme = card.dataset.theme;
+      const thumb = card.querySelector('.themeThumb');
+      if(thumb){
+        const swatch = thumb.cloneNode(true);
+        const frame = cards.length > 1 ? (cards.indexOf(card) / (cards.length - 1)) * 100 : 0;
+        swatch.style.backgroundImage = getComputedStyle(thumb).backgroundImage;
+        swatch.style.backgroundSize = '100% 100%, ' + (cards.length * 100) + '% auto';
+        swatch.style.backgroundPosition = '0 0, ' + frame + '% center';
+        swatch.style.backgroundRepeat = 'no-repeat, no-repeat';
+        chip.appendChild(swatch);
+      }
+      const name = document.createElement('b');
+      name.textContent = card.querySelector('b')?.textContent || card.dataset.theme;
+      chip.appendChild(name);
+      chip.addEventListener('click', () => card.click());
+      row.appendChild(chip);
+    });
+    strip.append(label, row);
+    visual.insertAdjacentElement('afterend', strip);
+    const sync = () => cards.forEach(card => {
+      const chip = row.querySelector(`[data-theme="${card.dataset.theme}"]`);
+      if(!chip) return;
+      const on = card.classList.contains('active');
+      chip.classList.toggle('active', on);
+      chip.setAttribute('aria-pressed', String(on));
+    });
+    sync();
+    cards.forEach(card => new MutationObserver(sync).observe(card, {attributes:true, attributeFilter:['class']}));
+  }
+  buildHeroThemeStrip();
   const savedSpeechPractice = localStorage.getItem('arHeroSpeechPractice') === 'off' ? 'off' : 'on';
   $('#speechPractice').value = savedSpeechPractice;
   document.querySelectorAll('[data-select="speechPractice"] .choiceBtn').forEach(button => {
@@ -2602,8 +3904,8 @@
     if(group.dataset.select === 'tenseType' && $('#contentType').value !== 'tenses') return;
     updateSettingsSummary(group.dataset.select,group.querySelector('.choiceBtn.active'));
   });
-  $('#tenseField').hidden = $('#contentType').value !== 'tenses';
-  $('#difficultyField').hidden = $('#contentType').value === 'tenses';
+  syncContentSettings($('#contentType').value);
+  syncSubjectCategory($('#subjectCategory').value);
   setTheme('armor');
   syncVisualModeUI($('#visualMode').value,false);
   setVoiceUI();
