@@ -40,3 +40,32 @@ The academic portion of `data/exam-bank.js` uses headwords and selected word-fam
 
 - Research record: https://ir.wgtn.ac.nz/items/8f852b22-3f82-427e-b0b3-8d9c954d8e61
 - List rendering used by the build script: https://www.eapfoundation.com/vocab/academic/awllists/
+
+## Iron-Man Mark 85 | Rigged
+
+The interactive 3D character in `models/ironman/mark85.glb` is based on “Iron-Man Mark 85 | Rigged” by 9A Films / Nihar Arora and is used under the Creative Commons Attribution 4.0 International license (CC BY 4.0).
+
+- Author: https://sketchfab.com/Nihar-9Afilms
+- Original model: https://sketchfab.com/3d-models/iron-man-mark-85-rigged-dde1085c464d4f8da259fe6669ae4dd2
+- License: https://creativecommons.org/licenses/by/4.0/
+- Local attribution and modification record: `models/ironman/ATTRIBUTION.md`
+
+Changes in the packaged model include resized embedded textures and mesh optimization. The rig is retained; this application adds its own lighting, holographic material treatment, and animated poses at runtime.
+
+## The Amazing Spider Man 2 Rigged Model
+
+The interactive 3D character in `models/spiderman/spiderman.glb` is “The Amazing Spider Man 2 Rigged Model” by Shitlock_Homeless and is used under the Creative Commons Attribution 4.0 International license (CC BY 4.0). The author, source, title, and license are embedded in the GLB metadata.
+
+- Author: https://sketchfab.com/Shitlock_Homeless
+- Original model: https://sketchfab.com/3d-models/the-amazing-spider-man-2-rigged-model-fd9385343d14477a979d0269b3015e1e
+- License: https://creativecommons.org/licenses/by/4.0/
+- Local attribution and modification record: `models/spiderman/ATTRIBUTION.md`
+
+The geometry and textures are unchanged. This application normalizes the model’s scale and position, applies cinematic lighting, and drives the retained skeleton with original runtime poses.
+
+## Three.js
+
+The 3D character renderer uses Three.js and selected example modules under the MIT License. The complete license is included at `vendor/three/LICENSE`.
+
+- Project: https://threejs.org/
+- Source: https://github.com/mrdoob/three.js

@@ -894,8 +894,284 @@
   @keyframes portalBurst{0%{opacity:1;transform:translate(-50%,-50%) scale(.15)}100%{opacity:0;transform:translate(-50%,-50%) scale(8)}}
   @keyframes portalBlade{0%{opacity:0;transform:translate(-50%,-50%) scaleY(0)}38%{opacity:1;transform:translate(-50%,-50%) scaleY(1)}100%{opacity:0;transform:translate(-50%,-50%) scaleY(.25)}}
   @media(max-width:700px),(pointer:coarse){.missionConfig>.missionPanel.is-panel-active,.libraryModal,#help .modal,#result .modal{--deck-rx:0deg!important;--deck-ry:0deg!important;transform:none}.missionConfig>.missionPanel.is-panel-active::after{opacity:.16!important}.orbitalChoices>.choiceBtn,.orbitalChoices>.themeCard{animation:none}.holoDepthStage>i{opacity:.72}.subOrbitCore{transform:translate(-50%,-50%) translateZ(24px)}.studyCard:hover,.libraryStat:hover,#result .statcard:hover{transform:none}}
-  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+  /* Cinematic hero cast: rigged Mark 85 + animated web hero */
+  .menuHeroCast{position:absolute;z-index:7;inset:0;overflow:hidden;pointer-events:none;filter:drop-shadow(0 22px 24px rgba(0,0,0,.58))}
+  .menuCharacter{position:absolute;bottom:5%;transform-style:preserve-3d;isolation:isolate;will-change:transform,filter}
+  .menuCharacter::after{content:"";position:absolute;z-index:-1;left:50%;bottom:-2%;width:92%;height:11%;border:1px solid rgba(84,228,255,.34);border-radius:50%;background:radial-gradient(ellipse,rgba(79,225,255,.26),rgba(24,141,255,.08) 45%,transparent 72%);box-shadow:0 0 18px rgba(51,220,255,.24),inset 0 0 13px rgba(76,231,255,.2);transform:translateX(-50%) rotateX(66deg);animation:castFloorPulse 2.2s ease-in-out infinite alternate}
+  .ironCharacter{left:-5%;width:42%;height:76%;animation:ironHeroFloat 5.4s ease-in-out infinite}
+  .menuCharacter canvas{position:absolute;z-index:2;inset:0;width:100%;height:100%;opacity:0;transition:opacity .7s ease,filter .35s;filter:contrast(1.08) saturate(1.1) drop-shadow(0 0 10px rgba(49,218,255,.22))}
+  .menuCharacter.is-ready canvas{opacity:1}
+  .menuCharacter::before{content:"";position:absolute;z-index:1;left:50%;top:48%;width:58%;aspect-ratio:.42;border:1px solid rgba(78,227,255,.22);border-radius:48% 48% 34% 34%;background:linear-gradient(90deg,transparent,rgba(79,227,255,.12),transparent),radial-gradient(circle at 50% 15%,rgba(255,255,255,.12),transparent 14%),linear-gradient(150deg,rgba(56,225,255,.18),rgba(42,86,171,.08));box-shadow:0 0 24px rgba(66,224,255,.12),inset 0 0 20px rgba(72,226,255,.08);transform:translate(-50%,-50%);animation:castFallbackScan 1.25s linear infinite;transition:opacity .35s}
+  .menuCharacter.is-ready::before{opacity:0}
+  .menuCharacter.is-error::before{opacity:.28;animation:none}
+  .ironRepulsorFx{position:absolute;z-index:4;right:4%;top:30%;width:26px;height:26px;border:1px solid rgba(142,246,255,.9);border-radius:50%;opacity:0;background:radial-gradient(circle,#fff 0 8%,#69edff 10% 23%,rgba(64,216,255,.2) 25% 48%,transparent 50%);box-shadow:0 0 8px #fff,0 0 20px #5ce8ff,0 0 42px rgba(52,211,255,.8);transform:scale(.35);animation:ironRepulsor 12s ease-in-out infinite}
+  .ironRepulsorFx::before,.ironRepulsorFx::after{content:"";position:absolute;left:50%;top:50%;border:1px solid rgba(100,234,255,.6);border-radius:50%;transform:translate(-50%,-50%)}
+  .ironRepulsorFx::before{width:180%;height:180%;border-style:dashed;animation:castSpin 3s linear infinite}.ironRepulsorFx::after{width:260%;height:260%;opacity:.42;animation:castSpin 5s linear reverse infinite}
+  .spiderCharacter{right:0;width:39%;height:78%;animation:spiderHeroFloat 4.6s ease-in-out infinite}
+  .spiderCharacter canvas{filter:contrast(1.1) saturate(1.16) drop-shadow(0 13px 13px rgba(0,0,0,.7)) drop-shadow(0 0 9px rgba(66,155,255,.22))}
+  .spiderWebFx{position:absolute;z-index:5;left:91%;top:39%;width:92%;height:42%;opacity:0;transform:rotate(200deg);transform-origin:0 50%;transition:opacity .18s}
+  .spiderWebFx i{position:absolute;left:0;top:50%;width:100%;height:1px;background:linear-gradient(90deg,rgba(224,252,255,.95),rgba(102,229,255,.55),transparent);box-shadow:0 0 6px rgba(138,241,255,.75);transform-origin:0 50%}
+  .spiderWebFx i:nth-child(2){transform:rotate(5deg)}.spiderWebFx i:nth-child(3){transform:rotate(-5deg)}
+  .spiderWebFx::before{content:"";position:absolute;left:-5px;top:50%;width:28px;height:28px;border:1px solid rgba(185,247,255,.72);border-radius:50%;background:conic-gradient(from 20deg,transparent 0 11%,rgba(198,249,255,.8) 12% 15%,transparent 16% 31%,rgba(198,249,255,.7) 32% 35%,transparent 36% 55%,rgba(198,249,255,.72) 56% 59%,transparent 60% 78%,rgba(198,249,255,.74) 79% 82%,transparent 83%);transform:translate(-50%,-50%);filter:drop-shadow(0 0 6px rgba(99,226,255,.8))}
+  .spiderCharacter[data-pose="web"] .spiderWebFx{opacity:calc(var(--web-strength,0) * .92);animation:webPulse .5s ease-out infinite alternate}
+  .menuHero:hover .menuCharacter{filter:brightness(1.08) saturate(1.08)}
+  .menuHero:hover .ironCharacter canvas{filter:contrast(1.1) saturate(1.16) drop-shadow(0 0 15px rgba(49,218,255,.38))}
+  .menuHero:hover .spiderCharacter canvas{filter:contrast(1.12) saturate(1.2) drop-shadow(0 16px 15px rgba(0,0,0,.74)) drop-shadow(0 0 14px rgba(59,218,255,.32))}
+  @keyframes ironHeroFloat{0%,100%{transform:translateY(0) rotateY(-3deg)}50%{transform:translateY(-7px) rotateY(2deg)}}
+  @keyframes spiderHeroFloat{0%,100%{transform:translateY(0) rotateY(3deg)}50%{transform:translateY(-8px) rotateY(-2deg)}}
+  @keyframes castFloorPulse{to{opacity:.52;transform:translateX(-50%) rotateX(66deg) scale(1.1)}}
+  @keyframes castFallbackScan{to{background-position:180px 0,0 0,0 0}}
+  @keyframes castSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+  @keyframes ironRepulsor{0%,12%,32%,100%{opacity:0;transform:scale(.3)}17%,27%{opacity:1;transform:scale(1)}20%,24%{opacity:.72;transform:scale(.82)}59%,66%{opacity:.94;transform:scale(.9)}}
+  @keyframes webPulse{to{filter:brightness(1.5);transform:rotate(200deg) scaleX(1.04)}}
+  .heroVisual>.scanLabel{display:none}
+  @media(max-width:1180px){.ironCharacter{left:-6%;width:43%}.spiderCharacter{right:-2%;width:40%}}
+  @media(max-width:960px){.menuHeroCast{opacity:.62}.ironCharacter{left:-6%;width:41%;height:76%}.spiderCharacter{right:-3%;width:41%;height:73%}}
+  @media(max-height:850px) and (min-width:961px){.ironCharacter{height:76%}.spiderCharacter{height:73%}}
+
+  /* High-legibility HUD type: keep the hologram, render all mission labels sharply above it */
+  .orbitDrillHead,
+  .orbitalChoices>.choiceBtn,
+  .orbitalChoices>.themeCard,
+  .subOrbitCore{font-family:"Noto Sans Thai","Segoe UI",Tahoma,sans-serif;text-rendering:geometricPrecision}
+  .orbitDrillHead{min-height:58px;padding:9px 12px;transform:none;isolation:isolate}
+  .orbitDrillHead::after{z-index:-1;opacity:.42}
+  .orbitDrillHead>button{min-height:38px;padding:6px 12px;color:#f2fcff;font-size:12px;font-weight:900;line-height:1.2;text-shadow:0 1px 2px #000;background:rgba(2,18,31,.96)}
+  .orbitDrillHead>button span{width:24px;height:24px;font-size:15px;font-weight:900}
+  .orbitDrillHead>div{position:relative;z-index:2;min-width:0}
+  .orbitDrillHead>div small{color:#8ff3ff;font-size:9px;line-height:1.2;letter-spacing:.09em;text-shadow:0 1px 2px #000}
+  .orbitDrillHead>div strong{margin-top:4px;color:#fff;font-size:17px;font-weight:950;line-height:1.28;text-shadow:0 2px 3px #000}
+  .orbitDrillHead>span{position:relative;z-index:2;padding:7px 11px;color:#ddd8ff;font-size:10px;text-shadow:0 1px 2px #000;background:rgba(42,30,99,.72)}
+
+  .orbitalChoices:not([data-orbit-density="dense"]):not(.tenseGrid){--orbit-node:104px}
+  .orbitalChoices>.choiceBtn,.orbitalChoices>.themeCard{
+    --tilt-x:0deg!important;
+    --tilt-y:0deg!important;
+    --node-z:0px!important;
+    --node-float:0px!important;
+    animation:none;
+    filter:none!important;
+    backface-visibility:visible;
+    will-change:auto;
+    transform:translate(var(--magnet-x),var(--magnet-y)) scale(var(--node-scale))!important;
+  }
+  .orbitalChoices>.choiceBtn:hover,.orbitalChoices>.choiceBtn:focus-visible,.orbitalChoices>.choiceBtn.active,
+  .orbitalChoices>.themeCard:hover,.orbitalChoices>.themeCard:focus-visible,.orbitalChoices>.themeCard.active{transform:translate(var(--magnet-x),var(--magnet-y)) scale(var(--node-scale))!important}
+  .orbitalChoices>.choiceBtn.active,.orbitalChoices>.themeCard.active{--node-scale:1}
+  .orbitalChoices>.choiceBtn.active:hover,.orbitalChoices>.choiceBtn.active:focus-visible,
+  .orbitalChoices>.themeCard.active:hover,.orbitalChoices>.themeCard.active:focus-visible{--node-scale:1.14}
+  @media(hover:hover) and (pointer:fine){
+    .orbitalChoices:hover>.choiceBtn:not(:hover),.orbitalChoices:hover>.themeCard:not(:hover){transform:scale(var(--node-scale))!important}
+  }
+  .orbitalChoices>.choiceBtn>span:last-child{
+    position:relative;
+    z-index:12;
+    display:grid;
+    place-items:center;
+    min-width:78%;
+    max-width:108%;
+    padding:3px 4px;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+  }
+  .orbitalChoices>.choiceBtn b,.orbitalChoices>.themeCard b{
+    font-size:15px!important;
+    font-weight:950!important;
+    line-height:1.3!important;
+    letter-spacing:0!important;
+    color:#fff!important;
+    -webkit-text-stroke:.18px rgba(255,255,255,.52);
+    text-shadow:0 1px 1px #000,0 2px 3px #000,0 0 8px rgba(var(--space-rgb),.38)!important;
+    filter:none!important;
+  }
+  .orbitalChoices[data-orbit-density="dense"]>.choiceBtn b,
+  .tenseGrid.orbitalChoices>.choiceBtn b{font-size:11px!important;line-height:1.22!important}
+  .subOrbitCore{transform:translate(-50%,-50%)}
+  .subOrbitCore.is-reacting{transform:translate(-50%,-50%) scale(1.045)}
+  .subOrbitCore span,.subOrbitCore b,.subOrbitCore small{z-index:8;filter:none!important}
+  .subOrbitCore span{color:#9af5ff;font-size:8px;line-height:1.2;letter-spacing:.11em;text-shadow:0 1px 2px #000}
+  .subOrbitCore b{max-width:112px;margin:8px auto 5px;color:#fff;font-size:18px;font-weight:950;line-height:1.24;text-shadow:0 2px 3px #000}
+  .subOrbitCore small{color:#d0e8ee;font-size:9px;font-weight:800;line-height:1.25;text-shadow:0 1px 2px #000}
+
+  @media(max-width:1120px){
+    .orbitalChoices:not([data-orbit-density="dense"]):not(.tenseGrid){--orbit-node:92px}
+    .orbitalChoices>.choiceBtn b,.orbitalChoices>.themeCard b{font-size:13px!important}
+    .subOrbitCore{width:112px;height:112px}
+    .subOrbitCore b{font-size:16px}
+  }
+  @media(max-width:700px){
+    .orbitDrillHead{min-height:56px;padding:8px 9px}
+    .orbitDrillHead>button{padding:5px 8px;font-size:11px}
+    .orbitDrillHead>button b{display:inline}
+    .orbitDrillHead>div small{font-size:8px}
+    .orbitDrillHead>div strong{font-size:15px}
+    .orbitDrillHead>span{padding:6px 8px;font-size:9px}
+    .orbitalChoices:not([data-orbit-density="dense"]):not(.tenseGrid){--orbit-node:86px}
+    .orbitalChoices>.choiceBtn b,.orbitalChoices>.themeCard b{font-size:12px!important}
+    .subOrbitCore{width:106px;height:106px;padding:10px}
+    .subOrbitCore span{font-size:7px}
+    .subOrbitCore b{font-size:15px}
+    .subOrbitCore small{display:block;font-size:8px}
+  }
+  @media(max-width:430px){
+    .orbitDrillHead{grid-template-columns:auto minmax(0,1fr) auto;gap:6px}
+    .orbitDrillHead>button{min-width:36px;padding:5px}
+    .orbitDrillHead>button b{display:inline;font-size:10px}
+    .orbitDrillHead>div small{font-size:8.5px;letter-spacing:.05em}
+    .orbitDrillHead>div strong{font-size:15px}
+    .orbitDrillHead>span{font-size:8px}
+    .orbitalChoices:not([data-orbit-density="dense"]):not(.tenseGrid){--orbit-node:88px}
+    .orbitalChoices>.choiceBtn b,.orbitalChoices>.themeCard b{font-size:13px!important}
+    .orbitalChoices[data-orbit-density="dense"]>.choiceBtn b,
+    .tenseGrid.orbitalChoices>.choiceBtn b{font-size:9px!important}
+    .subOrbitCore{width:106px;height:106px}
+    .subOrbitCore b{font-size:16px}
+    .subOrbitCore small{font-size:8px}
+  }
+
+  /* Global readability pass: every screen, HUD, popup, quiz, library and practice control */
+  body,button,input,select,textarea{font-family:"Noto Sans Thai","Segoe UI",Tahoma,sans-serif}
+  #app,#app button,#app input,#app select,#app textarea{
+    text-rendering:geometricPrecision;
+    -webkit-font-smoothing:auto;
+  }
+  #app :is(.label,.brand small,.handStatus,.liveVisualBtn,.systemBadge,.eyebrow,.scanLabel,
+  .featureRail span,.controlHead small,.readyLight,.menuModal .chip,.menuModal .field label span,
+  .choiceBtn small,.themeCard small,.menuModal .startBtn b,.menuModal .miniBtn,.menuFoot,
+  .cinemaTelemetry,.aiIdentity,.aiBrief>div:nth-child(2)>span,.aiBrief p,.glossTip::before,
+  .heroThemeLabel,.heroThemeChip b,.settingsTab span,.settingsTab small,.settingsRailHint,
+  .settingsRailHint span,.missionConfig>.missionPanel>label::after,.practiceModesHeader span,
+  .practiceModesHeader small,.quizOptionGroup>label,.quizOptionGroup>label span,.libraryEyebrow,
+  .libraryStat span,.filterBtn,.librarySummary,.studyType,.examTag,.studyMeta,.studyAction,
+  .libraryNote,.voicePrompt>span,.voicePrompt small,.voiceDetected,.voiceScoreBox span,
+  .voiceAction,.target-reading span,.quizEyebrow,.quizAnswer span,.menuUtilityDock button>b,
+  .holoTelemetry span,.holoTelemetry b,.holoTelemetry small,.sideHeroBadge,.sideHeroBadge b){
+    filter:none;
+    text-shadow:0 1px 2px rgba(0,0,0,.96);
+  }
+
+  .label{font-size:10px;line-height:1.2;letter-spacing:.06em}
+  .brand small{font-size:11px;line-height:1.3}
+  .handStatus{font-size:12px}
+  .liveVisualBtn{font-size:11px}
+  #app.visual-camera .sideHeroBadge{font-size:10px;line-height:1.3}
+  #app.visual-camera .sideHeroBadge b{font-size:9px;line-height:1.25}
+  #trReading span{font-size:11px;line-height:1.25}
+  #englishSpeakBtn{font-size:12px}
+  .speakingLine{font-size:12px;line-height:1.3}
+
+  .systemBadge{font-size:10px;line-height:1.25}
+  .eyebrow{font-size:12px;line-height:1.3;letter-spacing:.15em}
+  .scanLabel{font-size:10px;line-height:1.25}
+  .featureRail span{font-size:11px;line-height:1.35}
+  .controlHead small{font-size:10.5px;line-height:1.3}
+  .readyLight{font-size:11px;line-height:1.25}
+  .menuModal .chip{font-size:10px;line-height:1.2}
+  .menuModal .field label span{font-size:10px}
+  .choiceBtn small{font-size:10.5px;line-height:1.3}
+  .tenseGrid .choiceBtn b{font-size:12px}
+  .tenseGrid .choiceBtn small{font-size:10px;line-height:1.25}
+  .themeCard small{font-size:10px;line-height:1.25}
+  .menuModal .startBtn b{font-size:11px;line-height:1.2}
+  .menuModal .miniBtn{font-size:12px;line-height:1.25}
+  .menuFoot{font-size:10px;line-height:1.45}
+  .cinemaTelemetry{font-size:9.5px;line-height:1.35;letter-spacing:.1em}
+  .aiIdentity{width:160px;font-size:9.5px;line-height:1.45}
+  .aiIdentity b,.aiIdentity small{font-size:9.5px}
+  .aiBrief>div:nth-child(2)>span{font-size:9px;line-height:1.2}
+  .aiBrief p{font-size:12px;line-height:1.45}
+  .aiAvatar{font-size:10px}
+  .glossTip::before{font-size:9px}
+  .heroThemeLabel{font-size:9.5px;line-height:1.2}
+  .heroThemeChip b{font-size:10px;line-height:1.2}
+
+  .settingsTab span{font-size:9px}
+  .settingsTab b{font-size:13px;line-height:1.2}
+  .settingsTab small{font-size:10px;line-height:1.25}
+  .settingsRailHint{font-size:10.5px;line-height:1.4}
+  .settingsRailHint span{font-size:9px}
+  .missionConfig>.missionPanel>label::after{font-size:9px;line-height:1.2}
+  .missionConfig>#settingsPanelContent .contentActivityLabel::after{font-size:9px}
+  .missionConfig>.missionPanel .choiceBtn small{font-size:10.5px}
+  .missionConfig>#tenseField .choiceBtn b{font-size:12px}
+  .missionConfig>#tenseField .choiceBtn small{font-size:10px}
+  .missionConfig>.heroThemePanel .themeCard small{font-size:10px}
+  .practiceModesHeader span{font-size:9px}
+  .practiceModesHeader small{font-size:11px}
+  .missionConfig>#difficultyField .learningPathGrid .choiceBtn small{font-size:10px;line-height:1.3}
+  .quizOptionGroup>label{font-size:12px;line-height:1.3}
+  .quizOptionGroup>label span{font-size:9px}
+  .quizSetupPanel .choiceBtn b{font-size:12px!important}
+  .quizSetupPanel .choiceBtn small,.quizGradeGrid .choiceBtn small{font-size:10px!important;line-height:1.25}
+
+  .libraryEyebrow{font-size:10.5px;line-height:1.25}
+  .libraryHead p{font-size:14px;line-height:1.45}
+  .libraryStat span{font-size:11px;line-height:1.3}
+  .filterBtn,.librarySummary{font-size:12px;line-height:1.3}
+  .studyType,.examTag{font-size:10px;line-height:1.2}
+  .studyMeta{font-size:11px;line-height:1.35}
+  .studyAction{font-size:11px;line-height:1.25}
+  .libraryNote{font-size:11px;line-height:1.55}
+
+  .voicePrompt>span{font-size:10px;line-height:1.25}
+  .voicePrompt small,.voiceDetected{font-size:12px;line-height:1.35}
+  .voiceScoreBox span{font-size:10px;line-height:1.2}
+  .voiceAction{font-size:11px;line-height:1.25}
+  .target-sub{font-size:12px;line-height:1.35}
+  .target-reading span{font-size:10px;line-height:1.25}
+  .quizEyebrow{font-size:10px;line-height:1.25}
+  .quizAnswer span{font-size:11px}
+  .quizFeedback{font-size:12px;line-height:1.4}
+  .menuUtilityDock button>b{font-size:11px;line-height:1.3}
+  .holoTelemetry{width:150px}
+  .holoTelemetry span{font-size:9px;line-height:1.2}
+  .holoTelemetry b{font-size:10px;line-height:1.25}
+  .holoTelemetry small{font-size:9px;line-height:1.3}
+
+  .mainModeBtn b{font-size:14px;line-height:1.25}
+  .mainOrbitCore span{font-size:9px;line-height:1.2}
+  .mainOrbitCore b{font-size:17px;line-height:1.2;text-shadow:0 2px 3px #000}
+  .mainOrbitCore small{font-size:10px;line-height:1.3;color:#b4d0d8}
+  .orbitStepNav button{font-size:11px}
+  .orbitStepNav button span{font-size:9px}
+  .orbitalChoices[data-orbit-density="dense"]>.choiceBtn b,
+  .tenseGrid.orbitalChoices>.choiceBtn b{font-size:10.5px!important;line-height:1.24!important}
+  .orbitalChoices[data-orbit-density="dense"]>.choiceBtn>span:last-child,
+  .tenseGrid.orbitalChoices>.choiceBtn>span:last-child{width:min(70px,19vw);min-width:0;max-width:none;padding:3px 2px}
+  .orbitalChoices[data-orbit-density="dense"]>.choiceBtn b,
+  .tenseGrid.orbitalChoices>.choiceBtn b{display:block!important;overflow:visible;text-overflow:clip;-webkit-line-clamp:unset;overflow-wrap:anywhere}
+
+  @media(max-width:700px){
+    .label{font-size:9px}
+    .liveVisualBtn{font-size:10px}
+    .mainModeBtn b{font-size:12px}
+    .mainOrbitCore span{font-size:8px}
+    .mainOrbitCore b{font-size:15px}
+    .mainOrbitCore small{font-size:9px}
+    .aiBrief p{font-size:11px}
+    .settingsTab b{font-size:12px}
+    .settingsTab small{font-size:9.5px}
+    .menuModal .miniBtn{font-size:11px}
+    .quizTitle{font-size:16px}
+    .quizCounter{font-size:13px}
+    .quizFeedback{font-size:11px}
+    .voicePrompt>span{font-size:9px}
+    .voicePrompt small,.voiceDetected{font-size:11px}
+    .voiceAction{font-size:10.5px}
+    #trTitle{font-size:10px}
+    #trReading span{font-size:10px}
+    #englishSpeakBtn,.speakingLine{font-size:11px}
+    .statcard span{font-size:11px}
+    .target-sub{font-size:11px}
+    .orbitalChoices[data-orbit-density="dense"]>.choiceBtn b,
+    .tenseGrid.orbitalChoices>.choiceBtn b{font-size:10px!important}
+    .orbitDrillHead>div small,.orbitDrillHead>span{font-size:10px}
+  }
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}.ironRepulsorFx{opacity:.7;transform:scale(.8)}}
 </style>
+<script type="importmap">{"imports":{"three":"./vendor/three/three.module.min.js"}}</script>
 </head>
 <body>
 <div id="app">
@@ -1040,6 +1316,16 @@
           <div class="aiScanBeam"></div>
           <div class="holoOrbit orbitOne"></div><div class="holoOrbit orbitTwo"></div>
           <div id="selectedHelmet" class="selectedHelmet theme-armor"></div>
+          <div class="menuHeroCast" id="menuHeroCast">
+            <div class="menuCharacter ironCharacter" id="menuIronMan">
+              <canvas id="menuIronCanvas"></canvas>
+              <div class="ironRepulsorFx"></div>
+            </div>
+            <div class="menuCharacter spiderCharacter" id="menuSpiderMan">
+              <canvas id="menuSpiderCanvas"></canvas>
+              <div class="spiderWebFx"><i></i><i></i><i></i></div>
+            </div>
+          </div>
           <div class="holoFloor"></div>
           <div class="aiIdentity"><span>AION // AVATAR CORE</span><b>NEURAL PILOT READY</b><small>VOICE · VISION · MEMORY</small></div>
           <div class="neuralMeter"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -3913,5 +4199,6 @@
   updateHUD();
 })();
 </script>
+<script type="module" src="js/menu-heroes.js"></script>
 </body>
 </html>
